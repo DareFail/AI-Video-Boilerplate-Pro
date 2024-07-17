@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HandLand Staring Contest</title>
+    <meta name="viewport" content="width=640, user-scalable=no" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"
+        integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/async/3.2.0/async.min.js"
+        integrity="sha512-6K6+H87tLdCWvY5ml9ZQXLRlPlDEt8uXmtELhuJRgFyEDv6JvndWHg3jadJuBVGPEhhA2AAt+ROMC2V7EvTIWw=="
+        crossorigin="anonymous"></script>
+
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+    <script src="https://cdn.roboflow.com/0.2.26/roboflow.js"></script>
+
+    <link rel="stylesheet" href="/common.css">
+</head>
+
+    <body>
+        <div class="my-5">
+            <h1><a href="/">HandLand Staring Contest</a></h1>
+            <div id="explanation">
+                <div>You get 3 health. Keep your eyes wide open the whole time! <a href="/">Make your own Handland Games</a></div></div>
+                <div id="findOpponent">
+                    <div>Share this link with a friend: <span id="shareLink"></span></div>
+                    <div>or</div>
+                    <div><button id="joinStranger" onclick="joinStrangerRoom()">Join Stranger</button></div>
+                </div>
+            </div>
+            <div id="top">
+                <button id="webcam" onclick="initializeGame()">Start Webcam</button>
+            </div>
+
+            <div id="gameStateText"></div>
+            <div id="winnerText"></div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="column">
+                        <div id="move_you">You: </div>
+                        <div id="health_you">Health: 3</div>
+                        <div>
+                            <video id="video" autoplay muted playsinline></video>
+                            <canvas id="canvas"></canvas>
+                        </div>
+                        <div id="videoMove_you"></div>
+                    </div>
+                    <div class="column">
+                        <div id="move_other">Opponent: </div>
+                        <div id="health_other">Health: 3</div>
+                        <div>
+                          <video id="remoteVideo" autoplay muted playsinline></video>
+                          <div id="videoMove_other"></div>
+                        </div>         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script src="/staring/main.js"></script>
+    <script src="/staring/game.js"></script>
+    <script src="/common.js"></script>
+
+</html>

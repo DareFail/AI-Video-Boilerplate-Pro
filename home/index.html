@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HandLand</title>
+    <meta name="viewport" content="width=640, user-scalable=no" />
+    <link rel="stylesheet" href="/common.css">
+</head>
+
+    <body>
+        <div class="textContainer">
+            <h1>Welcome to HandLand</h1>
+            <button id="joinStranger" class="homepage" onclick="joinRoom('rps')">Play Rock, Paper, Scissors</button>
+            <div id="fullRoom">Your room was full.</div>
+
+            <h2>How to make your own HandLand Games</h2>
+            <div>Building new HandLand games at <a href="https://twitter.com/j_stonemountain" target="_blank">twitter.com/j_stonemountain</a></div>
+            <div>In depth "Hands On" Video coming soon at <a href="https://www.youtube.com/@mr.stonemountain" target="_blank">youtube.com/@mr.stonemountain</a></div>
+            <div class="textContainer">
+                <img class="media" src="/demo.webp" />
+            </div>
+            <div class="textContainer">
+                <div>This is a template for making silly multiplayer games that involve your hands and body. You can submit new games to the repo and I will host them: </div>
+                <div class="textContainer"><a href="https://github.com/jamespsteinberg/handland" target="_blank">https://github.com/jamespsteinberg/handland</a></div>
+                <div class="textContainer">
+                    <h2>Included Games</h2>
+    
+                    <p>HandLand comes with three complete two-player games:</p>
+    
+                    <ol>
+                    <li>Rock, Paper, Scissors</li>
+                    <li>Staring Contest</li>
+                    <li>007 (Standoff or Block, Reload, Shoot, and Shotgun) - <a href="https://www.wikihow.com/Play-the-Shotgun-Game">How to play</a></li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="textContainer">
+                <div>The files are very short so you can mess around with them and make new games or just learn how websockets work. It has the most basic matchmaking possible as well as shareable links - whoever has the same link as you will be in your "room". </div>
+                <div>The tech is very simple, it's a very minimal Express JS server with 3 folders of 3 multiplayer games. The games use WebRTC and native Websockets to connect in real time. AI Vision models were made and provided by <a href="(https://roboflow.com/)">Roboflow</a>. They are sponsoring this project and you can use a free API key to train your own model and make games.</div>
+            </div>
+            <div class="textContainer">
+                I trained one of the models myself by taking a video of myself and annotating ~200 hundred frames for object detection. 
+            </div>
+            <div class="textContainer">
+                <img class="media" src="/frames.png" />
+            </div>
+            <div class="textContainer">
+                This process sounds harder than it is. You upload a video and just drag boxes around you hands and write the game move you want to recognize. It may take trial and error with similar hand motions.
+            </div>
+            <div class="textContainer">
+                <img class="media" src="/annotation.png" />
+            </div>
+            <div class="textContainer">
+                The blinking and Rock, Paper, Scissors models were already made here <a href="https://universe.roboflow.com/" target="_blank">https://universe.roboflow.com/</a>
+            </div>
+
+
+            <h2>Deployment</h2>
+
+            <h3>Vercel</h3>
+
+            <ol>
+            <li><a href="https://vercel.com/signup">Sign up</a> or log in to Vercel.</li>
+            <li>Create a new project from the Vercel dashboard.</li>
+            <li>Connect your GitHub repository.</li>
+            <li>Click "Deploy".</li>
+            </ol>
+
+            <h3>Heroku</h3>
+
+            <ol>
+            <li><a href="https://signup.heroku.com">Sign up</a> or log in to Heroku.</li>
+            <li>Create a new app from the Heroku dashboard.</li>
+            <li>Connect your GitHub repository.</li>
+            <li>Click "Deploy Branch".</li>
+            </ol>
+        </div>
+    </body>
+
+
+    <script src="/index.js"></script>
+    
+
+</html>
+
