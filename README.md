@@ -82,6 +82,6 @@ Distributed under the APACHE 2.0 License. See `LICENSE` for more information.
 
 Twitter: [@j_stonemountain](https://twitter.com/j_stonemountain)
 
-Youtube: [How to Video coming soon](https://www.youtube.com/@mr.stonemountain)
+Youtube: [How to Video coming soon](https://www.youtube.com/@darefail)
 
 Project Link: [https://github.com/jamespsteinberg/handland](https://github.com/jamespsteinberg/handland)
