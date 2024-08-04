@@ -45,7 +45,7 @@ function handleRound_staring(gameStates, newMove, ws, clients) {
           
           if (gameStates[ws.room].health_p1 <= 0 || gameStates[ws.room].health_p2 <= 0) {
               gameStates[ws.room].end_game = true;
-              if (ws.uuid === gameStates[ws.room].id_p1) {
+              if (health_p2 <= 0) {
                 gameStates[ws.room].winnerText_p1 = "WINNER!"
                 gameStates[ws.room].winnerText_p2 = "DEFEAT!"
               } else {
