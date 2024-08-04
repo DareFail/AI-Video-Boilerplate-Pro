@@ -80,8 +80,8 @@ Distributed under the APACHE 2.0 License. See `LICENSE` for more information.
 
 ## Contact
 
-Twitter: [@j_stonemountain](https://twitter.com/j_stonemountain)
+Twitter: [@darefailed](https://twitter.com/darefailed)
 
 Youtube: [How to Video coming soon](https://www.youtube.com/@darefail)
 
-Project Link: [https://github.com/jamespsteinberg/handland](https://github.com/jamespsteinberg/handland)
+Project Link: [https://github.com/darefail/handland](https://github.com/darefail/handland)
