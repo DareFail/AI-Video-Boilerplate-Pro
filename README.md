@@ -146,9 +146,12 @@ In production:
 
 DJANGO_SETTINGS_MODULE=main.settings.heroku
 
-4. Connect your GitHub repository.
-5. Click "Deploy Branch".
-6. Set the heroku settings
+
+4. Add Heroku Data for Redis and Heroku Postgres in the Add-ons
+
+5. Connect your GitHub repository.
+6. Click "Deploy Branch".
+7. Set the heroku settings
 ```
 heroku stack:set container
 heroku ps:scale worker=1
@@ -156,7 +159,7 @@ heroku ps:scale beat=1
 heroku run python manage.py createsuperuser
 ```
 
-7. If an external domain and using cloudflare, point to heroku and change the SSL to Full
+8. If an external domain and using cloudflare, point to heroku and change the SSL to Full
 ```
 (If you don't, the url will have an infinite redirect)
 ```
