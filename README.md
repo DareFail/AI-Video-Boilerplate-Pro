@@ -5,10 +5,10 @@ Welcome to AI Video Boilerplate Pro! A free template to run scalable, cheap AI w
 ## Live Demos
 **A single VPS running this codebase has so far proven to handle over 10,000 concurrent users, 1,000,000O views and 50 websites without issue.**
 
-[RateLoaf.com](https://rateloaf.com)
+**[RateLoaf.com](https://rateloaf.com)** - 
 Rate how well cats sit like bread with OpenAI GPT4v, Roboflow workflows, and images uploaded to Amazon S3 in a celery task.
 
-[HandLand.lol](https://handland.lol)
+**[HandLand.lol](https://handland.lol)** - 
 Create live AI multiplayer games using WebRTC, Websockets, and Roboflow for AI vision models.
 
 ## Features
@@ -24,19 +24,19 @@ Create live AI multiplayer games using WebRTC, Websockets, and Roboflow for AI v
 
 This is a template for putting multiple django websites into a single codebase that can be deployed to any VPS for cheap. It is full of full deployed projects and templates for you to copy and modify.
 
-- XXXXX_basic
+- **XXXXX_basic** - 
     Simple django webpage with shared components like favicons, navigation bar, footer, etc
-- XXXXX_signedin
+- **XXXXX_signedin** - 
     Flexible User to Group Sign up flow with django allauth, with teams, administrators, invitations, changing passwords, magic links, and a backend dashboard
-- XXXXX_websockets
+- **XXXXX_websockets** - 
     Live multiplayer django apps. This is a chatroom example.
 
 ### Installation
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/yourusername/HandLand.git
-   cd HandLand
+   git clone https://github.com/yourusername/AI-Video-Boilerplate-Pro.git
+   cd AI-Video-Boilerplate-Pro
    ```
 2. Install Docker
     The easiest way to get up and running is with [Docker](https://www.docker.com/).
@@ -260,12 +260,18 @@ Static files not found
 docker compose exec web python manage.py collectstatic
 ```
 
+## Template Model Setup
+
+<img width="6224" alt="django_models" src="https://github.com/user-attachments/assets/6b794671-d1d8-425d-a0ef-5838147cc854">
+
+
+
 
 
 
 ## Acknowledgements
 
-- Thanks to Roboflow for sponsoring this project. Get your free API key at: [Roboflow](https://roboflow.com/)
+Thanks to Roboflow for sponsoring this project. Get your free API key at: [Roboflow](https://roboflow.com/)
 
 ## License
 
