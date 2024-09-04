@@ -159,7 +159,9 @@ heroku ps:scale beat=1
 heroku run python manage.py createsuperuser
 ```
 
-8. If an external domain and using cloudflare, point to heroku and change the SSL to Full
+8. Under settings, Configure SSL and set to Automatic Certificate Management (ACM)
+
+9. If an external domain and using cloudflare, point to heroku and change the SSL to Full
 ```
 (If you don't, the url will have an infinite redirect)
 ```
