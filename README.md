@@ -154,8 +154,6 @@ DJANGO_SETTINGS_MODULE=main.settings.heroku
 7. Set the heroku settings
 ```
 heroku stack:set container
-heroku ps:scale worker=1
-heroku ps:scale beat=1
 heroku run python manage.py createsuperuser
 ```
 
