@@ -11,6 +11,18 @@ Rate how well cats sit like bread with OpenAI GPT4v, Roboflow workflows, and ima
 **[HandLand.lol](https://handland.lol)** - 
 Create live AI multiplayer games using WebRTC, Websockets, and Roboflow for AI vision models.
 
+
+## Other Repos
+
+**AI Video Boilerplate Simple** (quick frontend apps): [https://github.com/DareFail/AI-Video-Boilerplate-Simple/](https://github.com/DareFail/AI-Video-Boilerplate-Simple)
+
+**AI Video Boilerplate for Chrome Extensions**: [https://github.com/DareFail/AI-Video-Boilerplate-Chrome/](https://github.com/DareFail/AI-Video-Boilerplate-Chrome)
+
+## Django models setup out of the box
+
+<img width="6224" alt="django_models" src="https://github.com/user-attachments/assets/6b794671-d1d8-425d-a0ef-5838147cc854">
+
+
 ## Features
 
 - **Frontend**: minimal HTML and javascript, roll your own
@@ -259,14 +271,6 @@ Static files not found
 ```
 docker compose exec web python manage.py collectstatic
 ```
-
-## Template Model Setup
-
-<img width="6224" alt="django_models" src="https://github.com/user-attachments/assets/6b794671-d1d8-425d-a0ef-5838147cc854">
-
-
-
-
 
 
 ## Acknowledgements
