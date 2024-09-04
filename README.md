@@ -2,6 +2,9 @@
 
 Welcome to AI Video Boilerplate Pro! A free template to run scalable, cheap AI websites.
 
+Hosted on Heroku for a live demo here: [https://proAI.darefail.com>
+](https://proAI.darefail.com)
+
 ## Live Demos
 **A single VPS running this codebase has so far proven to handle over 10,000 concurrent users, 1,000,000O views and 50 websites without issue.**
 
