@@ -99,11 +99,19 @@ def sign_s3(request):
                 ExpiresIn=3600,
             )
 
-            CatLoaf.objects.create(
-                unique_name=unique_name,
-                image_url_user="https://rateloaf.s3.amazonaws.com/"
-                + new_file_name,
-            )
+
+            while True:
+                try:
+                    CatLoaf.objects.create(
+                        unique_name=unique_name,
+                        image_url_user="https://rateloaf.s3.amazonaws.com/"
+                        + new_file_name,
+                    )
+                    break
+
+                except Exception as e:
+                    print("Error: ", str(e))
+
 
             return JsonResponse(
                 {
