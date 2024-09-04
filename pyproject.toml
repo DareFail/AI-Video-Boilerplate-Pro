@@ -1,0 +1,10 @@
+[project]
+dependencies = { file = "requirements.txt" }
+
+[tool.black]
+line-length = 79 #PEP8 recommended
+
+[tool.djlint]
+profile = "django"
+ignore = "H021,H020,H031,H016,H030"
+

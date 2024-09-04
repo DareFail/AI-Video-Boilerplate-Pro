@@ -1,0 +1,28 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+    - plan: heroku-redis
+      as: REDIS
+  config:
+    DJANGO_SETTINGS_MODULE: main.heroku
+build:
+  docker:
+    django: Dockerfile.heroku
+release:
+  image: django
+  command:
+    - python manage.py migrate
+run:
+  web:
+    command:
+      - daphne main.asgi:application --port $PORT --bind 0.0.0.0
+    image: django
+  worker:
+    command:
+      - celery -A main worker -l INFO
+    image: django
+  beat:
+    command:
+      - celery -A main beat -l info -S django
+    image: django

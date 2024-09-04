@@ -1,0 +1,29 @@
+{% load static %}
+{% load form_tags %}
+{% load static_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>{% include "../shared/head.html" %}</head>
+    <body>
+        {% include "../shared/top_nav.html" %}
+        {% include "../shared/notifications.html" %}
+        <div class="container my-3">
+            <div class="row">
+                <div class="col-xxl-2 col-lg-3">{% include "../signedin/shared/side_nav.html" %}</div>
+                <div class="col-lg">
+                    <section class="app-card">
+                        <h3 class="title">Impersonate a User</h3>
+                        <p class="lead">Use the form below to temporarily login to the site as someone else. Use this feature responsibly!</p>
+                        <form action="{% url 'hijack:acquire' %}" method="post">
+                            {% csrf_token %}
+                            {% render_select_input form.user_pk %}
+                            <input class="btn btn-primary" type="submit" value="Login as User">
+                            <input type="hidden" name="next" value="{{ redirect_url }}">
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+        {% include "../shared/footer.html" %}
+    </body>
+</html>

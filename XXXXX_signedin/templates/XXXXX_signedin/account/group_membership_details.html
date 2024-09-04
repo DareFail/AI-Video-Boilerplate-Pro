@@ -1,0 +1,102 @@
+{% load static %}
+{% load form_tags %}
+{% load static_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>{% include "../shared/head.html" %}</head>
+    <body>
+        {% include "../shared/top_nav.html" %}
+        {% include "../shared/notifications.html" %}
+        <div class="container my-3">
+            <div class="row">
+                <div class="col-xxl-2 col-lg-3">{% include "../signedin/shared/side_nav.html" %}</div>
+                <div class="col-lg">
+                    <nav aria-label="breadcrumbs">
+                        <ol class="pg-breadcrumbs">
+                            <li>
+                                <a href="{% url 'manage_group' request.group.unique_code %}">{{ request.group.name }}</a>
+                            </li>
+                            <li class="pg-breadcrumb-active" aria-current="page">{{ membership.user.get_display_name }}</li>
+                        </ol>
+                    </nav>
+                    <section class="app-card">
+                        <div class="pg-columns">
+                            <div class="pg-column">
+                                <div>
+                                    <div class="pg-label">Email</div>
+                                    <div class="pg-text-muted">{{ membership.user.email }}</div>
+                                </div>
+                                <div class="mt-2">
+                                    <div class="pg-label">Date Joined</div>
+                                    <div class="pg-text-muted">{{ membership.created_at }}</div>
+                                </div>
+                                <form class="mt-2" method="post">
+                                    {% csrf_token %}
+                                    {% render_form_fields membership_form %}
+                                    {% if not editing_self %}
+                                        <input type="submit" class="pg-button-secondary" value="Update Role">
+                                    {% else %}
+                                        <p class="pg-help">You are not allowed to modify your own role.</p>
+                                        <hr class="mt-2">
+                                    {% endif %}
+                                    <button class="button modal-opener pg-button-danger"
+                                            type="button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#remove-modal">
+                                        {% if editing_self %}
+                                            Leave Group
+                                        {% else %}
+                                            Remove from Group
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="modal" tabindex="-1" id="remove-modal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        {% if editing_self %}
+                                            Leave group?
+                                        {% else %}
+                                            Remove group member?
+                                        {% endif %}
+                                    </h5>
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% if editing_self %}
+                                        You will be removed from the group: <em><strong>{{ request.group.name }}</strong></em>.
+                                        After this, you will no longer be able to access any group pages, and will have to be invited again to regain access.
+                                    {% else %}
+                                        This will remove <em><strong>{{ membership.user.get_display_name }}</strong></em> from your group: <em>{{ request.group.name }}</em>.
+                                        They will no longer be able to access any group pages, and will have to be invited again to regain access.
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="{% url 'single_group:remove_group_membership' request.group.unique_code membership.pk %}"
+                                          method="post">
+                                        {% csrf_token %}
+                                        <button class="btn btn-danger" type="submit">
+                                            {% if editing_self %}
+                                                I understand, leave group
+                                            {% else %}
+                                                I understand, remove group member
+                                            {% endif %}
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

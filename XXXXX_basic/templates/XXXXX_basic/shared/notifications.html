@@ -1,0 +1,21 @@
+{% if messages %}
+    {% for notification in messages %}
+        <div class="alert alert-dismissible fade show {% if notification.tags %}alert-{% if notification.level_tag == 'error' %}danger{% else %}{{ notification.level_tag }}{% endif %}{% endif %}">
+            {{ message }}
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+        let $notification = $delete.parentNode;
+        $delete.addEventListener('click', () => {
+          $notification.parentNode.removeChild($notification);
+        });
+      });
+    });
+</script>

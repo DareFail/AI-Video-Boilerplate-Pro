@@ -1,0 +1,3 @@
+{% with APP_DIRECTORY|add:"/account/email/email_changed_message.txt" as template_path %}
+    {% include template_path %}
+{% endwith %}

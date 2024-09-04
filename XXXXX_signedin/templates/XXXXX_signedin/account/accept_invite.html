@@ -1,0 +1,57 @@
+{% load static %}
+{% load form_tags %}
+{% load static_tags %}
+{% load allauth account %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>{% include "../shared/head.html" %}</head>
+    <body>
+        {% include "../shared/top_nav.html" %}
+        {% include "../shared/notifications.html" %}
+        <section class="container mb-3 mt-7">
+            <div class="row align-items-center">
+                <div class="col-md">
+                    {% if not invitation.is_accepted %}
+                        <h3>Accept Invitation?</h3>
+                        <p class="lead">
+                            You've been invited to join {{ invitation.group.name }} by {{ invitation.invited_by.get_display_name }}.
+                        </p>
+                        {% if request.user.is_authenticated %}
+                            <form method="post">
+                                {% csrf_token %}
+                                {% if request.user.email == invitation.email %}
+                                    <input type="submit"
+                                           class="button is-primary is-large"
+                                           value="Accept Invitation" />
+                                {% else %}
+                                    <p>
+                                        This invitation was sent to {{ invitation.email }} but you're logged in as {{ request.user.email }}.
+                                        What would you like to do?
+                                    </p>
+                                    <p class="my-2">
+                                        <input type="submit"
+                                               class="btn btn-primary"
+                                               value="Accept as {{ request.user.email }}" />
+                                        <a class="btn btn-outline-secondary"
+                                           href="{% url 'account_logout' %}?invitation_unique={{ invitation.unique_code }}">Sign out</a>
+                                    </p>
+                                {% endif %}
+                            </form>
+                        {% else %}
+                            <p class="buttons">
+                                <a class="btn btn-primary"
+                                   href="{% url 'account_signup' %}?invitation_unique={{ invitation.unique_code }}">
+                                    Create Account to Accept
+                                </a>
+                            </p>
+                        {% endif %}
+                    {% else %}
+                        <p class="lead">Sorry, it looks like that invitation has already been accepted or expired.</p>
+                        <p>If you think this is a mistake, ask your group administrator to invite you again!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% include "../shared/footer.html" %}
+    </body>
+</html>

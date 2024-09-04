@@ -1,0 +1,48 @@
+{% load static %}
+{% load static_tags %}
+{% load form_tags %}
+{% load allauth account %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>{% include "../shared/head.html" %}</head>
+    <body>
+        <div class="container d-flex justify-content-center my-3">
+            <div>
+                <h3>Sign In</h3>
+                <form method="post" class="mt-3">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {% render_text_input form.login %}
+                    {% render_text_input form.password %}
+                    <input class="btn btn-primary w-100" type="submit" value="Sign in">
+                    <hr>
+                    <a class="muted-link" href="{% url 'account_reset_password' %}">Forgot password?</a>
+                </form>
+                {% comment %}
+                    <hr />
+                    <div class="text-center mb-4">
+                        <a class="btn btn-secondary" href="{% provider_login_url 'google' method='oauth2' %}">Sign up with Google</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-secondary" href="{% provider_login_url 'microsoft' method='oauth2' %}">Sign up with Microsoft</a>
+                    </div>
+                    <hr />
+                {% endcomment %}
+                <div class="mt-4 text-center">
+                    <form method="post" action="{% url 'send_magic_link' %}">
+                        {% csrf_token %}
+                        <input class="form-control"
+                               type="email"
+                               name="email"
+                               placeholder="E-mail address"
+                               required=""
+                               id="id_email">
+                        <button class="btn btn-primary mt-3" type="submit">Send Passwordless Link To Email</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% include "../shared/footer.html" %}
+    </body>
+</html>

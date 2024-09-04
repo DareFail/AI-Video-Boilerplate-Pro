@@ -1,0 +1,30 @@
+{% load static %}
+{% load form_tags %}
+{% load static_tags %}
+{% load allauth account %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>{% include "../shared/head.html" %}</head>
+    <body>
+        <h3>Confirm E-mail Address</h3>
+        {% if confirmation %}
+            {% user_display confirmation.email_address.user as user_display %}
+            <p>
+                Please confirm that <a href="mailto:{{ confirmation.email_address.email }}">{{ email }}</a>
+                is an e-mail address for user {{ user_display }}.
+            </p>
+            <form method="post"
+                  action="{% url 'account_confirm_email' confirmation.key %}">
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit">Confirm</button>
+            </form>
+        {% else %}
+            {% url 'account_email' as email_url %}
+            <p>
+                This e-mail confirmation link expired or is invalid.
+                Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.
+            </p>
+        {% endif %}
+        {% include "../shared/footer.html" %}
+    </body>
+</html>

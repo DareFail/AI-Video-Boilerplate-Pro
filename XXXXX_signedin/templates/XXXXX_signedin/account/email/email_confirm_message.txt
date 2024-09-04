@@ -1,0 +1,11 @@
+{% load account %}
+
+You are receiving this mail because the following change was made to your account:
+
+Your email has been confirmed.
+
+If you do not recognize this change then please take proper security precautions immediately. The change to your account originates from:
+
+- IP address: {{ip}}
+- Browser: {{user_agent}}
+- Date: {{timestamp}}
