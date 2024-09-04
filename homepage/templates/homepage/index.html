@@ -1,0 +1,37 @@
+{% load static %}
+{% load static_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "./shared/head.html" %}
+        <link rel="stylesheet" href="{% static 'css/styles.css'|local_static:APP_DIRECTORY %}" />
+    </head>
+    <body>
+        {% include "./shared/notifications.html" %}
+        
+        <div class="container">
+            <h1>AI Video Boilerplate Pro</h1>
+            <p>Mess with it at: <a href="https://github.com/DareFail/AI-Video-Boilerplate-Pro">https://github.com/DareFail/AI-Video-Boilerplate-Pro</a></p>
+        
+            <div>
+              <h3>List of Demos</h3>
+              <div>
+                <div class="demoList">
+                  <div>
+                    <a href="https://rateloaf.com/">Rateloaf.com</a> - Rate how well cats sit like bread with OpenAI GPT4v, Roboflow workflows, and images uploaded to Amazon S3 in a celery task.
+                  </div>
+                  <div>
+                    <a href="https://handland.lol/">HandLand.lol</a> - Create live AI multiplayer games using WebRTC, Websockets, and Roboflow for AI vision models.
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        {% include "./shared/footer.html" %}
+    </body>
+</html>
+
+
+
+    

@@ -59,6 +59,7 @@ COMMON = [
 ]
 
 APPS = [
+    "homepage.apps.homepageConfig",
     "rateloaf.apps.RateloafConfig",
     "XXXXX_basic.apps.XXXXX_basicConfig",
     "XXXXX_signedin.apps.XXXXX_signedinConfig",

@@ -1,0 +1,22 @@
+{% load static %}
+{% load static_tags %}
+{# see https://realfavicongenerator.net #}
+<link rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'favicons/apple-touch-icon.png'|local_static:APP_DIRECTORY %}">
+<link rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'favicons/favicon-32x32.png'|local_static:APP_DIRECTORY %}">
+<link rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'favicons/favicon-16x16.png'|local_static:APP_DIRECTORY %}">
+<link rel="manifest"
+      href="{% static 'favicons/site.webmanifest'|local_static:APP_DIRECTORY %}">
+<link rel="shortcut icon"
+      href="{% static 'favicons/favicon.ico'|local_static:APP_DIRECTORY %}">
+<meta name="msapplication-TileColor" content="#603cba">
+<meta name="msapplication-config"
+      content="{% static 'favicons/browserconfig.xml'|local_static:APP_DIRECTORY %}">
+<meta name="theme-color" content="#ffffff">
