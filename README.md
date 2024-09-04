@@ -140,17 +140,26 @@ djlint . --reformat
 
 1. [Sign up](https://signup.heroku.com) or log in to Heroku.
 2. Create a new app from the Heroku dashboard.
-3. Connect your GitHub repository.
-4. Click "Deploy Branch".
-5. Set the heroku settings
+3. Fill out all the environment variables from .env. 
+
+In production:
+
+DJANGO_SETTINGS_MODULE=main.settings.heroku
+
+4. Connect your GitHub repository.
+5. Click "Deploy Branch".
+6. Set the heroku settings
 ```
 heroku stack:set container
-heroku config:set DJANGO_SETTINGS_MODULE=main.heroku
 heroku ps:scale worker=1
 heroku ps:scale beat=1
 heroku run python manage.py createsuperuser
 ```
 
+7. If an external domain and using cloudflare, point to heroku and change the SSL to Full
+```
+(If you don't, the url will have an infinite redirect)
+```
 
 
 
@@ -215,9 +224,7 @@ xxxxx.urls
 
 ##### 5. Add new analytics code (or just a comma ,) to VIRTUAL_GOOGLE_ANALYTICS_X (1, 2, 3, etc)
 
-##### 6. Add new analytics api code (or just a comma ,) to VIRTUAL_GOOGLE_ANALYTICS_API_SECRET_X (1, 2, 3, etc)
-
-##### 7. In cloudflare change the SSL to Full
+##### 6. In cloudflare change the SSL to Full
 ```
 (If you don't, the url will have an infinite redirect)
 ```

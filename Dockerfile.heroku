@@ -27,4 +27,4 @@ RUN curl -L https://raw.githubusercontent.com/protocolbuffers/protobuf/main/pyth
 COPY . .
 
 # Run Django collectstatic
-RUN python manage.py collectstatic --noinput --settings=main.heroku
+RUN python manage.py collectstatic --noinput --settings=main.settings.heroku

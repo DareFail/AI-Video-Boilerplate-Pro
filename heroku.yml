@@ -5,7 +5,7 @@ setup:
     - plan: heroku-redis
       as: REDIS
   config:
-    DJANGO_SETTINGS_MODULE: main.heroku
+    DJANGO_SETTINGS_MODULE: main.settings.heroku
 build:
   docker:
     django: Dockerfile.heroku
