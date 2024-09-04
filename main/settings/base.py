@@ -258,6 +258,8 @@ if LOCAL_DEV:
 else:
     USE_HTTPS_IN_ABSOLUTE_URLS = True
 
+SMARKETMAN_LINK = os.getenv("SMARKETMAN_LINK", "False") == "True"
+
 ADMINS = [("ADMIN", os.environ.get("ADMIN_EMAIL", ""))]
 
 VIRTUAL_DOMAINS = []
