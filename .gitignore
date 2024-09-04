@@ -1,0 +1,8 @@
+*.pyc
+*~
+.DS_Store
+__pycache__
+static_root/
+node_modules/
+.env
+.devcontainer/devcontainer.json
