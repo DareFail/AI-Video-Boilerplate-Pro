@@ -2,11 +2,25 @@
 {% load static_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>{% include "./shared/head.html" %}</head>
+    <head>
+        {% include "./shared/head.html" %}
+    </head>
     <body>
-        {% include "./shared/top_nav.html" %}
         {% include "./shared/notifications.html" %}
-        <div>Front Page</div>
-        {% include "./shared/footer.html" %}
+        <div class="container">
+          {% include "./shared/top_nav.html" %}
+        
+          <div>
+            <h1>Basic Template</h1>
+
+            <div>Front Page</div>
+          </div>
+
+          {% include "./shared/footer.html" %}
+        </div>
     </body>
 </html>
+
+
+
+    

@@ -12,7 +12,7 @@ urlpatterns = (
     [
         path("admin/", admin.site.urls),
         path("", views.home, name="home"),
-        path("/<str:room_name>/", views.room, name="room"),
+        path("chat/<str:room_name>/", views.room, name="room"),
         path("hijack/", include("hijack.urls", namespace="hijack")),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

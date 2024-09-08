@@ -2,19 +2,35 @@
 {% load static_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>{% include "./shared/head.html" %}</head>
+    <head>
+        {% include "./shared/head.html" %}
+    </head>
     <body>
-        {% include "./shared/top_nav.html" %}
         {% include "./shared/notifications.html" %}
-        What chat room would you like to enter?
-        <br>
-        <input id="room-name-input" type="text" size="100">
-        <br>
-        <input id="room-name-submit" type="button" value="Enter">
-        <script>
+        <div class="container">
+          {% include "./shared/top_nav.html" %}
+        
+          <div>
+            <h1>Websocket Chat Template</h1>
+
+            <div>
+                What chat room would you like to enter?
+            </div>
+            
+            <input id="room-name-input" type="text" size="100">
+            
+            <input id="room-name-submit" type="button" value="Enter">
+            
+          </div>
+
+          {% include "./shared/footer.html" %}
+        </div>
+    </body>
+    
+    <script>
         document.querySelector('#room-name-input').focus();
         document.querySelector('#room-name-input').onkeyup = function (e) {
-            if (e.keyCode === 13) { // enter, return
+            if (e.keyCode === 13) {
                 document.querySelector('#room-name-submit').click();
             }
         };
@@ -23,7 +39,9 @@
             var roomName = document.querySelector('#room-name-input').value;
             window.location.pathname = '/chat/' + roomName + '/';
         };
-        </script>
-        {% include "./shared/footer.html" %}
-    </body>
+    </script>
 </html>
+
+
+
+    
