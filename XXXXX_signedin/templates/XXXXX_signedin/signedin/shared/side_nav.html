@@ -1,7 +1,7 @@
 {% load group_tags %}
 <div>
 
-    <div>My Account</div>
+    <h6>My Account</h6>
     <div>
         <a href="{% url 'change_email' %}">
             Change Email
@@ -23,9 +23,11 @@
     </div>
 
     {% if user.is_superuser %}
-        <div>SuperAdmin</div>
-        <a href="{% url 'hijack' %}">
-            Impersonate
-        </a>
+        <h6 class="marginTop">SuperAdmin</h6>
+        <div>
+            <a href="{% url 'hijack' %}">
+                Impersonate
+            </a>
+        </div>
     {% endif %}
 </div>

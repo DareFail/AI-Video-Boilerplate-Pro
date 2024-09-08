@@ -1,7 +1,7 @@
 {% load static %}
 {% load form_tags %}
 {% if not isSignedUp %}
-    <div>Contact</div>
+    <h3>Contact</h3>
     <form id="emailForm" action="" method="post">
         {% csrf_token %}
         {% render_text_input form.email %}
