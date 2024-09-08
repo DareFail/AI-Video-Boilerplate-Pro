@@ -4,112 +4,10 @@
 <html lang="en">
     <head>
         {% include "./shared/head.html" %}
-        <link rel="stylesheet"
-              href="{% static 'css/catclock.css'|local_static:APP_DIRECTORY %}">
-        <style>
-        .image-container {
-            position: relative;
-            width: 400px;
-            height: 400px;
-            overflow: hidden;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .perfection-container {
-            position: relative;
-            width: 400px;
-            height: 200px;
-            background-color: black;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .title {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            color: white;
-            color: #fff;
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff2d95, 0 0 30px #ff2d95, 0 0 40px #ff2d95, 0 0 50px #ff2d95, 0 0 75px #ff2d95;
-            letter-spacing: 5px;
-            font: 20px 'MisoRegular';
-            padding: 10px;
-            max-width: 80%;
-            text-align: center;
-            font-family: 'Comic Sans MS';
-        }
-
-        .blemish {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            font-size: 18px;
-            max-width: 80%;
-            text-align: center;
-        }
-
-        .description {
-            width: 400px;
-            color: white;
-            padding: 10px;
-            font-size: 18px;
-            background-color: gray;
-            max-width: 80%;
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-            font-family: 'Comic Sans MS';
-            text-shadow: 2px 2px 8px #000;
-        }
-
-        .perfection {
-            width: 300px;
-            color: white;
-            margin-left: auto;
-            margin-right: auto;
-            color: #fff;
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff2d95, 0 0 30px #ff2d95, 0 0 40px #ff2d95, 0 0 50px #ff2d95, 0 0 75px #ff2d95;
-            letter-spacing: 5px;
-            font: 20px 'MisoRegular';
-            padding: 30px;
-            max-width: 80%;
-            text-align: center;
-            font-family: 'Comic Sans MS';
-        }
-
-        .clearance-tape {
-            padding: 1.5rem;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            background: repeating-linear-gradient(
-                -45deg,
-                #f2a417,
-                #f2a417 15px,
-                #141617 15px,
-                #141617 30px
-            );
-        }
-        </style>
     </head>
     <body>
         {% include "./shared/notifications.html" %}
-        <div class="container">
+        <div class="pico container">
             {% include "./shared/top_nav.html" %}
             <div class="row align-items-center">
                 <div class="col-md">
@@ -132,10 +30,11 @@
                 <div class="marginTop">
                     <a href="https://rateloaf.com"><button>Rate Another</button></a>
                 </div>
-                <div class="text-center">
+                <div class="marginTop">
                     {% if loaf.only_cat_filter == 0 %}
                         <h1>0/10!</h1>
-                        <h1>There isn't even a cat in this photo! There is for rating cat loafs and NOTHING ELSE</h1>
+                        <h3>There isn't even a cat in this photo!</h3>
+                        <h3>There is for rating cat loafs and NOTHING ELSE</h3>
                     {% elif loaf.only_cat_filter == 1 %}
                         {% if loaf.blemish_pass_2 > 0 %}
                             <div class="image-container">
