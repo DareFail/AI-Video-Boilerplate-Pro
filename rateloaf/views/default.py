@@ -46,14 +46,10 @@ def rateloaf(request, unique_name):
         return render_with_appname(request, "index.html")
     else:
         if not rateloaf.is_rated:
-            if not rateloaf.is_rating:
-                thisLoaf = rate_loaf(unique_name)
-
-                if thisLoaf is None:
-                    messages.error(
-                        request, "Your cat loaf may have been too chonky"
-                    )
-                    return render_with_appname(request, "index.html")
+            messages.error(
+                request, "Your cat loaf may have been too chonky, check back in a few meowments"
+            )
+            return render_with_appname(request, "index.html")
 
         split_strings = rateloaf.description.split("/10.", 1)
         title_string = split_strings[0] + "/10."

@@ -100,8 +100,5 @@ def rate_loaf(unique_name):
         rate_loaf.has_cat_outline = len(first_cat) > 0
         rate_loaf.save()
 
-        return rate_loaf
-
     except Exception as e:
         print("Failed to upload to S3. Error: ", str(e))
-        return None
