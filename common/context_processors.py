@@ -7,6 +7,7 @@ def global_context(request):
         "APP_DIRECTORY": appname_from_request(request),
         "HOST": request.get_host(),
         "PATH": request.path,
+        "SMARKETMAN_LINK": settings.SMARKETMAN_LINK,
     }
 
     if not settings.DEBUG:
