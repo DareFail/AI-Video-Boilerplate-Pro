@@ -108,112 +108,109 @@
         </style>
     </head>
     <body>
-        {% include "./shared/top_nav.html" %}
         {% include "./shared/notifications.html" %}
-        <div class="my-5">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md">
-                        <div class="mb-4">
-                            <h4>
-                                Share this lovely loaf: <a href="https://rateloaf.com/rate/{{ loaf.unique_name }}/">https://rateloaf.com/rate/{{ loaf.unique_name }}/</a>
-                            </h4>
-                            <div>
-                                This information could be vital to your professional research network:
-                                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-                                <script type="IN/Share"
-                                        data-url="https://rateloaf.com/rate/{{ loaf.unique_name }}/"></script>
-                            </div>
-                            <div>
-                                or just <a class="twitter-share-button"
-    href="https://twitter.com/intent/tweet?text=My cat got is a beautiful {{ title }} @darefailed https://rateloaf.com/rate/{{ loaf.unique_name }}/">
-                            Tweet me your loaf</a>
+        <div class="container">
+            {% include "./shared/top_nav.html" %}
+            <div class="row align-items-center">
+                <div class="col-md">
+                    <div class="marginTop">
+                        <h2>
+                            Share this lovely loaf: <a href="https://rateloaf.com/rate/{{ loaf.unique_name }}/">https://rateloaf.com/rate/{{ loaf.unique_name }}/</a>
+                        </h2>
+                        <div>
+                            This information could be vital to your professional research network:
+                            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                            <script type="IN/Share"
+                                    data-url="https://rateloaf.com/rate/{{ loaf.unique_name }}/"></script>
                         </div>
+                        <div>
+                            or just <a class="twitter-share-button"
+                                href="https://twitter.com/intent/tweet?text=My cat got is a beautiful {{ title }} @darefailed https://rateloaf.com/rate/{{ loaf.unique_name }}/">
+                        Tweet me your loaf</a>
                     </div>
-                    <div class="mb-4">
-                        <a href="https://rateloaf.com" class="btn btn-primary btn-lg">Rate Another</a>
-                    </div>
-                    <div class="text-center">
-                        {% if loaf.only_cat_filter == 0 %}
-                            <h1>0/10!</h1>
-                            <h1>There isn't even a cat in this photo! There is for rating cat loafs and NOTHING ELSE</h1>
-                        {% elif loaf.only_cat_filter == 1 %}
-                            {% if loaf.blemish_pass_2 > 0 %}
+                </div>
+                <div class="marginTop">
+                    <a href="https://rateloaf.com"><button>Rate Another</button></a>
+                </div>
+                <div class="text-center">
+                    {% if loaf.only_cat_filter == 0 %}
+                        <h1>0/10!</h1>
+                        <h1>There isn't even a cat in this photo! There is for rating cat loafs and NOTHING ELSE</h1>
+                    {% elif loaf.only_cat_filter == 1 %}
+                        {% if loaf.blemish_pass_2 > 0 %}
+                            <div class="image-container">
+                                <img src="{{ loaf.image_url_blemish_2 }}" alt="">
+                                <div class="blemish">
+                                    <img alt=""
+                                            src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
+                                </div>
+                            </div>
+                        {% else %}
+                            {% if loaf.blemish_pass_1 > 0 %}
                                 <div class="image-container">
-                                    <img src="{{ loaf.image_url_blemish_2 }}" alt="">
+                                    <img src="{{ loaf.image_url_blemish_1 }}" alt="">
                                     <div class="blemish">
                                         <img alt=""
-                                             src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
+                                                src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
                                     </div>
                                 </div>
                             {% else %}
-                                {% if loaf.blemish_pass_1 > 0 %}
-                                    <div class="image-container">
-                                        <img src="{{ loaf.image_url_blemish_1 }}" alt="">
-                                        <div class="blemish">
-                                            <img alt=""
-                                                 src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="perfection-container">
-                                        <h1 class="perfection">Not a single blemish detected! PURRFECTION!</h1>
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-                            <div class="clearance-tape">
-                                <div class="description">Warning: {{ description }}</div>
-                            </div>
-                            <div class="image-container">
-                                {% if loaf.has_cat_outline %}
-                                    <img src="{{ loaf.image_url_original }}" alt="">
-                                {% else %}
-                                    <img src="{{ loaf.image_url_user }}" alt="">
-                                {% endif %}
-                                <div class="title">{{ title }}</div>
-                            </div>
-                        {% elif loaf.only_cat_filter > 1 %}
-                            <h1 class="mb-4">The system is not equipped to rate more than one cat but here it goes!</h1>
-                            {% if loaf.blemish_pass_2 > 0 %}
-                                <div class="image-container">
-                                    <img src="{{ loaf.image_url_blemish_2 }}" alt="">
-                                    <div class="blemish">
-                                        <img alt=""
-                                             src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
-                                    </div>
+                                <div class="perfection-container">
+                                    <h1 class="perfection">Not a single blemish detected! PURRFECTION!</h1>
                                 </div>
-                            {% else %}
-                                {% if loaf.blemish_pass_1 > 0 %}
-                                    <div class="image-container">
-                                        <img src="{{ loaf.image_url_blemish_1 }}" alt="">
-                                        <div class="blemish">
-                                            <img alt=""
-                                                 src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="perfection-container">
-                                        <h1 class="perfection">Not a single blemish detected! PURRFECTION!</h1>
-                                    </div>
-                                {% endif %}
                             {% endif %}
-                            <div class="clearance-tape">
-                                <div class="description">Warning: {{ description }}</div>
-                            </div>
-                            <div class="image-container">
-                                {% if loaf.has_cat_outline %}
-                                    <img src="{{ loaf.image_url_original }}" alt="">
-                                {% else %}
-                                    <img src="{{ loaf.image_url_user }}" alt="">
-                                {% endif %}
-                                <div class="title">{{ title }}</div>
-                            </div>
                         {% endif %}
-                    </div>
+                        <div class="clearance-tape">
+                            <div class="description">Warning: {{ description }}</div>
+                        </div>
+                        <div class="image-container">
+                            {% if loaf.has_cat_outline %}
+                                <img src="{{ loaf.image_url_original }}" alt="">
+                            {% else %}
+                                <img src="{{ loaf.image_url_user }}" alt="">
+                            {% endif %}
+                            <div class="title">{{ title }}</div>
+                        </div>
+                    {% elif loaf.only_cat_filter > 1 %}
+                        <h1 class="marginTop">The system is not equipped to rate more than one cat but here it goes!</h1>
+                        {% if loaf.blemish_pass_2 > 0 %}
+                            <div class="image-container">
+                                <img src="{{ loaf.image_url_blemish_2 }}" alt="">
+                                <div class="blemish">
+                                    <img alt=""
+                                            src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
+                                </div>
+                            </div>
+                        {% else %}
+                            {% if loaf.blemish_pass_1 > 0 %}
+                                <div class="image-container">
+                                    <img src="{{ loaf.image_url_blemish_1 }}" alt="">
+                                    <div class="blemish">
+                                        <img alt=""
+                                                src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="perfection-container">
+                                    <h1 class="perfection">Not a single blemish detected! PURRFECTION!</h1>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <div class="clearance-tape">
+                            <div class="description">Warning: {{ description }}</div>
+                        </div>
+                        <div class="image-container">
+                            {% if loaf.has_cat_outline %}
+                                <img src="{{ loaf.image_url_original }}" alt="">
+                            {% else %}
+                                <img src="{{ loaf.image_url_user }}" alt="">
+                            {% endif %}
+                            <div class="title">{{ title }}</div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
-    </div>
     {% include "./shared/footer.html" %}
-</body>
+    </body>
 </html>

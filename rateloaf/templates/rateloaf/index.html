@@ -4,33 +4,9 @@
 <html lang="en">
     <head>
         {% include "./shared/head.html" %}
-        <link rel="stylesheet"
-              href="{% static 'css/catclock.css'|local_static:APP_DIRECTORY %}">
-        <style>
-            #drop{
-                border: 2px dashed #bbb;
-                -moz-border-radius: 5px;
-                -webkit-border-radius: 5px;
-                border-radius: 5px;
-                padding: 25px;
-                margin-bottom: 20px;
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                width: 400px;
-                font: 20pt bold,"Vollkorn";color:#bbb
-            }
-            .wait {
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: 40px;
-                color: white;
-                width: 70%;
-            }
-        </style>
     </head>
     <body>
-        {% include "./shared/top_nav.html" %}
+        
         {% include "./shared/notifications.html" %}
         <div id="clock-overlay">
             <h1 class="wait">Looking over your loaf, please wait 1 meowment</h1>
@@ -134,224 +110,180 @@
                 </div>
             </div>
         </div>
-        <div class="my-5">
-            <div class="container">
-                <h1>Rate how well your cat sits like bread</h1>
+        <div class="container">
+            {% include "./shared/top_nav.html" %}
+            <h1>Rate how well your cat sits like bread</h1>
+
+            <i>Warning: This is not for sensitive cats</i>
+
+            <div class="marginTop">
+                <div id="drop">
+                    Drop a cat loaf image here or <a href="#" onclick="document.getElementById('image_file').click()">Select a photo</a>
+                </div>
+                <input type="file"
+                        value="Select Cat Loaf Picture"
+                        id="image_file"
+                        onchange="rateCatImage()"
+                        accept="image/*" />
+            </div>
+            <div class="marginTop">
+                <h3>The best loaves will rise to the top</h3>
+            </div>
+
+            <div>
+                <div class="slideshow-container">
+
+                    <div class="mySlides fade">
+                        <a href="https://rateloaf.com/rate/sgsvqo/">
+                            <h4 class="slideshowTitle">Chocolate/Vanilla loaf. 95/10.</h4>
+                            <img src="https://rateloaf.s3.amazonaws.com/sgsvqo_cat_image_original.png" style="width:100%">
+                            <h3 class="slideshowDescription">Whisker rolls, sleek slice, fur tastic rye.</h3>
+                        </a>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <a href="https://rateloaf.com/rate/cxtzdb/">
+                            <h4 class="slideshowTitle">Purrfect loaf. 100/10.</h4>
+                            <img src="https://rateloaf.s3.amazonaws.com/cxtzdb_blemish_1_image.png" style="width:100%">
+                            <h3 class="slideshowDescription">Whisker rolls, sleek slice, fur tastic rye.</h3>
+                        </a>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <a href="https://rateloaf.com/rate/ajymad/"></a>
+                            <h4 class="slideshowTitle">Kitten loaf. 90/10.</h4>
+                            <img src="https://rateloaf.s3.amazonaws.com/ajymad_cat_image_original.png" style="width:100%">
+                            <h3 class="slideshowDescription">Fluffy wheat bread. Pawsitively perfect.</h3>
+                        </a>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <a href="https://rateloaf.com/rate/tkdwhs/"></a>
+                            <h4 class="slideshowTitle">Caramel loaf. 95/10.</h4>
+                            <img src="https://rateloaf.s3.amazonaws.com/tkdwhs_blemish_2_image.jpg" style="width:100%">
+                            <h3 class="slideshowDescription">Golden-crusted. Soft, cuddly crumb beyond compare.</h3>
+                        </a>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <a href="https://rateloaf.com/rate/wcmbpq/"></a>
+                            <h4 class="slideshowTitle">Chunks of Nougat. 99/10.</h4>
+                            <img src="https://rateloaf.s3.amazonaws.com/wcmbpq_blemish_2_image.png" style="width:100%">
+                            <h3 class="slideshowDescription">Thick baguette. Pawsitive dough. Purrgonomic roll.</h3>
+                        </a>
+                    </div>
+                    
+                    <a class="prev" onclick="plusSlides(-1)">❮</a>
+                    <a class="next" onclick="plusSlides(1)">❯</a>
+                    
+                </div>
+                
+                <div style="text-align:center">
+                    <span class="dot" onclick="currentSlide(1)"></span> 
+                    <span class="dot" onclick="currentSlide(2)"></span> 
+                    <span class="dot" onclick="currentSlide(3)"></span> 
+                    <span class="dot" onclick="currentSlide(4)"></span> 
+                    <span class="dot" onclick="currentSlide(5)"></span> 
+                </div>
+            
+            </div>
+            <div class="marginTop">
+                I was at my local Coney Island bar commenting how poorly this cat was sitting and unhappy. I didn't want to be spending my life like this. I used to have <a href="https://dropofahat.zone/">ambitions</a>. There had to be more in store for me.
+            </div>
+            <div class="marginTop">
+                <img src="{% static 'images/me.png'|local_static:APP_DIRECTORY %}"
+                        alt=""
+                        width="400" />
+            </div>
+            <div class="marginTop">
+                This sent me on a deep introspective journey to remote, exotic places like Jackson Heights and even Flushing. I saw more sitting cats. I scoured the internet. More cats. Look at the huge influx of photos at: <a href="https://www.reddit.com/r/Catloaf/">https://www.reddit.com/r/Catloaf/.</a> There are countless unanswered posts by desperate people.
+            </div>
+            <div class="marginTop">
+                People say Artificial Intelligence will mold every apect of our lives and yet large amounts of the internet is still manually rating cat loaves. Every day the rate of cat pictures is far surpassing the number of qualified loaf judgers and this discrepancy is only going to get more crumby as time goes on.
+            </div>
+            <div class="marginTop">
+                <img src="{% static 'images/catgraph.png'|local_static:APP_DIRECTORY %}"
+                        alt=""
+                        width="400" />
+            </div>
+            <div>
+                <i>Cat photos on the internet in billions increases exponentially every year</i>
+            </div>
+            <div class="marginTop">
+                So here is how you rate your cat loaf faster with Artificial Intelligence. I'll just step through it. Say we upload this fresh loaf.
+            </div>
+            <div class="marginTop">
+                <img src="{% static 'images/cat0.png'|local_static:APP_DIRECTORY %}"
+                        alt=""
+                        width="400" />
+            </div>
+            <div class="marginTop">
+                First it gets sent to Yolov8 Segmentation Model. YOLO is an opensource model and pretty good at recognizing common objects like cats. It tries to see if there is any in the image at all and highlight it.
+            </div>
+            <div class="marginTop">
+                <img src="{% static 'images/cat1.jpeg'|local_static:APP_DIRECTORY %}"
+                        alt=""
+                        width="400" />
+            </div>
+            <div class="marginTop">
+                Looks like a pure bread! So now we can run the next model on it and try to find the impurrfections. We remove everything outside the highlighted cat loaf so the next model has a better chance of working. This way it won't have any false positives with furniture or other things. Also, it looks cool.
+            </div>
+            <div class="marginTop">
+                Then we send it to YOLO-World, another open source model that is more flexible with the types of items it tries to find. Everyone knows bad loaves have paws and tails sticking out so I gave it the classes "paws" and "tails" and it tries to look for them. It's finding paws and tails, but it's just circling the entire cat. This model is beginning to look half baked.
+                <div class="marginTop">
+                    <img src="{% static 'images/cat6.png'|local_static:APP_DIRECTORY %}"
+                            alt=""
+                            width="400" />
+                </div>
+                <div class="marginTop">
+                    I got it to perform better but adding a third class "cat". The model now separates out a cat from a Paw or Tail and narrows down its focus. You can find more info on why that works here: <a href="https://blog.roboflow.com/yolo-world-prompting-tips/">https://blog.roboflow.com/yolo-world-prompting-tips/</a>
+                </div>
+                <div class="marginTop">
+                    <img src="{% static 'images/cat3.png'|local_static:APP_DIRECTORY %}"
+                            alt=""
+                            width="400" />
+                </div>
+                <div class="marginTop">
+                    Those sure are impurrfections but some are just the spots on the cat, not its paws. Time to look at the confidence levels for a bunch of photos and see where the false positives tend to start. After looking at a dozen photos, I determine it's sometimes but not always around 0.00031% confidence.
+                </div>
+                <div class="marginTop">
+                    You may be thinking, that is ridiculously low, who could trust that amount of confidence? YOLO-World is just built different. The level of confidence it needs to be reliable is extremely low.
+                </div>
+                <div class="marginTop">
+                    <img src="{% static 'images/cat2.png'|local_static:APP_DIRECTORY %}"
+                            alt=""
+                            width="400" />
+                </div>
+                <div class="marginTop">
+                    We spotted the impurrfections correctly now. From there, it's just some simple logic. If I find any paws with "0.00031" confidence I'll just show those, otherwise I'll just show whatever is found. Sometimes science is just banging pots together until something useful happens.
+                </div class="marginTop">
+                <div>
+                    Finally, I throw in a call to OpenAI's GPT4v to comment on what it saw. Their model can't detect images so I can draw nice circles like YOLO can but it's got some good cat loaf adjectives and puns for rating.
+                </div>
+                <div class="marginTop">
+                    <img src="{% static 'images/cat4.png'|local_static:APP_DIRECTORY %}"
+                            alt=""
+                            width="400" />
+                </div>
+                <div class="marginTop">
+                    In total, we intertwined 3 different state of the art AI models to automatically rate your loaf accurately.
+                </div>
+                <div class="marginTop">
+                    <img src="{% static 'images/workflow.png'|local_static:APP_DIRECTORY %}"
+                            alt=""
+                            width="400"
+                            style="width:100%">
+                </div>
                 <div class="mb-4">
-                    <i>Warning: This is not for sensitive cats</i>
-                </div>
-                <div class="text-center mb-4">
-                    <div id="drop">
-                        Drop a cat loaf image here or <a href="#" onclick="document.getElementById('image_file').click()">Select a photo</a>
-                    </div>
-                    <input type="file"
-                           value="Select Cat Loaf Picture"
-                           id="image_file"
-                           onchange="rateCatImage()"
-                           accept="image/*" />
-                </div>
-                <div class="mt-4">
-                    <h3>The best loaves will rise to the top</h3>
+                    <i>The <a href="https://roboflow.com/workflows/build">workflow</a> that runs when you upload an image (Roboflow)</i>
                 </div>
                 <div>
-                    <div id="demo"
-                         class="carousel slide"
-                         data-bs-ride="carousel"
-                         style="width: 400px">
-                        <!-- Indicators/dots -->
-                        <div class="carousel-indicators">
-                            <button type="button"
-                                    data-bs-target="#demo"
-                                    data-bs-slide-to="0"
-                                    class="active"></button>
-                            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-                            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
-                            <button type="button" data-bs-target="#demo" data-bs-slide-to="3"></button>
-                            <button type="button" data-bs-target="#demo" data-bs-slide-to="4"></button>
-                            <button type="button" data-bs-target="#demo" data-bs-slide-to="5"></button>
-                        </div>
-                        <!-- The slideshow/carousel -->
-                        <div class="carousel-inner">
-                            =
-                            <div class="carousel-item">
-                                <img src="https://rateloaf.s3.amazonaws.com/sgsvqo_cat_image_original.png"
-                                     alt=""
-                                     width="400"
-                                     class="d-block"
-                                     style="width:100%">
-                                <div class="carousel-caption">
-                                    <h3>
-                                        <a href="https://rateloaf.com/rate/sgsvqo/" style="color: white;">Chocolate/Vanilla loaf. 95/10.</a>
-                                    </h3>
-                                    <p>Whisker rolls, sleek slice, fur tastic rye.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://rateloaf.s3.amazonaws.com/cxtzdb_blemish_1_image.png"
-                                     alt=""
-                                     width="400"
-                                     class="d-block"
-                                     style="width:100%">
-                                <div class="carousel-caption">
-                                    <h3>
-                                        <a href="https://rateloaf.com/rate/cxtzdb/" style="color: white;">Purrfect loaf. 100/10.</a>
-                                    </h3>
-                                    <p>Fur-nomenal crust. Baker's delight.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://rateloaf.s3.amazonaws.com/ajymad_cat_image_original.png"
-                                     alt=""
-                                     width="400"
-                                     class="d-block"
-                                     style="width:100%">
-                                <div class="carousel-caption">
-                                    <h3>
-                                        <a href="https://rateloaf.com/rate/ajymad/" style="color: white;">Kitten loaf. 90/10.</a>
-                                    </h3>
-                                    <p>Fluffy wheat bread. Pawsitively perfect.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item active">
-                                <img src="https://rateloaf.s3.amazonaws.com/tkdwhs_blemish_2_image.jpg"
-                                     alt=""
-                                     width="400"
-                                     class="d-block"
-                                     style="width:100%">
-                                <div class="carousel-caption">
-                                    <h3>
-                                        <a href="https://rateloaf.com/rate/tkdwhs/" style="color: white;">Caramel loaf. 95/10.</a>
-                                    </h3>
-                                    <p>Golden-crusted. Soft, cuddly crumb beyond compare.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="https://rateloaf.s3.amazonaws.com/wcmbpq_blemish_2_image.png"
-                                     alt=""
-                                     width="400"
-                                     class="d-block"
-                                     style="width:100%">
-                                <div class="carousel-caption">
-                                    <h3>
-                                        <a href="https://rateloaf.com/rate/wcmbpq/" style="color: white;">Chunks of Nougat. 99/10.</a>
-                                    </h3>
-                                    <p>Thick baguette. Pawsitive dough. Purrgonomic roll.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Left and right controls/icons -->
-                        <button class="carousel-control-prev"
-                                type="button"
-                                data-bs-target="#demo"
-                                data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </button>
-                        <button class="carousel-control-next"
-                                type="button"
-                                data-bs-target="#demo"
-                                data-bs-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </button>
-                    </div>
+                    The next natural step is towards training the model on cat jaw lines. Some teenagers on the street told me if we can detect this reliable there are methods to fix it.
                 </div>
-                <div class="mt-4">
-                    I was at my local Coney Island bar commenting how poorly this cat was sitting and unhappy. I didn't want to be spending my life like this. I used to have <a href="https://dropofahat.zone/">ambitions</a>. There had to be more in store for me.
-                </div>
-                <div class="mt-4">
-                    <img src="{% static 'images/me.png'|local_static:APP_DIRECTORY %}"
-                         alt=""
-                         width="400" />
-                </div>
-                <div class="mt-4">
-                    This sent me on a deep introspective journey to remote, exotic places like Jackson Heights and even Flushing. I saw more sitting cats. I scoured the internet. More cats. Look at the huge influx of photos at: <a href="https://www.reddit.com/r/Catloaf/">https://www.reddit.com/r/Catloaf/.</a> There are countless unanswered posts by desperate people.
-                </div>
-                <div class="mt-4">
-                    People say Artificial Intelligence will mold every apect of our lives and yet large amounts of the internet is still manually rating cat loaves. Every day the rate of cat pictures is far surpassing the number of qualified loaf judgers and this discrepancy is only going to get more crumby as time goes on.
-                </div>
-                <div class="mt-4">
-                    <img src="{% static 'images/catgraph.png'|local_static:APP_DIRECTORY %}"
-                         alt=""
-                         width="400" />
-                </div>
-                <div>
-                    <i>Cat photos on the internet in billions increases exponentially every year</i>
-                </div>
-                <div class="mt-4">
-                    So here is how you rate your cat loaf faster with Artificial Intelligence. I'll just step through it. Say we upload this fresh loaf.
-                </div>
-                <div class="mt-4">
-                    <img src="{% static 'images/cat0.png'|local_static:APP_DIRECTORY %}"
-                         alt=""
-                         width="400" />
-                </div>
-                <div class="mt-4">
-                    First it gets sent to Yolov8 Segmentation Model. YOLO is an opensource model and pretty good at recognizing common objects like cats. It tries to see if there is any in the image at all and highlight it.
-                </div>
-                <div class="mt-4">
-                    <img src="{% static 'images/cat1.jpeg'|local_static:APP_DIRECTORY %}"
-                         alt=""
-                         width="400" />
-                </div>
-                <div class="mt-4">
-                    Looks like a pure bread! So now we can run the next model on it and try to find the impurrfections. We remove everything outside the highlighted cat loaf so the next model has a better chance of working. This way it won't have any false positives with furniture or other things. Also, it looks cool.
-                </div>
-                <div class="mt-4">
-                    Then we send it to YOLO-World, another open source model that is more flexible with the types of items it tries to find. Everyone knows bad loaves have paws and tails sticking out so I gave it the classes "paws" and "tails" and it tries to look for them. It's finding paws and tails, but it's just circling the entire cat. This model is beginning to look half baked.
-                    <div class="mt-4">
-                        <img src="{% static 'images/cat6.png'|local_static:APP_DIRECTORY %}"
-                             alt=""
-                             width="400" />
-                    </div>
-                    <div class="mt-4">
-                        I got it to perform better but adding a third class "cat". The model now separates out a cat from a Paw or Tail and narrows down its focus. You can find more info on why that works here: <a href="https://blog.roboflow.com/yolo-world-prompting-tips/">https://blog.roboflow.com/yolo-world-prompting-tips/</a>
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/cat3.png'|local_static:APP_DIRECTORY %}"
-                             alt=""
-                             width="400" />
-                    </div>
-                    <div class="mt-4">
-                        Those sure are impurrfections but some are just the spots on the cat, not its paws. Time to look at the confidence levels for a bunch of photos and see where the false positives tend to start. After looking at a dozen photos, I determine it's sometimes but not always around 0.00031% confidence.
-                    </div>
-                    <div class="mt-4">
-                        You may be thinking, that is ridiculously low, who could trust that amount of confidence? YOLO-World is just built different. The level of confidence it needs to be reliable is extremely low.
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/cat2.png'|local_static:APP_DIRECTORY %}"
-                             alt=""
-                             width="400" />
-                    </div>
-                    <div class="mt-4">
-                        We spotted the impurrfections correctly now. From there, it's just some simple logic. If I find any paws with "0.00031" confidence I'll just show those, otherwise I'll just show whatever is found. Sometimes science is just banging pots together until something useful happens.
-                    </div class="mt-4">
-                    <div>
-                        Finally, I throw in a call to OpenAI's GPT4v to comment on what it saw. Their model can't detect images so I can draw nice circles like YOLO can but it's got some good cat loaf adjectives and puns for rating.
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/cat4.png'|local_static:APP_DIRECTORY %}"
-                             alt=""
-                             width="400" />
-                    </div>
-                    <div class="mt-4">
-                        In total, we intertwined 3 different state of the art AI models to automatically rate your loaf accurately.
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/workflow.png'|local_static:APP_DIRECTORY %}"
-                             alt=""
-                             width="400"
-                             style="width:100%">
-                    </div>
-                    <div class="mb-4">
-                        <i>The <a href="https://roboflow.com/workflows/build">workflow</a> that runs when you upload an image (Roboflow)</i>
-                    </div>
-                    <div>
-                        The next natural step is towards training the model on cat jaw lines. Some teenagers on the street told me if we can detect this reliable there are methods to fix it.
-                    </div>
-                    <div class="mt-4">
-                        <img src="{% static 'images/mewing.png'|local_static:APP_DIRECTORY %}"
-                             alt=""
-                             width="400">
-                    </div>
+                <div class="marginTop">
+                    <img src="{% static 'images/mewing.png'|local_static:APP_DIRECTORY %}"
+                            alt=""
+                            width="400">
                 </div>
             </div>
         </div>
@@ -444,6 +376,41 @@
 
             stopInterval = setInterval(pingServer, 1000);
         }
+
+
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) {
+                slideIndex = 1
+            }  
+            if (n < 1) {
+                slideIndex = slides.length
+            }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+        }
+
+        setInterval(function(){ plusSlides(1); }, 2500);
+
         </script>
         {% include "./shared/footer.html" %}
     </body>
