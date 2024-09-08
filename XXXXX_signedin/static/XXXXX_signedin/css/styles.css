@@ -90,3 +90,16 @@
   color: #373c44;
   text-decoration: none;
 }
+
+.dashboardContent {
+  margin-left: 20px;
+}
+
+.leftNav { 
+  max-width: 150px;
+  border-right: 1px solid black;
+}
+
+.navButtonLink {
+  margin-left: -5px;
+}

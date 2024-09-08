@@ -90,3 +90,7 @@
   color: #373c44;
   text-decoration: none;
 }
+
+.navButtonLink {
+  margin-left: -5px;
+}

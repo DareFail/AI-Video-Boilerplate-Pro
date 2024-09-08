@@ -14,10 +14,10 @@
           <a href="https://github.com/DareFail/AI-Video-Boilerplate-Pro">Github</a>
         </li>
         <li>
-          {% if not request.user.is_anonymous %}
-            <button class="contrast" onclick="location='{% url 'account_signup' %}'">Login</button>
+          {% if request.user.is_anonymous %}
+            <a class="navButtonLink" href="{% url 'account_signup' %}"><button class="contrast">Login</button></a>
           {% else %}
-            <button class="contrast" onclick="location='{{ request|get_dashboard_url }}'">Dashboard</button>
+            <a class="navButtonLink" href="{{ request|get_dashboard_url }}"><button class="contrast">Dashboard</button></a>
           {% endif %}
         </li>
     </ul>

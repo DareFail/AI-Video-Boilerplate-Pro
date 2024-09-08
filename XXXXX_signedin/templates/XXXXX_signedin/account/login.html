@@ -17,7 +17,6 @@
                     {% render_text_input form.password %}
                     <input class="btn btn-primary w-100" type="submit" value="Sign in">
                     <hr>
-                    <a class="muted-link" href="{% url 'account_reset_password' %}">Forgot password?</a>
                 </form>
                 {% comment %}
                     <hr />
@@ -38,7 +37,7 @@
                                placeholder="E-mail address"
                                required=""
                                id="id_email">
-                        <button class="btn btn-primary mt-3" type="submit">Send Passwordless Link To Email</button>
+                        <button type="submit">Send Passwordless Link To Email</button>
                     </form>
                 </div>
             </div>

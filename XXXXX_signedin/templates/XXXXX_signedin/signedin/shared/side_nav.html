@@ -1,39 +1,31 @@
 {% load group_tags %}
 <div>
-    <div class="mb-1">Application</div>
-    <ul class="nav nav-pills flex-column">
-        <a href="{{ request|get_dashboard_url }}" class="nav-link">
-            <span>Dashboard</span>
+
+    <div>My Account</div>
+    <div>
+        <a href="{% url 'change_email' %}">
+            Change Email
         </a>
-    </ul>
-    <div class="mt-3 mb-1">My Account</div>
-    <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-            <a href="{% url 'change_email' %}" class="nav-link">
-                <span>Change Email</span>
+    </div>
+
+    {% if user.has_usable_password %}
+        <div>
+            <a href="{% url 'account_change_password' %}">
+                Change Password
             </a>
-        </li>
-        {% if user.has_usable_password %}
-            <li class="nav-item">
-                <a href="{% url 'account_change_password' %}" class="nav-link">
-                    <span>Change Password</span>
-                </a>
-            </li>
-        {% endif %}
-        <li class="nav-item">
-            <a href="{% url 'account_logout' %}" class="nav-link">
-                <span>Sign out</span>
-            </a>
-        </li>
-        {% if user.is_superuser %}
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li>
-                <a class="dropdown-item" href="{% url 'hijack' %}">
-                    <span class="icon"><i class="fa fa-user-secret"></i></span><span>Impersonate a User</span>
-                </a>
-            </li>
-        {% endif %}
-    </ul>
+        </div>
+    {% endif %}
+
+    <div>
+        <a href="{% url 'account_logout' %}" >
+            Sign out
+        </a>
+    </div>
+
+    {% if user.is_superuser %}
+        <div>SuperAdmin</div>
+        <a href="{% url 'hijack' %}">
+            Impersonate
+        </a>
+    {% endif %}
 </div>
