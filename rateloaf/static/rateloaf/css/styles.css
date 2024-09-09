@@ -164,7 +164,7 @@ img {
 
 
 .slideshowDescription {
-  color: #f2f2f2;
+  color: #f2f2f2 !important;
   padding: 8px 12px;
   position: absolute;
   bottom: 3px;
@@ -172,7 +172,7 @@ img {
 }
 
 .slideshowTitle {
-  color: #f2f2f2;
+  color: #f2f2f2 !important;
   padding: 8px 12px;
   position: absolute;
   top: 0;

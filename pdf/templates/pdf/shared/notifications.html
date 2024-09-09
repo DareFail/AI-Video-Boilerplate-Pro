@@ -1,0 +1,27 @@
+{% if messages %}
+    {% for notification in messages %}  
+        <nav class="notificationBackground notificationBackground-{% if notification.tags %}{{ notification.level_tag }}{% endif %}">
+            <ul>
+            <li class="notificationMessage">
+                test
+            </li>
+            </ul>    
+            <ul class="topNavRight">
+                <li class="notificationExit">X</li>
+            </ul>
+        </nav>
+    {% endfor %}
+{% endif %}
+
+<script>
+    var exits = document.getElementsByClassName('topNavRight');
+
+    for(let i = 0; i < exits.length; i++){
+        exits[i].addEventListener('click', function(){
+            this.parentNode.classList.add('fadeOut');
+            setTimeout(() => {
+                this.parentNode.parentNode.removeChild(this.parentNode);
+            }, 500);
+        });
+    }
+</script>

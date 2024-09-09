@@ -175,34 +175,33 @@ heroku run python manage.py createsuperuser
 
 ## Adding a New Website - Localhost
 
-##### 1. Copy xxxxx project folder and rename
+##### 1. Copy XXXXX project folder and rename
 
-##### 2. Rename app_directory in xxxxx/utils.py
+##### 2. Rename app_directory in XXXXX/utils.py
 ```
-app_directory = 'xxxxx'
+app_directory = 'XXXXX'
 ```
 
-##### 3. Rename AppConfig, name, and label in xxxxx/apps.py
+##### 3. Rename AppConfig, name, and label in XXXXX/apps.py
 ```
 XxxxxConfig
-name = “xxxxx”
-label = “xxxxx”
+name = XXXXX
 ```
 
 ##### 4. Add new project name to end of PROJECT_APPS in main/settings.py
 ```
-'xxxxx.apps.XxxxxConfig',
+'XXXXX.apps.XxxxxConfig',
 ```
 
-##### 5. Rename templates folder path to project name: templates/xxxxx
+##### 5. Rename templates folder path to project name: templates/XXXXX
 
-##### 6. Rename static folder path to project name: static/xxxxx
+##### 6. Rename static folder path to project name: static/XXXXX
 
-##### 7. Delete the original migrations folder xxxxx/migrations
+##### 7. Delete the original migrations folder XXXXX/migrations
 
 ##### 8. Add any new app specific models 
 ```
-docker compose exec web python manage.py makemigrations xxxxx
+docker compose exec web python manage.py makemigrations XXXXX
 docker compose exec web python manage.py migrate
 ```
 
@@ -218,12 +217,12 @@ docker compose exec web python manage.py migrate
 
 ##### 2. Add new domain to VIRTUAL_DOMAINS_X (1, 2, 3, etc)
 ```
-xxxxx.com
+XXXXX.com
 ```
 
 ##### 3. Add new project urls path to VIRTUAL_APPS_X (1, 2, 3, etc)
 ```
-xxxxx.urls
+XXXXX.urls
 ```
 
 ##### 4. Increase NUMBER_OF_DOMAINS by +1 (2 -> 3)

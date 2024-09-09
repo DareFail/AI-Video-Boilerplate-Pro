@@ -61,6 +61,7 @@ COMMON = [
 APPS = [
     "homepage.apps.homepageConfig",
     "rateloaf.apps.RateloafConfig",
+    "pdf.apps.PdfConfig",
     "XXXXX_basic.apps.XXXXX_basicConfig",
     "XXXXX_signedin.apps.XXXXX_signedinConfig",
     "XXXXX_websockets.apps.XXXXX_websocketsConfig",
@@ -285,7 +286,7 @@ for i in range(1, int(os.environ.get("NUMBER_OF_DOMAINS", 0)) + 1):
     )
 
     if domain_value:
-        VIRTUAL_APPS.append(os.environ.get(app_key, "xxxxx.urls"))
+        VIRTUAL_APPS.append(os.environ.get(app_key, "XXXXX_basic.urls"))
         VIRTUAL_DOMAINS.append(domain_value)
         VIRTUAL_GOOGLE_ANALYTICS.append(
             os.environ.get(google_analytics_key, "")

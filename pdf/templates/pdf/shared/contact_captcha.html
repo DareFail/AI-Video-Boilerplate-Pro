@@ -1,0 +1,17 @@
+{% load static %}
+{% load form_tags %}
+<script>
+   function onSubmit(token) {
+     document.getElementById("emailForm").submit();
+   }
+</script>
+{% if not isSignedUp %}
+    <h3>Contact</h3>
+    <form id="emailForm" action="" method="post">
+        {% csrf_token %}
+        {% render_text_input form.email %}
+        <button class="g-recaptcha" data-sitekey="{{ captcha }}" data-callback='onSubmit' data-action='submit'>Submit</button>
+    </form>
+{% else %}
+    Thanks!
+{% endif %}
