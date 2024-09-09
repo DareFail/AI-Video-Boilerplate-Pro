@@ -215,7 +215,6 @@ img {
 .image-container {
   position: relative;
   width: 400px;
-  height: 400px;
   overflow: hidden;
   margin-left: auto;
   margin-right: auto;
@@ -224,7 +223,6 @@ img {
 .perfection-container {
   position: relative;
   width: 400px;
-  height: 200px;
   background-color: black;
   margin-left: auto;
   margin-right: auto;
