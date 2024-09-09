@@ -328,3 +328,19 @@ else:
     STRIPE_PRIVATE_KEY = STRIPE_LIVE_SECRET_KEY
 
 ROBOFLOW_API_KEY = os.environ.get("ROBOFLOW_API_KEY", "")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'null': {
+            'class': 'logging.NullHandler',
+        },
+    },
+    'loggers': {
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+    },
+}

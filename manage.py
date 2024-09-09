@@ -24,18 +24,6 @@ class StatusLogKiller(logging.Filter):
 django_server_logger.addFilter(StatusLogKiller(["GET /a/.*/status/.*/"]))
 
 
-class HostHeaderLogFilter(logging.Filter):
-    """To suppress 'Invalid HTTP_HOST header' errors"""
-
-    def filter(self, record):
-        if 'Invalid HTTP_HOST header' in record.getMessage():
-            return False
-        return True
-
-django_server_logger.addFilter(HostHeaderLogFilter())
-
-
-
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "main.settings")
     from django.core.management import execute_from_command_line
