@@ -11,16 +11,100 @@
           {% include "./shared/top_nav.html" %}
         
           <div>
-            <h1>Basic Template</h1>
+            <h1>Delete Your PDF</h1>
 
-            <div>Front Page</div>
+            <div class="marginTop" id="videoSource">
+              <div>
+                  <input type="file" id="uploadedImage" accept="image/*" onchange="showImage(event)">
+              </div>
+              <div id="runImageSingle">
+                <button onclick="runInputImageSingle()">Run Page</button>
+              </div>
+              <div class="grid marginTop">
+                  <div id="inputDiv">
+                    <h3>Step 1</h3>
+                    <div>Input Image</div>
+                    <img id="step1" src="" />
+                  </div>
+                  <div id="outputDiv">
+                    <h3>Step 2</h3>
+                    <div>Output Text</div>
+                    <textarea id="step2"></textarea>
+                  </div>
+              </div>
+              <div class="grid marginTop">
+                <div id="outputTable">
+                  <h3>Step 3</h3>
+                  <div>Output Table</div>
+                  <table id="step3" class="striped">
+                    <thead data-theme="dark">
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Barcode</th>
+                        <th scope="col">Description</th>
+                      </tr>
+                    </thead>
+                    <tr>
+                      <th scope="row"></th>
+                      <td>7 30821 99900 8</td>
+                      <td>DAILY COLOR DG BL 8.60 13.80 +0.00</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"></th>
+                      <td>7 30821 99897 1</td>
+                      <td>DAILY COLOR DG GR 8.60 13.80 +0.00</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div id="runImageAll">
+                <button>Run all pages</button>
+              </div>
+            </div>
           </div>
 
           {% include "./shared/footer.html" %}
         </div>
+        <script>
+          function showImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById("step1");
+                    img.src = e.target.result;
+                    img.style.maxWidth = "100%";
+                    img.style.height = "auto";
+                    document.getElementById("runImageSingle").style.display = "block";
+                    document.getElementById("runImageAll").style.display = "block";
+                }
+                reader.readAsDataURL(file);
+            }
+          }
+
+
+          async function runInputImageSingle() {
+              const fileInput = document.getElementById('uploadedImage');
+              const imageFile = fileInput.files[0];
+              const formData = new FormData();
+              formData.append('image', imageFile);
+              
+              const response = await fetch("{% url 'sendInputImage' %}", {
+                  method: 'POST',
+                  body: formData,
+              });
+              
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              const data = await response.json();
+              const textarea = document.getElementById("step2");
+              textarea.value = data.model_predictions.result;
+              
+              //const img = document.getElementById("outputImage");
+              //img.src = `data:image/jpg;base64,${data.final}`;
+              
+          }
+        </script>
     </body>
 </html>
-
-
-
-    

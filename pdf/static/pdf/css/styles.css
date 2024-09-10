@@ -94,3 +94,11 @@
 .navButtonLink {
   margin-left: -5px;
 }
+
+#runImageSingle {
+  display: none;
+}
+
+#runImageAll {
+  display: none;
+}
