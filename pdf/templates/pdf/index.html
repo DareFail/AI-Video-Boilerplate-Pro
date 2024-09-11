@@ -12,10 +12,13 @@
         
           <div>
             <h1>Delete Your PDF</h1>
+            <h3>WARNING: Under active development, likely not working</h3>
+            <h3>Please follow and check back later</h3>
 
             <div class="marginTop" id="videoSource">
               <div>
-                  <input type="file" id="uploadedImage" accept="image/*" onchange="showImage(event)">
+                  <!--<input type="file" id="uploadedImage" accept="image/*" onchange="showImage(event)">-->
+                  <input type="file" id="uploadedImage" accept="*" onchange="showImage(event)">
               </div>
               <div id="runImageSingle">
                 <button onclick="runInputImageSingle()">Run Page</button>
@@ -33,28 +36,33 @@
                   </div>
               </div>
               <div class="grid marginTop">
-                <div id="outputTable">
+                <div id="outputDiv">
                   <h3>Step 3</h3>
                   <div>Output Table</div>
                   <table id="step3" class="striped">
                     <thead data-theme="dark">
                       <tr>
                         <th scope="col"></th>
-                        <th scope="col">Barcode</th>
-                        <th scope="col">Description</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                       </tr>
                     </thead>
                     <tr>
                       <th scope="row"></th>
-                      <td>7 30821 99900 8</td>
-                      <td>DAILY COLOR DG BL 8.60 13.80 +0.00</td>
+                      <td></td>
+                      <td></td>
                     </tr>
                     <tr>
                       <th scope="row"></th>
-                      <td>7 30821 99897 1</td>
-                      <td>DAILY COLOR DG GR 8.60 13.80 +0.00</td>
+                      <td></td>
+                      <td></td>
                     </tr>
                   </table>
+                </div>
+                <div id="outputDiv">
+                  <h3>Step 4</h3>
+                  <div>Output Image</div>
+                  <img id="step4" src="" />
                 </div>
               </div>
               <div id="runImageAll">
@@ -87,7 +95,7 @@
               const fileInput = document.getElementById('uploadedImage');
               const imageFile = fileInput.files[0];
               const formData = new FormData();
-              formData.append('image', imageFile);
+              formData.append('file', imageFile);
               
               const response = await fetch("{% url 'sendInputImage' %}", {
                   method: 'POST',
@@ -99,10 +107,10 @@
               }
               const data = await response.json();
               const textarea = document.getElementById("step2");
-              textarea.value = data.model_predictions.result;
+              textarea.value = data.texts[0];
               
-              //const img = document.getElementById("outputImage");
-              //img.src = `data:image/jpg;base64,${data.final}`;
+              const img = document.getElementById("step4");
+              img.src = data.pages[0];
               
           }
         </script>

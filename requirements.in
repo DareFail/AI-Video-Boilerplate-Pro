@@ -27,3 +27,4 @@ pre-commit
 djlint
 fal-client
 inference_sdk
+delete-your-pdf

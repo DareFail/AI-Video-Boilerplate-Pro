@@ -112,6 +112,8 @@ dataclasses-json==0.6.7
     # via inference-sdk
 defusedxml==0.7.1
     # via supervision
+delete-your-pdf==1.0.2
+    # via -r requirements.in
 distlib==0.3.8
     # via virtualenv
 dj-database-url==2.2.0
@@ -271,6 +273,7 @@ pathspec==0.12.1
     # via djlint
 pillow==10.4.0
     # via
+    #   delete-your-pdf
     #   inference-sdk
     #   matplotlib
     #   supervision
@@ -314,6 +317,8 @@ pyopenssl==24.2.1
     # via twisted
 pyparsing==3.1.4
     # via matplotlib
+pypdfium2==4.30.0
+    # via delete-your-pdf
 python-crontab==3.2.0
     # via django-celery-beat
 python-dateutil==2.9.0.post0

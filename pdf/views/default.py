@@ -1,11 +1,7 @@
-import base64
-
-from inference_sdk import InferenceHTTPClient
 from django.views.decorators.csrf import csrf_exempt
-from django.core.files.images import ImageFile
 from django.http import JsonResponse
-from PIL import Image
 from django.conf import settings
+from deleteYourPDF import pdfToImagePages, imageWidthHeight, cropRotateImage, imageToText_Roboflow
 
 from ..utils import render_with_appname
 
@@ -17,28 +13,31 @@ def home(request):
 
 @csrf_exempt
 def sendInputImage(request):
+
     if request.method == 'POST':
-        image = request.FILES['image'].file
+        file = request.FILES['file'].file
 
-        client = InferenceHTTPClient(
-            api_url="https://detect.roboflow.com",
-            api_key=settings.ROBOFLOW_API_KEY,
-        )
+        listOfText = []
+        
+        listOfImagePages = pdfToImagePages(file)
+        listOfImageResults = []
 
-        pil_image = Image.open(image)
+        for imagePage in listOfImagePages:
+            image_dimensions = imageWidthHeight(file=imagePage)
 
-        # Convert RGBA image to RGB
-        if pil_image.mode == 'RGBA':
-            rgb_image = pil_image.convert('RGB')
-        else:
-            rgb_image = pil_image
+            width = image_dimensions["width"]
+            height = image_dimensions["height"]
 
-        result = client.run_workflow(
-            workspace_name="test-y7opj",
-            workflow_id="custom-workflow",
-            images={"image": rgb_image},
-        )
+            croppedAndRotatedImage = cropRotateImage(file=imagePage, x=0, y=0, width=width, height=height, rotation_degrees=0)
+            listOfText.append(imageToText_Roboflow(file=croppedAndRotatedImage, api_key=settings.ROBOFLOW_API_KEY))
+            
+            listOfImageResults.append(croppedAndRotatedImage)
 
-        return JsonResponse(result[0])
+        return JsonResponse({
+            "pages": listOfImageResults,
+            "texts": listOfText,
+        })
     else:
         return JsonResponse({"error": "Only POST requests are accepted"}, status=400)
+
+
