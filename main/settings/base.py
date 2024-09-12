@@ -168,11 +168,10 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_EMAIL_SUBJECT_PREFIX = None
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 SOCIALACCOUNT_QUERY_EMAIL = True
-# SOCIALACCOUNT_ADAPTER = "common.teams.adapter.SocialAccountAdapter"
+# SOCIALACCOUNT_ADAPTER = "common.customGroups.adapter.SocialAccountAdapter"
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
 SOCIALACCOUNT_PROVIDERS = {}
-
 
 ACCOUNT_FORMS = {
     "signup": "common.customGroups.forms.GroupSignupForm",
