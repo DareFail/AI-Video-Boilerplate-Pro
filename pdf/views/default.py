@@ -12,16 +12,21 @@ def home(request):
 
 
 @csrf_exempt
-def sendInputImage(request):
+def runStep(request):
+
+    listOfImagePages = []
 
     if request.method == 'POST':
-        file = request.FILES['file'].file
+        command = request.POST.get('command', '')
 
+        if command == "pdfToImagePages":
+            file = request.FILES['file'].file
+
+            listOfImagePages = pdfToImagePages(file, 1)
+
+        '''
         listOfText = []
-        
-        listOfImagePages = pdfToImagePages(file)
         listOfImageResults = []
-
         for imagePage in listOfImagePages:
             image_dimensions = imageWidthHeight(file=imagePage)
 
@@ -37,6 +42,18 @@ def sendInputImage(request):
             "pages": listOfImageResults,
             "texts": listOfText,
         })
+        '''
+
+        result = ""
+
+        if len(listOfImagePages) > 0:
+            result = listOfImagePages[0]
+
+        return JsonResponse({
+            "result": result,
+        })
+
+        
     else:
         return JsonResponse({"error": "Only POST requests are accepted"}, status=400)
 

@@ -12,62 +12,38 @@
         
           <div>
             <h1>Delete Your PDF</h1>
-            <h3>WARNING: Under active development, likely not working</h3>
-            <h3>Please follow and check back later</h3>
+            <h3>WARNING: Under active development</h3>
 
-            <div class="marginTop" id="videoSource">
-              <div>
-                  <!--<input type="file" id="uploadedImage" accept="image/*" onchange="showImage(event)">-->
-                  <input type="file" id="uploadedImage" accept="*" onchange="showImage(event)">
-              </div>
-              <div id="runImageSingle">
-                <button onclick="runInputImageSingle()">Run Page</button>
-              </div>
-              <div class="grid marginTop">
-                  <div id="inputDiv">
-                    <h3>Step 1</h3>
-                    <div>Input Image</div>
-                    <img id="step1" src="" />
+            <div role="group" id="container">
+              <div id="leftNav">
+                <div class="scroll-container">
+                  <div id="codeBlock" class="scrollable-content">
+                    <h3>Code (Python)</h3>
+                    <div>
+                      Step 1 Install:
+                    </div>
+                    <div>
+                      <code>pip install delete-your-pdf</code>
+                    </div>
                   </div>
-                  <div id="outputDiv">
-                    <h3>Step 2</h3>
-                    <div>Output Text</div>
-                    <textarea id="step2"></textarea>
-                  </div>
-              </div>
-              <div class="grid marginTop">
-                <div id="outputDiv">
-                  <h3>Step 3</h3>
-                  <div>Output Table</div>
-                  <table id="step3" class="striped">
-                    <thead data-theme="dark">
-                      <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tr>
-                      <th scope="row"></th>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <th scope="row"></th>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </table>
-                </div>
-                <div id="outputDiv">
-                  <h3>Step 4</h3>
-                  <div>Output Image</div>
-                  <img id="step4" src="" />
                 </div>
               </div>
-              <div id="runImageAll">
-                <button>Run all pages</button>
+
+              <div class="marginTop" id="mainContent">
+                <div id="step1Container">
+                  <h3>Step 1</h3>
+                  <div>
+                    <input type="file" id="step1" accept="application/pdf" onchange="showImage(event)">
+                  </div>
+                  <div id="step1Button">
+                    <button onclick="runStep('1', '2', 'pdfToImagePages')">Convert PDF to Image</button>
+                  </div>
+                </div>
+                <div id="runImageAll">
+                  <button>Run all pages</button>
+                </div>
               </div>
+
             </div>
           </div>
 
@@ -83,21 +59,26 @@
                     img.src = e.target.result;
                     img.style.maxWidth = "100%";
                     img.style.height = "auto";
-                    document.getElementById("runImageSingle").style.display = "block";
-                    document.getElementById("runImageAll").style.display = "block";
+                    document.getElementById("step1Button").style.display = "block";
+                    //document.getElementById("runImageAll").style.display = "block";
                 }
                 reader.readAsDataURL(file);
             }
           }
 
 
-          async function runInputImageSingle() {
-              const fileInput = document.getElementById('uploadedImage');
-              const imageFile = fileInput.files[0];
-              const formData = new FormData();
-              formData.append('file', imageFile);
+          async function runStep(inputStep, outputStep, command) {
+
+            const formData = new FormData();
+            formData.append("command", command);
+
+              if(command == "pdfToImagePages") {
+                const fileInput = document.getElementById("step" + inputStep);
+                const file = fileInput.files[0];
+                formData.append('file', file);
+              }
               
-              const response = await fetch("{% url 'sendInputImage' %}", {
+              const response = await fetch("{% url 'runStep' %}", {
                   method: 'POST',
                   body: formData,
               });
@@ -106,13 +87,93 @@
                   throw new Error('Network response was not ok');
               }
               const data = await response.json();
-              const textarea = document.getElementById("step2");
-              textarea.value = data.texts[0];
               
-              const img = document.getElementById("step4");
-              img.src = data.pages[0];
+              // Add Step Section
+              const container = document.getElementById('mainContent');
+              const newDivContainer = document.createElement('div');
+              newDivContainer.id = "step" + outputStep + "Container";
+              newDivContainer.className = 'marginTop';
+              var innerHTML = '<div id="step2Container" class="marginTop">';
+              innerHTML = innerHTML + '<div>';
+              innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+              if (command == "pdfToImagePages") {
+                innerHTML = innerHTML + '<div>PDF Page Image</div>';
+                innerHTML = innerHTML + '<img id="step' + outputStep + '" src="" />';
+              }
+              innerHTML = innerHTML + '</div>';
+              innerHTML = innerHTML + 'Next:';
+              innerHTML = innerHTML + '<select>';
+              innerHTML = innerHTML + '<option>Crop / Rotate</option>';
+              innerHTML = innerHTML + '<option>Get Text</option>';
+              innerHTML = innerHTML + '<option>Crop / Rotate</option>';
+              innerHTML = innerHTML + '</select>';
+              innerHTML = innerHTML + '</div>';
+              newDivContainer.innerHTML = innerHTML;
+              container.appendChild(newDivContainer);
+
+
+              // Add Code Block
+              const codeBlock = document.getElementById('codeBlock');
+              const newDivCodeblock = document.createElement('div');
+              newDivCodeblock.id = "step" + outputStep + 'Code';
+              newDivCodeblock.className = 'marginTop';
+              var innerHTML = "Step " + outputStep + ":<div><code>";
+              if(command == "pdfToImagePages") {
+                innerHTML = innerHTML + "result = pdfToImagePages(file, 1)";
+              }
+              innerHTML = innerHTML + "</code></div>";
+              newDivCodeblock.innerHTML = innerHTML;
+              codeBlock.appendChild(newDivCodeblock);
+
+
+              // Add Result
+              if(command == "pdfToImagePages") {
+                const img = document.getElementById("step" + outputStep);
+                img.src = data.result;
+              } else {
+                //const textarea = document.getElementById("step2");
+                //textarea.value = data.texts[0];
+              }
               
           }
+        </script>
+
+        <script>
+            var container = document.getElementById('container');
+            var leftNav = document.getElementById('leftNav');
+            var mainContent = document.getElementById('mainContent');
+            
+            var dragging = false;
+            var containerWidth, leftNavWidth, dragHandleOffset;
+            
+            leftNav.addEventListener('mousedown', function (e) {
+              dragging = true;
+              
+              containerWidth = container.offsetWidth;
+              leftNavWidth = leftNav.offsetWidth;
+              dragHandleOffset = e.clientX;
+              
+              document.addEventListener('mousemove', onMouseMove);
+              document.addEventListener('mouseup', onMouseUp);
+            });
+            
+            function onMouseMove(e) {
+              if (!dragging) return;
+              
+              var dx = e.clientX - dragHandleOffset;
+              var newLeftNavWidth = ((leftNavWidth + dx) * 100) / containerWidth;
+              var newMainContentWidth = 100 - newLeftNavWidth;
+              
+              leftNav.style.width = newLeftNavWidth + '%';
+              mainContent.style.width = newMainContentWidth + '%';
+            }
+            
+            function onMouseUp() {
+              dragging = false;
+              
+              document.removeEventListener('mousemove', onMouseMove);
+              document.removeEventListener('mouseup', onMouseUp);
+            }
         </script>
     </body>
 </html>
