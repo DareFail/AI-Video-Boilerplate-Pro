@@ -35,8 +35,8 @@
                   <div>
                     <input type="file" id="step1" accept="application/pdf" onchange="showImage(event)">
                   </div>
-                  <div id="step1Button">
-                    <button onclick="runStep('1', '2', 'pdfToImagePages')">Convert PDF to Image</button>
+                  <div>
+                    <button id="step1Button" onclick="runStep('1', '2', 'pdfToImagePages')">Convert PDF Page 1 to Image</button>
                   </div>
                 </div>
                 <div id="runImageAll">
@@ -50,6 +50,9 @@
           {% include "./shared/footer.html" %}
         </div>
         <script>
+
+          var latestStep = 2;
+
           function showImage(event) {
             const file = event.target.files[0];
             if (file) {
@@ -66,8 +69,63 @@
             }
           }
 
+          function handleOption(outputStep) {
+            const select = document.getElementById("step" + outputStep + "Select");
+
+            if (select.value == "cropRotate" || select.value == "ocr") {
+              latestStep = latestStep + 1;
+            }
+
+            if (select.value == "cropRotate") {
+              // TODO
+              const newListItem = document.createElement('li');
+              var innerHTML = '<button id="step' + outputStep + 'Button" onclick="runStep(\'' + outputStep + '\', \'' + latestStep + '\', \'cropRotate\')">Run Crop & Rotate</button> ';
+              newListItem.innerHTML = innerHTML;
+              document.getElementById("step" + outputStep + "Final").appendChild(newListItem);
+            } else if (select.value == "ocr") {
+              const newListItem = document.createElement('li');
+              var innerHTML = '<button id="step' + outputStep + 'Button" onclick="runStep(\'' + outputStep + '\', \'' + latestStep + '\', \'ocr\')">Run OCR</button> ';
+              newListItem.innerHTML = innerHTML;
+              document.getElementById("step" + outputStep + "Final").appendChild(newListItem);
+            } else if (select.value == "next") {
+              const newListItem = document.createElement('li');
+              var innerHTML = '<select id="step' + outputStep + 'Next" onchange="">';
+              innerHTML = innerHTML + getOtherSteps();
+              innerHTML = innerHTML + '</select>';
+              newListItem.innerHTML = innerHTML;
+              document.getElementById("step" + outputStep + "Final").appendChild(newListItem);
+            }
+
+            document.getElementById('step' + outputStep + 'FinalContainer').style.display = "block";
+
+            select.selectedIndex = 0;
+          }
+
+          function getOtherSteps() {
+            let mainDiv = document.getElementById('mainContent');
+            let divs = mainDiv.getElementsByTagName('div');
+            let result = "";
+            for(let i=0; i<divs.length; i++){
+              let idNum = parseInt(divs[i].id.replace(/[^0-9]/g, ''));
+              if(!isNaN(idNum) && idNum > 2) {
+                result = result + '<option value="' + idNum + '>Next Step ' + idNum + '</option>';
+              }
+            }
+            if (result == "") {
+              result = "<option>N/A (Add more steps)</option>";
+            }
+            return result;
+          }
+
 
           async function runStep(inputStep, outputStep, command) {
+            document.getElementById("step" + inputStep + "Button").disabled = true;
+            document.getElementById("step" + inputStep + "Button").setAttribute('aria-busy', true);
+
+            if (document.getElementById("step" + outputStep + "Container") != null) {
+              document.getElementById("step" + outputStep + "Container").innerHTML = "";
+              document.getElementById("step" + outputStep + "Code").innerHTML = "";
+            }
 
             const formData = new FormData();
             formData.append("command", command);
@@ -76,6 +134,18 @@
                 const fileInput = document.getElementById("step" + inputStep);
                 const file = fileInput.files[0];
                 formData.append('file', file);
+              } else if(command == "ocr") {
+                const imageInput = document.getElementById("step" + inputStep).src;
+                formData.append('image', imageInput);
+              } else if(command == "cropRotate") {
+                const imageInput = document.getElementById("step" + inputStep).src;
+                formData.append('image', imageInput);
+                // todo
+                formData.append('x', x);
+                formData.append('y', y);
+                formData.append('width', width);
+                formData.append('height', height);
+                formData.append('rotation', rotation);
               }
               
               const response = await fetch("{% url 'runStep' %}", {
@@ -87,53 +157,143 @@
                   throw new Error('Network response was not ok');
               }
               const data = await response.json();
-              
-              // Add Step Section
-              const container = document.getElementById('mainContent');
-              const newDivContainer = document.createElement('div');
-              newDivContainer.id = "step" + outputStep + "Container";
-              newDivContainer.className = 'marginTop';
-              var innerHTML = '<div id="step2Container" class="marginTop">';
-              innerHTML = innerHTML + '<div>';
-              innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
-              if (command == "pdfToImagePages") {
-                innerHTML = innerHTML + '<div>PDF Page Image</div>';
-                innerHTML = innerHTML + '<img id="step' + outputStep + '" src="" />';
+
+              if (document.getElementById("step" + outputStep + "Container") != null) {
+                // Replace Step Section
+                var innerHTML = '<div id="step2Container" class="marginTop">';
+                if (command == "pdfToImagePages") {
+                  innerHTML = innerHTML + '<div>';
+                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                    innerHTML = innerHTML + '<div>PDF Page Image</div>';
+                    innerHTML = innerHTML + '<img id="step' + outputStep + '" src="" />';
+                  innerHTML = innerHTML + '</div>';
+                  innerHTML = innerHTML + 'Add:';
+                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                    innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
+                    innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
+                    innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
+                  innerHTML = innerHTML + '</select>';
+                } else if (command == "ocr") {
+                  innerHTML = innerHTML + '<div>';
+                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                    innerHTML = innerHTML + '<div>PDF Text</div>';
+                    innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
+                  innerHTML = innerHTML + '</div>';
+                  innerHTML = innerHTML + 'Add:';
+                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                  innerHTML = innerHTML + '</select>';
+                } else if (command == "cropRotate") {
+
+                  // todo
+                  innerHTML = innerHTML + '<div>';
+                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                    innerHTML = innerHTML + '<div>PDF Text</div>';
+                    innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
+                  innerHTML = innerHTML + '</div>';
+                  innerHTML = innerHTML + 'Add:';
+                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                  innerHTML = innerHTML + '</select>';
+                }
+                innerHTML = innerHTML + '</div>';
+                innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
+                document.getElementById("step" + outputStep + "Container").innerHTML = innerHTML;
+
+              } else {
+                // Add Step Section
+                const container = document.getElementById('mainContent');
+                const newDivContainer = document.createElement('div');
+                newDivContainer.id = "step" + outputStep + "Container";
+                newDivContainer.className = 'marginTop';
+                var innerHTML = '<div id="step2Container" class="marginTop">';
+                if (command == "pdfToImagePages") {
+                  innerHTML = innerHTML + '<div>';
+                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                    innerHTML = innerHTML + '<div>PDF Page Image</div>';
+                    innerHTML = innerHTML + '<img id="step' + outputStep + '" src="" />';
+                  innerHTML = innerHTML + '</div>';
+                  innerHTML = innerHTML + 'Add:';
+                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                    innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
+                    innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
+                    innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
+                  innerHTML = innerHTML + '</select>';
+                } else if (command == "ocr") {
+                  innerHTML = innerHTML + '<div>';
+                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                    innerHTML = innerHTML + '<div>PDF Text</div>';
+                    innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
+                  innerHTML = innerHTML + '</div>';
+                  innerHTML = innerHTML + 'Add:';
+                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                  innerHTML = innerHTML + '</select>';
+                } else if (command == "cropRotate") {
+                  // todo
+                  innerHTML = innerHTML + '<div>';
+                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                    innerHTML = innerHTML + '<div>PDF Text</div>';
+                    innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
+                  innerHTML = innerHTML + '</div>';
+                  innerHTML = innerHTML + 'Add:';
+                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                  innerHTML = innerHTML + '</select>';
+                }
+                innerHTML = innerHTML + '</div>';
+                innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
+                newDivContainer.innerHTML = innerHTML;
+                container.appendChild(newDivContainer);
               }
-              innerHTML = innerHTML + '</div>';
-              innerHTML = innerHTML + 'Next:';
-              innerHTML = innerHTML + '<select>';
-              innerHTML = innerHTML + '<option>Crop / Rotate</option>';
-              innerHTML = innerHTML + '<option>Get Text</option>';
-              innerHTML = innerHTML + '<option>Crop / Rotate</option>';
-              innerHTML = innerHTML + '</select>';
-              innerHTML = innerHTML + '</div>';
-              newDivContainer.innerHTML = innerHTML;
-              container.appendChild(newDivContainer);
 
 
-              // Add Code Block
-              const codeBlock = document.getElementById('codeBlock');
-              const newDivCodeblock = document.createElement('div');
-              newDivCodeblock.id = "step" + outputStep + 'Code';
-              newDivCodeblock.className = 'marginTop';
-              var innerHTML = "Step " + outputStep + ":<div><code>";
-              if(command == "pdfToImagePages") {
-                innerHTML = innerHTML + "result = pdfToImagePages(file, 1)";
+              if (document.getElementById("step" + outputStep + "Code") != null) {
+                var innerHTML = "Step " + outputStep + ":<div><code>";
+                if(command == "pdfToImagePages") {
+                  innerHTML = innerHTML + "result" + outputStep + " = pdfToImagePages(file=file, page_number=1)";
+                } else if (command == "ocr") {
+                  innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
+                } else if (command == "cropRotate") {
+                  // todo
+                  innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
+                }
+                innerHTML = innerHTML + "</code></div>";
+                document.getElementById("step" + outputStep + "Code").innerHTML = innerHTML;
+              } else {
+                // Add Code Block
+                const codeBlock = document.getElementById('codeBlock');
+                const newDivCodeblock = document.createElement('div');
+                newDivCodeblock.id = "step" + outputStep + 'Code';
+                newDivCodeblock.className = 'marginTop';
+                var innerHTML = "Step " + outputStep + ":<div><code>";
+                if(command == "pdfToImagePages") {
+                  innerHTML = innerHTML + "result" + outputStep + " = pdfToImagePages(file=file, page_number=1)";
+                } else if (command == "ocr") {
+                  innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
+                } else if (command == "cropRotate") {
+                  // todo
+                  innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
+                }
+                innerHTML = innerHTML + "</code></div>";
+                newDivCodeblock.innerHTML = innerHTML;
+                codeBlock.appendChild(newDivCodeblock);
               }
-              innerHTML = innerHTML + "</code></div>";
-              newDivCodeblock.innerHTML = innerHTML;
-              codeBlock.appendChild(newDivCodeblock);
 
 
               // Add Result
-              if(command == "pdfToImagePages") {
+              if(command == "pdfToImagePages" || command == "cropRotate") {
                 const img = document.getElementById("step" + outputStep);
                 img.src = data.result;
-              } else {
-                //const textarea = document.getElementById("step2");
-                //textarea.value = data.texts[0];
+              } else if(command == "ocr") {
+                const textarea = document.getElementById("step" + outputStep);
+                textarea.value = data.result;
               }
+
+              document.getElementById("step" + inputStep + "Button").setAttribute('aria-busy', false);
+              document.getElementById("step" + inputStep + "Button").disabled = false;
               
           }
         </script>
