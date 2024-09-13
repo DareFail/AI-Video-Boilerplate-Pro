@@ -73,7 +73,7 @@
           }
 
           function handleOption(outputStep) {
-            const select = document.getElementById("step" + outputStep + "Select");
+            var select = document.getElementById("step" + outputStep + "Select");
 
             buttonCount = buttonCount + 1;
 
@@ -83,7 +83,7 @@
 
             if (select.value == "cropRotate") {
               const newListItem = document.createElement('li');
-              var innerHTML = '<button id="step' + buttonCount + 'Button" onclick="runStep(\'' + outputStep + '\', \'' + latestStep + '\', \'cropRotate\', \'' + buttonCount + '\')">Run Crop & Rotate</button> ';
+              var innerHTML = '<button class="runButtonCrop" id="step' + buttonCount + 'Button" onclick="runStep(\'' + outputStep + '\', \'' + latestStep + '\', \'cropRotate\', \'' + buttonCount + '\')">Run Crop & Rotate</button> ';
               innerHTML = innerHTML + '<input id="step' + buttonCount + 'X" type="number" min="0" step="1" placeholder="x" />';
               innerHTML = innerHTML + '<input id="step' + buttonCount + 'Y" type="number" min="0" step="1" placeholder="y" />';
               innerHTML = innerHTML + '<input id="step' + buttonCount + 'Width" type="number" min="1" step="1" placeholder="width" />';
@@ -127,7 +127,7 @@
           }
 
 
-          async function runStep(inputStep, outputStep, command, buttonCount) {
+          function runStep(inputStep, outputStep, command, buttonCount) {
             document.getElementById("step" + buttonCount + "Button").disabled = true;
             document.getElementById("step" + buttonCount + "Button").setAttribute('aria-busy', true);
 
@@ -189,126 +189,129 @@
                 formData.append('rotation', rotation);
               }
               
-              const response = await fetch("{% url 'runStep' %}", {
+              fetch("{% url 'runStep' %}", {
                   method: 'POST',
                   body: formData,
-              });
+              }).then((response) => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json(); // return promise from here
+              }).then((data) => {
+                if (document.getElementById("step" + outputStep + "Container") != null) {
+                  // Replace Step Section
+                  var innerHTML = '';
+                  if (command == "pdfToImagePages" || command == "cropRotate" ) {
+                    innerHTML = innerHTML + '<div>';
+                      innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                      innerHTML = innerHTML + '<div>PDF Page Image</div>';
+                      innerHTML = innerHTML + '<div class="canvasContainer"><img id="step' + outputStep + '" src="" />';
+                    innerHTML = innerHTML + '</div></div>';
+                    innerHTML = innerHTML + 'Add:';
+                    innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                      innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                      innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
+                      innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
+                      innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
+                    innerHTML = innerHTML + '</select>';
+                  } else if (command == "ocr") {
+                    innerHTML = innerHTML + '<div>';
+                      innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                      innerHTML = innerHTML + '<div>PDF Text</div>';
+                      innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
+                    innerHTML = innerHTML + '</div>';
+                    innerHTML = innerHTML + 'Add:';
+                    innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                      innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                    innerHTML = innerHTML + '</select>';
+                  }
+                  innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
+                  document.getElementById("step" + outputStep + "Container").innerHTML = innerHTML;
+
+                } else {
+                  // Add Step Section
+                  const container = document.getElementById('mainContent');
+                  const newDivContainer = document.createElement('div');
+                  newDivContainer.id = "step" + outputStep + "Container";
+                  newDivContainer.className = 'marginTop';
+                  var innerHTML = '';
+                  if (command == "pdfToImagePages" || command == "cropRotate") {
+                    innerHTML = innerHTML + '<div>';
+                      innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                      innerHTML = innerHTML + '<div>PDF Page Image</div>';
+                      innerHTML = innerHTML + '<div class="canvasContainer"><img id="step' + outputStep + '" src="" />';
+                    innerHTML = innerHTML + '</div></div>';
+                    innerHTML = innerHTML + 'Add:';
+                    innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                      innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                      innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
+                      innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
+                      innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
+                    innerHTML = innerHTML + '</select>';
+                  } else if (command == "ocr") {
+                    innerHTML = innerHTML + '<div>';
+                      innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                      innerHTML = innerHTML + '<div>PDF Text</div>';
+                      innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
+                    innerHTML = innerHTML + '</div>';
+                    innerHTML = innerHTML + 'Add:';
+                    innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                      innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                    innerHTML = innerHTML + '</select>';
+                  }
+                  innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
+                  newDivContainer.innerHTML = innerHTML;
+                  container.appendChild(newDivContainer);
+                }
+
+
+                if (document.getElementById("step" + outputStep + "Code") != null) {
+                  var innerHTML = "Step " + outputStep + ":<div><code>";
+                  if(command == "pdfToImagePages") {
+                    innerHTML = innerHTML + "result" + outputStep + " = pdfToImagePages(file='" + fileName + "', page_number=1)";
+                  } else if (command == "ocr") {
+                    innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
+                  } else if (command == "cropRotate") {
+                    innerHTML = innerHTML + "result" + outputStep + " = cropRotateImage(file=result" + inputStep + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", rotation_degrees=" + rotation + ", expand_for_rotation=True)";
+                  }
+                  innerHTML = innerHTML + "</code></div>";
+                  document.getElementById("step" + outputStep + "Code").innerHTML = innerHTML;
+                } else {
+                  // Add Code Block
+                  const codeBlock = document.getElementById('codeBlock');
+                  const newDivCodeblock = document.createElement('div');
+                  newDivCodeblock.id = "step" + outputStep + 'Code';
+                  newDivCodeblock.className = 'marginTop';
+                  var innerHTML = "Step " + outputStep + ":<div><code>";
+                  if(command == "pdfToImagePages") {
+                    innerHTML = innerHTML + "result" + outputStep + " = pdfToImagePages(file='" + fileName + "', page_number=1)";
+                  } else if (command == "ocr") {
+                    innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
+                  } else if (command == "cropRotate") {
+                    innerHTML = innerHTML + "result" + outputStep + " = cropRotateImage(file=result" + inputStep + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", rotation_degrees=" + rotation + ", expand_for_rotation=True)";
+                  }
+                  innerHTML = innerHTML + "</code></div>";
+                  newDivCodeblock.innerHTML = innerHTML;
+                  codeBlock.appendChild(newDivCodeblock);
+                }
+
+
+                // Add Result
+                if(command == "pdfToImagePages" || command == "cropRotate") {
+                  const img = document.getElementById("step" + outputStep);
+                  img.src = data.result;
+                  img.onload = function() {
+                    drawCrop(outputStep);
+                  }
+
+                } else if(command == "ocr") {
+                  const textarea = document.getElementById("step" + outputStep);
+                  textarea.value = data.result;
+                }
+
+                document.getElementById("step" + buttonCount + "Button").setAttribute('aria-busy', false);
+                document.getElementById("step" + buttonCount + "Button").disabled = false;
+
               
-              if (!response.ok) {
-                  throw new Error('Network response was not ok');
-              }
-              const data = await response.json();
-
-              if (document.getElementById("step" + outputStep + "Container") != null) {
-                // Replace Step Section
-                var innerHTML = '';
-                if (command == "pdfToImagePages" || command == "cropRotate" ) {
-                  innerHTML = innerHTML + '<div>';
-                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
-                    innerHTML = innerHTML + '<div>PDF Page Image</div>';
-                    innerHTML = innerHTML + '<img id="step' + outputStep + '" src="" />';
-                  innerHTML = innerHTML + '</div>';
-                  innerHTML = innerHTML + 'Add:';
-                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
-                    innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
-                    innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
-                    innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
-                  innerHTML = innerHTML + '</select>';
-                } else if (command == "ocr") {
-                  innerHTML = innerHTML + '<div>';
-                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
-                    innerHTML = innerHTML + '<div>PDF Text</div>';
-                    innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
-                  innerHTML = innerHTML + '</div>';
-                  innerHTML = innerHTML + 'Add:';
-                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
-                  innerHTML = innerHTML + '</select>';
-                }
-                innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
-                document.getElementById("step" + outputStep + "Container").innerHTML = innerHTML;
-
-              } else {
-                // Add Step Section
-                const container = document.getElementById('mainContent');
-                const newDivContainer = document.createElement('div');
-                newDivContainer.id = "step" + outputStep + "Container";
-                newDivContainer.className = 'marginTop';
-                var innerHTML = '';
-                if (command == "pdfToImagePages" || command == "cropRotate") {
-                  innerHTML = innerHTML + '<div>';
-                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
-                    innerHTML = innerHTML + '<div>PDF Page Image</div>';
-                    innerHTML = innerHTML + '<img id="step' + outputStep + '" src="" />';
-                  innerHTML = innerHTML + '</div>';
-                  innerHTML = innerHTML + 'Add:';
-                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
-                    innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
-                    innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
-                    innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
-                  innerHTML = innerHTML + '</select>';
-                } else if (command == "ocr") {
-                  innerHTML = innerHTML + '<div>';
-                    innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
-                    innerHTML = innerHTML + '<div>PDF Text</div>';
-                    innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
-                  innerHTML = innerHTML + '</div>';
-                  innerHTML = innerHTML + 'Add:';
-                  innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                    innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
-                  innerHTML = innerHTML + '</select>';
-                }
-                innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
-                newDivContainer.innerHTML = innerHTML;
-                container.appendChild(newDivContainer);
-              }
-
-
-              if (document.getElementById("step" + outputStep + "Code") != null) {
-                var innerHTML = "Step " + outputStep + ":<div><code>";
-                if(command == "pdfToImagePages") {
-                  innerHTML = innerHTML + "result" + outputStep + " = pdfToImagePages(file='" + fileName + "', page_number=1)";
-                } else if (command == "ocr") {
-                  innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
-                } else if (command == "cropRotate") {
-                  innerHTML = innerHTML + "result" + outputStep + " = cropRotateImage(file=result" + inputStep + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", rotation_degrees=" + rotation + ", expand_for_rotation=True)";
-                }
-                innerHTML = innerHTML + "</code></div>";
-                document.getElementById("step" + outputStep + "Code").innerHTML = innerHTML;
-              } else {
-                // Add Code Block
-                const codeBlock = document.getElementById('codeBlock');
-                const newDivCodeblock = document.createElement('div');
-                newDivCodeblock.id = "step" + outputStep + 'Code';
-                newDivCodeblock.className = 'marginTop';
-                var innerHTML = "Step " + outputStep + ":<div><code>";
-                if(command == "pdfToImagePages") {
-                  innerHTML = innerHTML + "result" + outputStep + " = pdfToImagePages(file='" + fileName + "', page_number=1)";
-                } else if (command == "ocr") {
-                  innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
-                } else if (command == "cropRotate") {
-                  innerHTML = innerHTML + "result" + outputStep + " = cropRotateImage(file=result" + inputStep + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", rotation_degrees=" + rotation + ", expand_for_rotation=True)";
-                }
-                innerHTML = innerHTML + "</code></div>";
-                newDivCodeblock.innerHTML = innerHTML;
-                codeBlock.appendChild(newDivCodeblock);
-              }
-
-
-              // Add Result
-              if(command == "pdfToImagePages" || command == "cropRotate") {
-                const img = document.getElementById("step" + outputStep);
-                img.src = data.result;
-              } else if(command == "ocr") {
-                const textarea = document.getElementById("step" + outputStep);
-                textarea.value = data.result;
-              }
-
-              document.getElementById("step" + buttonCount + "Button").setAttribute('aria-busy', false);
-              document.getElementById("step" + buttonCount + "Button").disabled = false;
-              
+              }).catch((error) => console.error('Error:', error));
           }
         </script>
 
@@ -348,6 +351,77 @@
               document.removeEventListener('mousemove', onMouseMove);
               document.removeEventListener('mouseup', onMouseUp);
             }
+
+            function drawCrop(imageStep) {
+
+              const img = document.getElementById("step" + imageStep);
+              const imgRect = img.getBoundingClientRect();
+
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              canvas.width = img.width;
+              canvas.height = img.height;
+              canvas.style.position = 'absolute';
+              canvas.style.left = '0px';
+              canvas.style.top = '0px';
+
+              img.parentNode.insertBefore(canvas, img);
+
+              let rect = {startX: 0, startY: 0, w: 0, h: 0};
+
+              let isMouseDown = false;
+
+              let startX, startY;
+
+              canvas.addEventListener('mousedown', function(e) {
+                isMouseDown = true;
+
+                startX = e.offsetX;
+                startY = e.offsetY;
+              }, false);
+
+              canvas.addEventListener('mouseup', function() {
+                  isMouseDown = false;
+
+                  document.getElementById("step" + imageStep + "Select").selectedIndex = 1;
+
+                  handleOption(imageStep);
+
+                  const buttonId = buttonCount;
+                  
+                  document.getElementById("step" + buttonId + "X").value = Math.round(rect.startX);
+                  document.getElementById("step" + buttonId + "Y").value = Math.round(rect.startY);
+                  document.getElementById("step" + buttonId + "Width").value = Math.round(rect.w);
+                  document.getElementById("step" + buttonId + "Height").value = Math.round(rect.h);
+                  document.getElementById("step" + buttonId + "Rotation").value = 0;
+
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+              }, false);
+
+              canvas.addEventListener('mousemove', function(e) {
+  if (isMouseDown) {
+    const mouseX = e.offsetX;
+    const mouseY = e.offsetY;
+
+    // Calculate width & height (absolute distance between start and current point)
+    const width = Math.abs(mouseX - startX) || 1; // Add 1 to avoid zero width
+    const height = Math.abs(mouseY - startY) || 1; // Add 1 to avoid zero height
+
+    // Calculate positions for drawing rectangle
+    rect.startX = mouseX < startX ? mouseX : startX;
+    rect.startY = mouseY < startY ? mouseY : startY;
+
+    rect.w = width;
+    rect.h = height;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
+  }
+}, false);
+          }
         </script>
     </body>
 </html>
