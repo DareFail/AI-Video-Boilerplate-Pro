@@ -12,7 +12,6 @@
         
           <div>
             <h1>Delete Your PDF</h1>
-            <h3>WARNING: Under active development</h3>
 
             <div role="group" id="container">
               <div id="leftNav">
@@ -376,8 +375,12 @@
               canvas.addEventListener('mousedown', function(e) {
                 isMouseDown = true;
 
-                startX = e.offsetX;
-                startY = e.offsetY;
+                let scaleFactorX = img.naturalWidth / img.width;
+                let scaleFactorY = img.naturalHeight / img.height;
+
+                startX = e.offsetX * scaleFactorX;
+                startY = e.offsetY * scaleFactorY;
+
               }, false);
 
               canvas.addEventListener('mouseup', function() {
@@ -399,28 +402,30 @@
 
               }, false);
 
+              
+
               canvas.addEventListener('mousemove', function(e) {
-  if (isMouseDown) {
-    const mouseX = e.offsetX;
-    const mouseY = e.offsetY;
+                if (isMouseDown) {
+                  let scaleFactorX = img.naturalWidth / img.width;
+                  let scaleFactorY = img.naturalHeight / img.height;
 
-    // Calculate width & height (absolute distance between start and current point)
-    const width = Math.abs(mouseX - startX) || 1; // Add 1 to avoid zero width
-    const height = Math.abs(mouseY - startY) || 1; // Add 1 to avoid zero height
+                  const mouseX = e.offsetX * scaleFactorX;
+                  const mouseY = e.offsetY * scaleFactorY;
 
-    // Calculate positions for drawing rectangle
-    rect.startX = mouseX < startX ? mouseX : startX;
-    rect.startY = mouseY < startY ? mouseY : startY;
+                  const width = Math.abs(mouseX - startX) || 1;
+                  const height = Math.abs(mouseY - startY) || 1;
 
-    rect.w = width;
-    rect.h = height;
+                  rect.startX = mouseX < startX ? mouseX : startX;
+                  rect.startY = mouseY < startY ? mouseY : startY;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                  rect.w = width;
+                  rect.h = height;
 
-    ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-    ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
-  }
-}, false);
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+                  ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+                  ctx.fillRect(rect.startX / scaleFactorX, rect.startY / scaleFactorY, rect.w / scaleFactorX, rect.h / scaleFactorY);
+                }
+              }, false);
           }
         </script>
     </body>
