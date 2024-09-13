@@ -34,6 +34,20 @@ def runStep(request):
             return JsonResponse({
                 "result": text,
             })
+        
+        elif command == "cropRotate":
+            image = request.POST.get('image', '')
+            x = int(request.POST.get('x', 0))
+            y = int(request.POST.get('y', 0))
+            width = int(request.POST.get('width', 1))
+            height = int(request.POST.get('height', 1))
+            rotation = int(request.POST.get('rotation', 0))
+
+            croppedAndRotatedImage = cropRotateImage(file=image, x=x, y=y, width=width, height=height, rotation_degrees=rotation, expand_for_rotation=True)
+
+            return JsonResponse({
+                "result": croppedAndRotatedImage,
+            })
 
         
     else:
