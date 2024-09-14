@@ -50,7 +50,7 @@ This is a template for putting multiple django websites into a single codebase t
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/yourusername/AI-Video-Boilerplate-Pro.git
+   git clone https://github.com/darefail/AI-Video-Boilerplate-Pro.git
    cd AI-Video-Boilerplate-Pro
    ```
 2. Install Docker
