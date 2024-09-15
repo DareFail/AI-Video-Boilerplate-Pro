@@ -5,7 +5,7 @@ from django.conf import settings
 
 from ..utils import get_app_directory
 from .slack import send_slack, send_slack_exception
-from .marketing.forms import ContactForm
+from ..forms import ContactForm
 
 
 @shared_task

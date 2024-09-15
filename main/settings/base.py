@@ -232,8 +232,6 @@ OPEN_AI_KEY = os.getenv("OPEN_AI_KEY", "")
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", "")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", "")
 
-COMPRESS_ENABLED = os.getenv("COMPRESS_ENABLED", True)
-
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Django sites, we are completely ignoring this
@@ -260,11 +258,6 @@ else:
     USE_HTTPS_IN_ABSOLUTE_URLS = True
 
 SMARKETMAN_LINK = os.getenv("SMARKETMAN_LINK", "False") == "True"
-
-ADMINS = [("ADMIN", os.environ.get("ADMIN_EMAIL", ""))]
-
-VIRTUAL_DOMAINS = []
-VIRTUAL_APPS = []
 
 if LOCAL_DEV and not DEBUG:
     ALLOWED_HOSTS = ["*"]

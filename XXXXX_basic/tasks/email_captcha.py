@@ -8,7 +8,7 @@ from google.oauth2 import service_account
 from ..utils import get_app_directory
 from .slack import send_slack
 from .email import sendGridSignup
-from .marketing.forms import ContactForm
+from ..forms import ContactForm
 
 
 @shared_task
