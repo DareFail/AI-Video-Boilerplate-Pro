@@ -59,7 +59,7 @@ COMMON = [
 ]
 
 APPS = [
-    "homepage.apps.homepageConfig",
+    "homepage.apps.HomepageConfig",
     "rateloaf.apps.RateloafConfig",
     "pdf.apps.PdfConfig",
     "XXXXX_basic.apps.XXXXX_basicConfig",
