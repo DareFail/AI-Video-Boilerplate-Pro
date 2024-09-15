@@ -10,7 +10,10 @@
     <form id="emailForm" action="" method="post">
         {% csrf_token %}
         {% render_text_input form.email %}
-        <button class="g-recaptcha" data-sitekey="{{ captcha }}" data-callback='onSubmit' data-action='submit'>Submit</button>
+        <button class="g-recaptcha"
+                data-sitekey="{{ captcha }}"
+                data-callback='onSubmit'
+                data-action='submit'>Submit</button>
     </form>
 {% else %}
     Thanks!

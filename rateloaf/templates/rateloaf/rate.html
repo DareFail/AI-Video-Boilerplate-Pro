@@ -2,9 +2,7 @@
 {% load static_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% include "./shared/head.html" %}
-    </head>
+    <head>{% include "./shared/head.html" %}</head>
     <body>
         {% include "./shared/notifications.html" %}
         <div class="pico container">
@@ -23,12 +21,15 @@
                         </div>
                         <div>
                             or just <a class="twitter-share-button"
-                                href="https://twitter.com/intent/tweet?text=My cat got is a beautiful {{ title }} @darefailed https://rateloaf.com/rate/{{ loaf.unique_name }}/">
+    href="https://twitter.com/intent/tweet?text=My cat got is a beautiful {{ title }} @darefailed https://rateloaf.com/rate/{{ loaf.unique_name }}/">
                         Tweet me your loaf</a>
+                        </div>
                     </div>
                 </div>
                 <div class="marginTop">
-                    <a href="https://rateloaf.com"><button>Rate Another</button></a>
+                    <a href="https://rateloaf.com">
+                        <button>Rate Another</button>
+                    </a>
                 </div>
                 <div class="marginTop">
                     {% if loaf.only_cat_filter == 0 %}
@@ -41,7 +42,7 @@
                                 <img src="{{ loaf.image_url_blemish_2 }}" alt="">
                                 <div class="blemish">
                                     <img alt=""
-                                            src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
+                                         src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
                                 </div>
                             </div>
                         {% else %}
@@ -50,7 +51,7 @@
                                     <img src="{{ loaf.image_url_blemish_1 }}" alt="">
                                     <div class="blemish">
                                         <img alt=""
-                                                src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
+                                             src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
                                     </div>
                                 </div>
                             {% else %}
@@ -77,7 +78,7 @@
                                 <img src="{{ loaf.image_url_blemish_2 }}" alt="">
                                 <div class="blemish">
                                     <img alt=""
-                                            src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
+                                         src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
                                 </div>
                             </div>
                         {% else %}
@@ -86,7 +87,7 @@
                                     <img src="{{ loaf.image_url_blemish_1 }}" alt="">
                                     <div class="blemish">
                                         <img alt=""
-                                                src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
+                                             src="{% static 'images/stamp.png'|local_static:APP_DIRECTORY %}">
                                     </div>
                                 </div>
                             {% else %}
@@ -110,6 +111,6 @@
                 </div>
             </div>
         </div>
-    {% include "./shared/footer.html" %}
+        {% include "./shared/footer.html" %}
     </body>
 </html>

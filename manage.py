@@ -21,6 +21,7 @@ class StatusLogKiller(logging.Filter):
             0 if any(re.search(x, record.args[0]) for x in self.items) else 1
         )
 
+
 django_server_logger.addFilter(StatusLogKiller(["GET /a/.*/status/.*/"]))
 
 

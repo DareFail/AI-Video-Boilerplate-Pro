@@ -5,4 +5,10 @@ from .models import CatLoaf
 
 @admin.register(CatLoaf)
 class CatLoafAdmin(admin.ModelAdmin):
-    list_display = ["id", "unique_name", "description", "is_rated", "is_rating"]
+    list_display = [
+        "id",
+        "unique_name",
+        "description",
+        "is_rated",
+        "is_rating",
+    ]

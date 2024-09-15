@@ -1,33 +1,21 @@
 {% load group_tags %}
 <div>
-
     <h6>My Account</h6>
     <div>
-        <a href="{% url 'change_email' %}">
-            Change Email
-        </a>
+        <a href="{% url 'change_email' %}">Change Email</a>
     </div>
-
     {% if user.has_usable_password %}
         <div>
-            <a href="{% url 'account_change_password' %}">
-                Change Password
-            </a>
+            <a href="{% url 'account_change_password' %}">Change Password</a>
         </div>
     {% endif %}
-
     <div>
-        <a href="{% url 'account_logout' %}" >
-            Sign out
-        </a>
+        <a href="{% url 'account_logout' %}">Sign out</a>
     </div>
-
     {% if user.is_superuser %}
         <h6 class="marginTop">SuperAdmin</h6>
         <div>
-            <a href="{% url 'hijack' %}">
-                Impersonate
-            </a>
+            <a href="{% url 'hijack' %}">Impersonate</a>
         </div>
     {% endif %}
 </div>

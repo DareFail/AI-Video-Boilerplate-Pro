@@ -2,31 +2,20 @@
 {% load static_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% include "./shared/head.html" %}
-    </head>
+    <head>{% include "./shared/head.html" %}</head>
     <body>
         {% include "./shared/notifications.html" %}
         <div class="container">
-          {% include "./shared/top_nav.html" %}
-        
-          <div>
-            <h1>Websocket Chat Template</h1>
-
+            {% include "./shared/top_nav.html" %}
             <div>
-                What chat room would you like to enter?
+                <h1>Websocket Chat Template</h1>
+                <div>What chat room would you like to enter?</div>
+                <input id="room-name-input" type="text" size="100">
+                <input id="room-name-submit" type="button" value="Enter">
             </div>
-            
-            <input id="room-name-input" type="text" size="100">
-            
-            <input id="room-name-submit" type="button" value="Enter">
-            
-          </div>
-
-          {% include "./shared/footer.html" %}
+            {% include "./shared/footer.html" %}
         </div>
     </body>
-    
     <script>
         document.querySelector('#room-name-input').focus();
         document.querySelector('#room-name-input').onkeyup = function (e) {
@@ -41,7 +30,3 @@
         };
     </script>
 </html>
-
-
-
-    

@@ -2,37 +2,26 @@
 {% load static_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% include "./shared/head.html" %}
-    </head>
+    <head>{% include "./shared/head.html" %}</head>
     <body>
         {% include "./shared/notifications.html" %}
         <div class="container">
-          {% include "./shared/top_nav.html" %}
-        
-          <div>
-            <h1>AI Video Boilerplate Pro</h1>
-
-            <h3>List of Demos</h3>
-
+            {% include "./shared/top_nav.html" %}
             <div>
-              <ul>
-                <li>
-                  <a href="https://rateloaf.com/">Rateloaf.com</a> - Rate how well cats sit like bread with OpenAI GPT4v, Roboflow workflows, and images uploaded to Amazon S3 in a celery task.
-                </li>
-                <li>
-                  <a href="https://handland.lol/">HandLand.lol</a> - Create live AI multiplayer games using WebRTC, Websockets, and Roboflow for AI vision models.
-                </li>
-              </ul>
+                <h1>AI Video Boilerplate Pro</h1>
+                <h3>List of Demos</h3>
+                <div>
+                    <ul>
+                        <li>
+                            <a href="https://rateloaf.com/">Rateloaf.com</a> - Rate how well cats sit like bread with OpenAI GPT4v, Roboflow workflows, and images uploaded to Amazon S3 in a celery task.
+                        </li>
+                        <li>
+                            <a href="https://handland.lol/">HandLand.lol</a> - Create live AI multiplayer games using WebRTC, Websockets, and Roboflow for AI vision models.
+                        </li>
+                    </ul>
+                </div>
             </div>
-        
-          </div>
-
-          {% include "./shared/footer.html" %}
+            {% include "./shared/footer.html" %}
         </div>
     </body>
 </html>
-
-
-
-    

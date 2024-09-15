@@ -12,13 +12,9 @@
 <meta property="og:site_name" content="{{ HOST }}" />
 <link rel="canonical" href="https://{{ HOST }}">
 {% include "./favicon.html" %}
-
-{% if captcha %}
-      <script src="https://www.google.com/recaptcha/enterprise.js?render={{ captcha }}"></script>
-{% endif %}
-
+{% if captcha %}<script src="https://www.google.com/recaptcha/enterprise.js?render={{ captcha }}"></script>{% endif %}
 {% if SMARKETMAN_LINK %}
-      <script type="text/javascript">
+    <script type="text/javascript">
             (function(){
                   var randomh=Math.random();
                   var e = document.getElementsByTagName("script")[0];
@@ -29,7 +25,7 @@
                   d.defer = true;
                   e.parentNode.insertBefore(d,e);
             })();
-      </script>
+    </script>
 {% endif %}
 <script src="{% static 'js/fontawesome/solid.js'|local_static:APP_DIRECTORY %}"></script>
 <script src="{% static 'js/fontawesome/fontawesome.js'|local_static:APP_DIRECTORY %}"></script>
@@ -44,7 +40,7 @@
       gtag('config', '{{ GOOGLE_ANALYTICS_ID  }}');
     </script>
 {% endif %}
-
-<link rel="stylesheet" href="{% static 'css/pico.min.css'|local_static:APP_DIRECTORY %}" />
-<link rel="stylesheet" href="{% static 'css/styles.css'|local_static:APP_DIRECTORY %}" />
-
+<link rel="stylesheet"
+      href="{% static 'css/pico.min.css'|local_static:APP_DIRECTORY %}" />
+<link rel="stylesheet"
+      href="{% static 'css/styles.css'|local_static:APP_DIRECTORY %}" />

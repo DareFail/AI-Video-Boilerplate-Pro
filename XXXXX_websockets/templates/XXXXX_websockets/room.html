@@ -2,33 +2,21 @@
 {% load static_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% include "./shared/head.html" %}
-    </head>
+    <head>{% include "./shared/head.html" %}</head>
     <body>
         {% include "./shared/notifications.html" %}
         <div class="container">
-          {% include "./shared/top_nav.html" %}
-        
-          <div>
-            <h1>Chat Room</h1>
-
-            <textarea id="chat-log" cols="100" rows="20"></textarea>
-
-            <input id="chat-message-input" type="text" size="100">
-
-            <input id="chat-message-submit" type="button" value="Send">
-            
+            {% include "./shared/top_nav.html" %}
             <div>
-                {{ room_name|json_script:"room-name" }}
+                <h1>Chat Room</h1>
+                <textarea id="chat-log" cols="100" rows="20"></textarea>
+                <input id="chat-message-input" type="text" size="100">
+                <input id="chat-message-submit" type="button" value="Send">
+                <div>{{ room_name|json_script:"room-name" }}</div>
             </div>
-        
-          </div>
-
-          {% include "./shared/footer.html" %}
+            {% include "./shared/footer.html" %}
         </div>
     </body>
-
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
@@ -66,7 +54,3 @@
         };
     </script>
 </html>
-
-
-
-    

@@ -2,54 +2,47 @@
 {% load static_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% include "./shared/head.html" %}
-    </head>
+    <head>{% include "./shared/head.html" %}</head>
     <body>
         {% include "./shared/notifications.html" %}
         <div class="container">
-          {% include "./shared/top_nav.html" %}
-        
-          <div>
-            <h1>Delete Your PDF</h1>
-
-            <div role="group" id="container">
-              <div id="leftNav">
-                <div class="scroll-container">
-                  <div id="codeBlock" class="scrollable-content">
-                    <h3>Code (Python)</h3>
-                    <div>
-                      Step 1 Install:
+            {% include "./shared/top_nav.html" %}
+            <div>
+                <h1>Delete Your PDF</h1>
+                <div role="group" id="container">
+                    <div id="leftNav">
+                        <div class="scroll-container">
+                            <div id="codeBlock" class="scrollable-content">
+                                <h3>Code (Python)</h3>
+                                <div>Step 1 Install:</div>
+                                <div>
+                                    <code>pip install delete-your-pdf</code>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                      <code>pip install delete-your-pdf</code>
+                    <div class="marginTop" id="mainContent">
+                        <div id="step1Container">
+                            <h3>Step 1</h3>
+                            <div>
+                                <input type="file"
+                                       id="step1"
+                                       accept="application/pdf"
+                                       onchange="showImage(event)">
+                            </div>
+                            <div>
+                                <button id="step1Button" onclick="runStep('1', '2', 'pdfToImagePages', '1')">Convert PDF Page 1 to Image</button>
+                            </div>
+                        </div>
+                        <div id="runImageAll">
+                            <button>Run all pages</button>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-
-              <div class="marginTop" id="mainContent">
-                <div id="step1Container">
-                  <h3>Step 1</h3>
-                  <div>
-                    <input type="file" id="step1" accept="application/pdf" onchange="showImage(event)">
-                  </div>
-                  <div>
-                    <button id="step1Button" onclick="runStep('1', '2', 'pdfToImagePages', '1')">Convert PDF Page 1 to Image</button>
-                  </div>
-                </div>
-                <div id="runImageAll">
-                  <button>Run all pages</button>
-                </div>
-              </div>
-
             </div>
-          </div>
-
-          {% include "./shared/footer.html" %}
+            {% include "./shared/footer.html" %}
         </div>
         <script>
-
           var latestStep = 2;
           var buttonCount = 1;
           var fileName = "file.pdf";
@@ -116,11 +109,7 @@
             for(let i=0; i<divs.length; i++){
               let idNum = parseInt(divs[i].id.replace(/[^0-9]/g, ''));
               if(!isNaN(idNum) && idNum > 2) {
-                result = result + '<option value="' + idNum + '>Next Step ' + idNum + '</option>';
-              }
-            }
-            if (result == "") {
-              result = "<option>N/A (Add more steps)</option>";
+                result = result + '<option value="' + idNum + '>Next Step ' + idNum + '</option>'; } } if (result == "") { result = "<option>N/A (Add more steps)</option>";
             }
             return result;
           }
@@ -206,7 +195,7 @@
                     innerHTML = innerHTML + '</div></div>';
                     innerHTML = innerHTML + 'Add:';
                     innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                      innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                      innerHTML = innerHTML + '<option value="selectOption">(Select Option)</option>';
                       innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
                       innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
                       //innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
@@ -219,7 +208,7 @@
                     innerHTML = innerHTML + '</div>';
                     innerHTML = innerHTML + 'Add:';
                     innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                      innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                      innerHTML = innerHTML + '<option value="selectOption">(Select Option)</option>';
                     innerHTML = innerHTML + '</select>';
                   }
                   innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
@@ -240,7 +229,7 @@
                     innerHTML = innerHTML + '</div></div>';
                     innerHTML = innerHTML + 'Add:';
                     innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                      innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                      innerHTML = innerHTML + '<option value="selectOption">(Select Option)</option>';
                       innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
                       innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
                       //innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
@@ -253,7 +242,7 @@
                     innerHTML = innerHTML + '</div>';
                     innerHTML = innerHTML + 'Add:';
                     innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                      innerHTML = innerHTML + '<option  value="selectOption">(Select Option)</option>';
+                      innerHTML = innerHTML + '<option value="selectOption">(Select Option)</option>';
                     innerHTML = innerHTML + '</select>';
                   }
                   innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
@@ -313,7 +302,6 @@
               }).catch((error) => console.error('Error:', error));
           }
         </script>
-
         <script>
             var container = document.getElementById('container');
             var leftNav = document.getElementById('leftNav');

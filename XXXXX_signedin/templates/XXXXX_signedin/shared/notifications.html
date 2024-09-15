@@ -1,18 +1,15 @@
 {% if messages %}
-    {% for notification in messages %}  
+    {% for notification in messages %}
         <nav class="notificationBackground notificationBackground-{% if notification.tags %}{{ notification.level_tag }}{% endif %}">
             <ul>
-            <li class="notificationMessage">
-                test
-            </li>
-            </ul>    
+                <li class="notificationMessage">test</li>
+            </ul>
             <ul class="topNavRight">
                 <li class="notificationExit">X</li>
             </ul>
         </nav>
     {% endfor %}
 {% endif %}
-
 <script>
     var exits = document.getElementsByClassName('topNavRight');
 

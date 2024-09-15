@@ -47,7 +47,8 @@ def rateloaf(request, unique_name):
     else:
         if not rateloaf.is_rated:
             messages.error(
-                request, "Your cat loaf may have been too chonky, check back in a few meowments"
+                request,
+                "Your cat loaf may have been too chonky, check back in a few meowments",
             )
             return render_with_appname(request, "index.html")
 
@@ -95,7 +96,6 @@ def sign_s3(request):
                 ExpiresIn=3600,
             )
 
-
             while True:
                 try:
                     CatLoaf.objects.create(
@@ -107,7 +107,6 @@ def sign_s3(request):
 
                 except Exception as e:
                     print("Error: ", str(e))
-
 
             return JsonResponse(
                 {
