@@ -27,6 +27,12 @@ def runStep(request):
         command = request.POST.get("command", "")
 
         if command == "pdfToImagePages":
+
+            if "file" not in request.FILES:
+                return JsonResponse(
+                    {"error": "No file uploaded"}, status=400
+                )
+            
             file = request.FILES["file"].file
 
             listOfImagePages = pdfToImagePages(file=file, page_number=1)
