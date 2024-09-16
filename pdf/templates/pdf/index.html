@@ -39,6 +39,12 @@
                         </div>
                     </div>
                 </div>
+                <hr />
+                <div>
+                  <h3>Output Table</h3>
+                  <table id="outputTable">
+                  </table>
+                </div>
             </div>
             {% include "./shared/footer.html" %}
         </div>
@@ -206,10 +212,6 @@
                       innerHTML = innerHTML + '<div>PDF Text</div>';
                       innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
                     innerHTML = innerHTML + '</div>';
-                    innerHTML = innerHTML + 'Add:';
-                    innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                      innerHTML = innerHTML + '<option value="selectOption">(Select Option)</option>';
-                    innerHTML = innerHTML + '</select>';
                   }
                   innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
                   document.getElementById("step" + outputStep + "Container").innerHTML = innerHTML;
@@ -240,10 +242,6 @@
                       innerHTML = innerHTML + '<div>PDF Text</div>';
                       innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
                     innerHTML = innerHTML + '</div>';
-                    innerHTML = innerHTML + 'Add:';
-                    innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
-                      innerHTML = innerHTML + '<option value="selectOption">(Select Option)</option>';
-                    innerHTML = innerHTML + '</select>';
                   }
                   innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
                   newDivContainer.innerHTML = innerHTML;
@@ -293,6 +291,8 @@
                 } else if(command == "ocr") {
                   const textarea = document.getElementById("step" + outputStep);
                   textarea.value = data.result;
+
+                  addCell("Step " + outputStep, data.result);
                 }
 
                 document.getElementById("step" + buttonCount + "Button").setAttribute('aria-busy', false);
@@ -415,6 +415,56 @@
                 }
               }, false);
           }
+
+          function addCell(title, cellText) {
+            var outputTable = document.getElementById('outputTable');
+            var ths = outputTable.querySelectorAll('th');
+            var found = false;
+            var columnIndex;
+
+            for(var i=0; i<ths.length; i++){
+                if(ths[i].innerHTML === title){
+                    found = true;
+                    columnIndex = i;
+                    break;
+                }
+            }
+
+            if(!found){
+                var header = outputTable.createTHead();
+                var row = header.rows[0] || header.insertRow(0);
+                var cell = document.createElement('th');
+                cell.innerHTML = title;
+                row.append(cell);
+                columnIndex = row.cells.length - 1;
+            }
+
+            var rowIndex;
+            for (rowIndex = 1; rowIndex < outputTable.rows.length; rowIndex++) {
+                if (!(outputTable.rows[rowIndex].cells[columnIndex] &&
+                    outputTable.rows[rowIndex].cells[columnIndex].innerHTML.trim() !== '')) {
+                    break;
+                }
+            }
+
+            if (rowIndex === outputTable.rows.length) {
+                var newRow = outputTable.insertRow(-1);
+                for (var i = 0; i <= columnIndex; i++) {
+                    var newCell = newRow.insertCell(i);
+                    if (i === columnIndex) {
+                        newCell.innerHTML = cellText;
+                    }
+                }
+            } else {
+                if(!outputTable.rows[rowIndex].cells[columnIndex]){
+                  var newCell = outputTable.rows[rowIndex].insertCell(columnIndex);
+                }
+                outputTable.rows[rowIndex].cells[columnIndex].innerHTML = cellText;
+            }
+          }
+
+          
         </script>
     </body>
 </html>
+
