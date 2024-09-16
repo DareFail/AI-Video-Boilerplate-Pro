@@ -15,6 +15,11 @@ def home(request):
     return render_with_appname(request, "index.html", context=context)
 
 
+def example(request):
+    context = {}
+    return render_with_appname(request, "example.html", context=context)
+
+
 @csrf_exempt
 def runStep(request):
 

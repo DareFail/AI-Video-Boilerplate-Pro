@@ -12,6 +12,7 @@ urlpatterns = (
     [
         path("admin/", admin.site.urls),
         path("", views.home, name="home"),
+        path("example/", views.example, name="example"),
         path("run/step/", views.runStep, name="runStep"),
         path("hijack/", include("hijack.urls", namespace="hijack")),
     ]

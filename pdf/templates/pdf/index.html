@@ -9,7 +9,10 @@
             {% include "./shared/top_nav.html" %}
             <div>
                 <h1>Delete Your PDF</h1>
-                <div role="group" id="container">
+                <div>Interactive Demo for using the Delete Your PDF library.</div>
+                <div class="marginTop"><a href="{% url 'example' %}"><button>See Example PDF</button></a></div>
+                <div class="marginTop">Crop by dragging directly on the preview of your PDF. OCR your PDF and add it to the table below. Real code will be added to the left side as you make steps.</div>
+                <div role="group" class="marginTop" id="container">
                     <div id="leftNav">
                         <div class="scroll-container">
                             <div id="codeBlock" class="scrollable-content">
@@ -431,7 +434,7 @@
             }
 
             if(!found){
-                var header = outputTable.createTHead();
+                var header = outputTable;
                 var row = header.rows[0] || header.insertRow(0);
                 var cell = document.createElement('th');
                 cell.innerHTML = title;
