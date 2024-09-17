@@ -32,9 +32,9 @@ def passesCaptcha(captcha):
 
     credentials_dict = json.loads(settings.GOOGLE_APPLICATION_CREDENTIALS)
 
-    credentials = service_account.Credentials.from_service_account_info(
-        credentials_dict
-    )
+    credentials_dict['private_key'] = credentials_dict['private_key'].replace('<newline>', '\n')
+
+    credentials = service_account.Credentials.from_service_account_info(credentials_dict)
 
     client = recaptchaenterprise_v1.RecaptchaEnterpriseServiceClient(
         credentials=credentials
