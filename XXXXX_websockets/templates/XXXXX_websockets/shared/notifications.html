@@ -2,7 +2,7 @@
     {% for notification in messages %}
         <nav class="notificationBackground notificationBackground-{% if notification.tags %}{{ notification.level_tag }}{% endif %}">
             <ul>
-                <li class="notificationMessage">test</li>
+                <li class="notificationMessage">{{ notification }}</li>
             </ul>
             <ul class="topNavRight">
                 <li class="notificationExit">X</li>
