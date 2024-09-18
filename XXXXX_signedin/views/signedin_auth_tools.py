@@ -156,7 +156,7 @@ def list_groups(request):
 
 
 @signedin
-def manage_group(request, group_slug):
+def manage_group(request, group_unique):
     # group = request.group
     return render_with_appname(
         request,
@@ -166,7 +166,7 @@ def manage_group(request, group_slug):
 
 
 @signedin
-def group_membership_details(request, group_slug, membership_id):
+def group_membership_details(request, group_unique, membership_id):
     membership = get_object_or_404(
         Membership, group=request.group, pk=membership_id
     )
@@ -208,7 +208,7 @@ def group_membership_details(request, group_slug, membership_id):
 
 @signedin
 @require_POST
-def remove_group_membership(request, group_slug, membership_id):
+def remove_group_membership(request, group_unique, membership_id):
     membership = get_object_or_404(
         Membership, group=request.group, pk=membership_id
     )
@@ -248,7 +248,7 @@ def remove_group_membership(request, group_slug, membership_id):
 
 @admin
 @require_POST
-def resend_invitation(request, group_slug, invitation_unique):
+def resend_invitation(request, group_unique, invitation_unique):
     invitation = get_object_or_404(
         Invitation, group=request.group, unique_code=invitation_unique
     )
