@@ -269,7 +269,7 @@ def accept_invitation(request, invitation_unique):
             request, "You are already a member of " + invitation.group.name
         )
         return HttpResponseRedirect(
-            reverse("home", args=[invitation.group.unique_code])
+            reverse("signedin_home", args=[invitation.group.unique_code])
         )
 
     if request.method == "POST":
