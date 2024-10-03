@@ -14,6 +14,12 @@ Rate how well cats sit like bread with OpenAI GPT4v, Roboflow workflows, and ima
 **[HandLand.lol](https://handland.lol)** - 
 Create live AI multiplayer games using WebRTC, Websockets, and Roboflow for AI vision models.
 
+**[pdf.darefail.com](https://pdf.darefail.com)** -
+Interactive Demo for using the Delete Your PDF library.
+
+**[subwayart.darefail.com](https://subwayart.darefail.com)** -
+Interactive Demo for using the Delete Your PDF library.
+
 
 ## Other Repos
 

@@ -62,6 +62,7 @@ APPS = [
     "homepage.apps.HomepageConfig",
     "rateloaf.apps.RateloafConfig",
     "pdf.apps.PdfConfig",
+    "subwayart.apps.SubwayartConfig",
     "XXXXX_basic.apps.XXXXX_basicConfig",
     "XXXXX_signedin.apps.XXXXX_signedinConfig",
     "XXXXX_websockets.apps.XXXXX_websocketsConfig",
