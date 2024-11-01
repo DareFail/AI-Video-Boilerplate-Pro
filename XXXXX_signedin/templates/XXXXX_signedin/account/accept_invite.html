@@ -7,10 +7,10 @@
     <head>{% include "../shared/head.html" %}</head>
     <body>
         {% include "../shared/notifications.html" %}
-        <section class="container mb-3 mt-7">
+        <section class="container">
             {% include "../shared/top_nav.html" %}
-            <div class="row align-items-center">
-                <div class="col-md">
+            <div>
+                <div>
                     {% if not invitation.is_accepted %}
                         <h3>Accept Invitation?</h3>
                         <p class="lead">

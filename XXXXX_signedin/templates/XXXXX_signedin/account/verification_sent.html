@@ -6,14 +6,24 @@
 <html lang="en">
     <head>{% include "../shared/head.html" %}</head>
     <body>
-        {% include "../shared/top_nav.html" %}
         {% include "../shared/notifications.html" %}
-        <h3>Verify Your E-mail Address</h3>
-        <p>
-            We have sent an e-mail to you for verification.
-            Follow the link provided to finalize the signup process.
-        </p>
-        <p>Please contact us if you do not receive it within a few minutes.</p>
+        <div class="container">
+            {% include "../shared/top_nav.html" %}
+            <div class="left-menu-container">
+                <div class="left-side-menu">
+                    {% include "../signedin/shared/side_nav.html" %}
+                </div>
+                <div class="right-side-content">
+                    <h3>Verify Your E-mail Address</h3>
+                    <p>
+                        We have sent an e-mail to you for verification.
+                        Follow the link provided to finalize the signup process.
+                    </p>
+                    <p>Please contact us if you do not receive it within a few minutes.</p>
+                </div>
+            </div>
+        </div>
         {% include "../shared/footer.html" %}
     </body>
 </html>
+
