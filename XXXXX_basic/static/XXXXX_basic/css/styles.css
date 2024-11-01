@@ -94,3 +94,29 @@
 .navButtonLink {
   margin-left: -5px;
 }
+
+footer {
+  margin-top: 50px;
+}
+
+.left-menu-container {
+  display: flex;
+  flex-wrap: wrap; /* This allows the items to wrap into a column on smaller screens */
+}
+
+.left-side-menu {
+  flex: 0 0 20%; /* This makes the left side take up 20% */
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+  margin-bottom: 15px;
+}
+
+.right-side-content {
+  flex: 1; /* This makes the right side take up the remaining space */
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+}
+
+@media screen and (max-width: 767px) {
+  .left-side-menu, .right-side-content {
+      flex: 0 0 100%; /* This makes both divs take up 100% width on small screens */
+  }
+}

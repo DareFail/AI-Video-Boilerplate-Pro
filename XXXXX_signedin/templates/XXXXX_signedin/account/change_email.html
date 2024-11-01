@@ -6,20 +6,20 @@
 <html lang="en">
     <head>{% include "../shared/head.html" %}</head>
     <body>
-        {% include "../shared/top_nav.html" %}
         {% include "../shared/notifications.html" %}
-        <div class="container my-3">
-            <div class="row">
-                <div class="col-xxl-2 col-lg-3">{% include "../signedin/shared/side_nav.html" %}</div>
-                <div class="col-lg">
-                    <div class="col-md">
-                        <h3 class="pg-subtitle">My Details</h3>
-                        <form method="post">
-                            {% csrf_token %}
-                            {% render_text_input form.email %}
-                            <input class="btn btn-primary" type="submit" value="Save">
-                        </form>
-                    </div>
+        <div class="container">
+            {% include "../shared/top_nav.html" %}
+            <div class="left-menu-container">
+                <div class="left-side-menu">
+                    {% include "../signedin/shared/side_nav.html" %}
+                </div>
+                <div class="right-side-content">
+                    <h3 class="pg-subtitle">My Details</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% render_text_input form.email %}
+                        <input class="btn btn-primary" type="submit" value="Save">
+                    </form>
                 </div>
             </div>
         </div>

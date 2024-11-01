@@ -21,15 +21,10 @@
                 {{ form.invitation_id.errors }}
             {% endif %}
             <input type="submit" value="Sign Up">
-            {% comment %}
-                <hr />
-                <div>
-                    <a href="{% provider_login_url 'google' method='oauth2' %}">Sign up with Google</a>
-                </div>
-                <div>
-                    <a href="{% provider_login_url 'microsoft' method='oauth2' %}">Sign up with Microsoft</a>
-                </div>
-            {% endcomment %}
+            <hr />
+            <div>
+                <a href="{% provider_login_url 'google' method='oauth2' %}">Sign up with Google</a>
+            </div>
             <hr />
             <div>
                 Already have account?
