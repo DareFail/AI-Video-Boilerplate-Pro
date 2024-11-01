@@ -171,7 +171,22 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 # SOCIALACCOUNT_ADAPTER = "common.customGroups.adapter.SocialAccountAdapter"
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
-SOCIALACCOUNT_PROVIDERS = {}
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        'EMAIL_AUTHENTICATION': True,
+    },
+    "microsoft": {
+        "VERIFIED_EMAIL": True,
+        'EMAIL_AUTHENTICATION': True,
+    },
+}
 
 ACCOUNT_FORMS = {
     "signup": "common.customGroups.forms.GroupSignupForm",
