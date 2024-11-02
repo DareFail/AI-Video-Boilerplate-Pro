@@ -1,0 +1,20 @@
+{% load allauth %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "../../shared/head.html" %}
+        <title>Sign In | {{ provider }}</title>
+    </head>
+    <body>
+        {% include "../../shared/notifications.html" %}
+        <div class="container marginTop">
+            {% include "../../shared/top_nav.html" %}
+            
+            <p>
+                <a href="{{ redirect_to }}">Continue</a>
+            </p>
+
+        </div>
+        {% include "../../shared/footer.html" %}
+    </body>
+</html>

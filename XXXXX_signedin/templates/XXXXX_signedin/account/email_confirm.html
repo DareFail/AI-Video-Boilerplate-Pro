@@ -7,6 +7,7 @@
     <head>{% include "../shared/head.html" %}</head>
     <body>
         <div class="container marginTop">
+            {% include "../shared/top_nav.html" %}
             <h3>Confirm E-mail Address</h3>
             {% if confirmation %}
                 {% user_display confirmation.email_address.user as user_display %}

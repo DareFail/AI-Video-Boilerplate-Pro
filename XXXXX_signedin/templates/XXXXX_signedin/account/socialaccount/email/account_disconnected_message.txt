@@ -1,0 +1,3 @@
+{% load account %}
+
+A third-party account from {{ provider }} has been disconnected from your account.

@@ -7,8 +7,9 @@
 <html lang="en">
     <head>{% include "../shared/head.html" %}</head>
     <body>
-        <div class="container">
-            <div class="marginTop">
+        <div class="container marginTop">
+            {% include "../shared/top_nav.html" %}
+            <div>
                 <h3>Sign In</h3>
                 <form method="post" class="mt-3">
                     {% csrf_token %}
