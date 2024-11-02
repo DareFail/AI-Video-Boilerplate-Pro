@@ -19,10 +19,12 @@
                     <input class="btn btn-primary w-100" type="submit" value="Sign in">
                     <hr>
                 </form>
-                <hr />
-                <div class="text-center mb-4">
-                    <a class="btn btn-secondary" href="{% provider_login_url 'google' method='oauth2' %}">Sign up with Google</a>
-                </div>
+                {% comment %}
+                    <hr />
+                    <div class="text-center mb-4">
+                        <a class="btn btn-secondary" href="{% provider_login_url 'google' method='oauth2' %}">Sign up with Google</a>
+                    </div>
+                {% endcomment %}
                 <hr />
                 <div class="mt-4 text-center">
                     <form method="post" action="{% url 'send_magic_link' %}">
