@@ -13,6 +13,7 @@
             <div>
                 <h3>Sign Up</h3>
                 <form method="post">
+                    {% comment %}
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     {% render_text_input form.email %}
@@ -27,6 +28,7 @@
                         {{ form.invitation_id.errors }}
                     {% endif %}
                     <input type="submit" value="Sign Up">
+                    {% endcomment %}
                     {% comment %}
                     <hr />
                     <div>
