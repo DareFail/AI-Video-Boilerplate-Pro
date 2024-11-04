@@ -51,6 +51,7 @@ LIBRARIES = [
     "django_celery_beat",
     "corsheaders",
     "redisboard",
+    "anymail",
 ]
 
 COMMON = [
