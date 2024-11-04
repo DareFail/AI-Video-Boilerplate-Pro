@@ -172,6 +172,9 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 # SOCIALACCOUNT_ADAPTER = "common.customGroups.adapter.SocialAccountAdapter"
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
+# Mail_Admin
+EMAIL_SUBJECT_PREFIX = ""
+
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": [
