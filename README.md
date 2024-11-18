@@ -284,6 +284,49 @@ Static files not found
 docker compose exec web python manage.py collectstatic
 ```
 
+##### AWS S3 Permissions
+
+Bucket Policy
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicRead",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::PUT_BUCKETNAME_HERE/*"
+        }
+    ]
+}
+```
+
+Cross-origin resource sharing (CORS)
+```
+[
+    {
+        "AllowedHeaders": [
+            "PUT_DOMAIN_HERE.com",
+            "PUT_SUBDOMAIN_HERE.DOMAIN.com"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "HEAD",
+            "POST",
+            "PUT"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }
+]
+```
+
 
 ## Optimization
 
