@@ -75,3 +75,25 @@ def get_group_unique_code(request):
             request.session["group"] = newGroup.id
         return newGroup.unique_code
     return str(request.get_host())
+
+
+@register.filter
+def get_ordered_organizations(request):
+    if "group" in request.session:
+        try:
+            foundGroup = (
+                request.user.customGroups.filter(
+                    main_service=request.get_host()
+                ).all()
+            )
+            return foundGroup
+        except Exception as e:
+            print(e)
+            del request.session["group"]
+            pass
+    elif not request.user.is_anonymous:
+        newGroup = request.user.customGroups.filter(
+            main_service=request.get_host()
+        ).all()
+        return newGroup
+    return []
