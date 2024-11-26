@@ -45,3 +45,33 @@ def get_dashboard_url(request):
             request.session["group"] = newGroup.id
         return newGroup.dashboard_url
     return str(request.get_host())
+
+
+@register.filter
+def get_group_unique_code(request):
+    if "group" in request.session:
+        try:
+            foundGroup = (
+                request.user.customGroups.filter(
+                    main_service=request.get_host(),
+                    id=request.session["group"],
+                )
+                .first()
+                .unique_code
+            )
+            return foundGroup
+        except Exception as e:
+            print(e)
+            del request.session["group"]
+            pass
+    elif not request.user.is_anonymous:
+        newGroup = request.user.customGroups.filter(
+            main_service=request.get_host()
+        ).first()
+        if newGroup is None:
+            newGroup = create_default_group_for_user(
+                request.user, host=request.get_host()
+            )
+            request.session["group"] = newGroup.id
+        return newGroup.unique_code
+    return str(request.get_host())
