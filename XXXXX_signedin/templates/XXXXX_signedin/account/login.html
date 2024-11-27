@@ -38,6 +38,11 @@
                         <button type="submit">Send Passwordless Link To Email</button>
                     </form>
                 </div>
+                
+                <hr />
+                <div>
+                    I don't have an account. <a href="{% url 'account_signup' %}">Go to signup.</a>
+                </div>
             </div>
         </div>
         {% include "../shared/footer.html" %}
