@@ -91,6 +91,20 @@
   text-decoration: none;
 }
 
+#dashboardContent {
+  margin-left: 20px;
+}
+
+#leftNav { 
+  max-width: 150px;
+  border-right: 1px solid black;
+  float: left;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  margin-right: 10px;
+}
+
 .navButtonLink {
   margin-left: -5px;
 }
@@ -98,6 +112,7 @@
 footer {
   margin-top: 50px;
 }
+
 
 .left-menu-container {
   display: flex;
