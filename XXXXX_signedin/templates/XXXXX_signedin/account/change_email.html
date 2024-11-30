@@ -9,11 +9,11 @@
         {% include "../shared/notifications.html" %}
         <div class="container marginTop">
             {% include "../shared/top_nav.html" %}
-            <div class="left-menu-container">
-                <div class="left-side-menu">
+            <div id="dashboardContainer">
+                <div id="leftNav">
                     {% include "../signedin/shared/side_nav.html" %}
                 </div>
-                <div class="right-side-content">
+                <div id="dashboardContent">
                     <h3 class="pg-subtitle">My Details</h3>
                     <form method="post">
                         {% csrf_token %}
