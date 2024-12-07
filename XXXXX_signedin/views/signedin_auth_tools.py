@@ -216,7 +216,7 @@ def remove_group_membership(request, group_unique, membership_id):
     can_edit_group_members = request.group_membership.is_admin()
     if not can_edit_group_members:
         if not removing_self:
-            return HttpResponseRedirect(reverse("signedin_home"))
+            return HttpResponseRedirect(reverse("signedin_home", args=[group_unique]))
     if membership.role == ROLE_ADMIN:
         admin_count = Membership.objects.filter(
             group=request.group, role=ROLE_ADMIN
