@@ -101,7 +101,7 @@ def auth_magic_link(request, sesame):
     user = get_user(sesame)
     if user is None:
         return HttpResponseRedirect(reverse("home"))
-    login(request, user)
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     user.save()
     return HttpResponseRedirect(reverse("home"))
 
