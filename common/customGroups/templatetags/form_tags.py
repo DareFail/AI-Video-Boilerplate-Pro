@@ -15,6 +15,7 @@ def render_field(form_field):
     render_function = {
         "select": render_select_input,
         "checkbox": render_checkbox_input,
+        "date": render_date_input,
     }.get(form_field.widget_type, render_text_input)
     return render_function(form_field)
 
