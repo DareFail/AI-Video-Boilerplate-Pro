@@ -11,7 +11,7 @@ def global_context(request):
         "SMARKETMAN_LINK": settings.SMARKETMAN_LINK,
     }
 
-    if not settings.DEBUG:
+    if not settings.LOCAL_DEV:
         global_context["GOOGLE_ANALYTICS_ID"] = getAnalytics(
             request.get_host()
         )
