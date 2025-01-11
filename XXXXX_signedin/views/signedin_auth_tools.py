@@ -67,7 +67,7 @@ def change_email(request):
 def send_magic_link(request):
     if request.method == "POST":
         email = request.POST.get("email", "")
-        user = CustomUser.objects.filter(email=email).first()
+        user = CustomUser.objects.filter(email=email.lower()).first()
         if user:
             magic_token = get_token(user)
             magic_link = request.build_absolute_uri(
