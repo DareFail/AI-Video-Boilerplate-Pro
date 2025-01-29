@@ -1,0 +1,25 @@
+{% load static %}
+{% load form_tags %}
+{% load static_tags %}
+{% load allauth %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "../../shared/head.html" %}
+        <title>Login Cancelled</title>
+    </head>
+    <body>
+        {% include "../../shared/notifications.html" %}
+        <div class="container marginTop">
+            {% include "../../shared/top_nav.html" %}
+            
+            <h1>Login Cancelled</h1>
+            <p>
+                You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to <a href="{% url 'account_login' %}">sign in</a>.
+            </p>
+
+        </div>
+        {% include "../../shared/footer.html" %}
+    </body>
+</html>

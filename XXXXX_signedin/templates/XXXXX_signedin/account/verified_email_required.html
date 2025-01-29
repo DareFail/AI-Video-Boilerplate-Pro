@@ -6,22 +6,31 @@
 <html lang="en">
     <head>{% include "../shared/head.html" %}</head>
     <body>
-        {% include "../shared/top_nav.html" %}
         {% include "../shared/notifications.html" %}
-        <h1>Verify Your Email Address</h1>
-        {% url 'account_email' as email_url %}
-        <p>
-            This part of the site requires us to verify that
-            you are who you claim to be. For this purpose, we require that you
-            verify ownership of your email address.
-        </p>
-        <p>
-            We have sent an email to you for verification. Please click on the link inside that email. If you do not see the verification email in your main inbox, check your spam folder. Otherwise
-            contact us if you do not receive it within a few minutes.
-        </p>
-        <p>
-            <strong>Note:</strong> you can still <a href="{{ email_url }}">change your email address</a>.
-        </p>
+        <div class="container marginTop">
+            {% include "../shared/top_nav.html" %}
+            <div id="dashboardContainer">
+                <div id="leftNav">
+                    {% include "../signedin/shared/side_nav.html" %}
+                </div>
+                <div id="dashboardContent">
+                    <h1>Verify Your Email Address</h1>
+                    {% url 'account_email' as email_url %}
+                    <p>
+                        This part of the site requires us to verify that
+                        you are who you claim to be. For this purpose, we require that you
+                        verify ownership of your email address.
+                    </p>
+                    <p>
+                        We have sent an email to you for verification. Please click on the link inside that email. If you do not see the verification email in your main inbox, check your spam folder. Otherwise
+                        contact us if you do not receive it within a few minutes.
+                    </p>
+                    <p>
+                        <strong>Note:</strong> you can still <a href="{{ email_url }}">change your email address</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
         {% include "../shared/footer.html" %}
     </body>
 </html>

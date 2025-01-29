@@ -1,39 +1,48 @@
-{% load static %}
-{% load allauth account %}
-{% load form_tags %}
-{% load static_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>{% include "../shared/head.html" %}</head>
-    <body>
+<head>
+    {% include "../shared/head.html" %}
+</head>
+<body>
+    {% include "../shared/notifications.html" %}
+    <div class="container marginTop">
+        {% include "../shared/top_nav.html" %}
         <h1>Confirm Access</h1>
         <p>Please reauthenticate to safeguard your account.</p>
         <p>Enter your password:</p>
-        {% url 'account_reauthenticate' as action_url %}
-        {% element form form=form method="post" action=action_url %}
-        {% slot body %}
-        {% csrf_token %}
-        {% element fields form=form unlabeled=True %}
-    {% endelement %}
-    {{ redirect_field }}
-{% endslot %}
-{% slot actions %}
-{% element button type="submit" tags="primary,reauthenticate" %}
-Confirm
-{% endelement %}
-{% endslot %}
-{% endelement %}
-{% if reauthentication_alternatives %}
-    <hr />
-    <h2>Alternative options</h2>
-    {% element button_group %}
-    {% for alt in reauthentication_alternatives %}
-        {% element button href=alt.url tags="primary,outline" %}
-        {{ alt.description }}
-    {% endelement %}
-{% endfor %}
-{% endelement %}
-{% endif %}
-{% include "../shared/footer.html" %}
+
+        <form method="post" action="{% url 'account_reauthenticate' %}">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-field {% if field.errors %}has-error{% endif %}">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {{ redirect_field }}
+
+            <button type="submit" class="btn btn-primary reauthenticate">
+                Confirm
+            </button>
+        </form>
+
+        {% if reauthentication_alternatives %}
+            <hr />
+            <h2>Alternative options</h2>
+            <div class="btn-group">
+                {% for alt in reauthentication_alternatives %}
+                    <a href="{{ alt.url }}" class="btn btn-outline-primary">
+                        {{ alt.description }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% include "../shared/footer.html" %}
+    </div>
 </body>
 </html>

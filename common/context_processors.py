@@ -6,6 +6,7 @@ def global_context(request):
     global_context = {
         "APP_DIRECTORY": appname_from_request(request),
         "HOST": request.get_host(),
+        "HTTP": get_http(),
         "PATH": request.path,
         "SMARKETMAN_LINK": settings.SMARKETMAN_LINK,
     }
@@ -17,6 +18,11 @@ def global_context(request):
         return global_context
     else:
         return global_context
+    
+def get_http():
+    if settings.LOCAL_DEV:
+        return "http://"
+    return "https://"
 
 
 def getAnalytics(host):

@@ -20,8 +20,10 @@
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
+        const WS_PROTOCOL = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+
         const chatSocket = new WebSocket(
-            'ws://' +
+            WS_PROTOCOL +
             window.location.host +
             '/ws/chat/' +
             roomName +

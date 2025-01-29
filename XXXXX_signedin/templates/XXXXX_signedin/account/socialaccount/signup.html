@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "../../shared/head.html" %}
+        <title>Signup | {{ provider }}</title>
+    </head>
+    <body>
+        {% include "../../shared/notifications.html" %}
+        <div class="container marginTop">
+            {% include "../../shared/top_nav.html" %}
+            <h1>Sign Up</h1>
+            <p>
+                You are about to use your {{ account.get_provider.name }} account to login to
+                {{ site.name }}. As a final step, please complete the following form:
+            </p>
+
+            <form method="post" action="{% url 'socialaccount_signup' %}">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    <div class="form-field {% if field.errors %}has-error{% endif %}">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <p class="error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                {{ redirect_field }}
+
+                {% if request.GET.invitation_id %}
+                    <input type="hidden" name="invitation_id" value="{{ request.GET.invitation_id }}">
+                    {{ form.invitation_id.errors }}
+                {% endif %}
+
+                <input type="submit" value="Sign Up">
+            </form>
+            {% comment %}
+            <hr />
+            <div>
+                <a href="{% provider_login_url 'google' method='oauth2' %}">Sign up with Google</a>
+            </div>
+            {% endcomment %}
+            <hr />
+            <div>
+                Already have an account?
+                <a href="{% url 'account_login' %}">Go to sign in.</a>
+            </div>
+
+            {% include "../../shared/footer.html" %}
+        </div>
+    </body>
+</html>

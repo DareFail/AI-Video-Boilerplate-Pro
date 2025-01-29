@@ -1,0 +1,1 @@
+A third-party account from {{ provider }} has been connected to your account.

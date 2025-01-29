@@ -1,33 +1,38 @@
 {% load static %}
-{% load allauth account %}
-{% load form_tags %}
-{% load static_tags %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>{% include "../shared/head.html" %}</head>
-    <body>
+<head>
+    {% include "../shared/head.html" %}
+</head>
+<body>
+    {% include "../shared/notifications.html" %}
+    <div class="container marginTop">
+        {% include "../shared/top_nav.html" %}
         <h1>Mail me a sign-in code</h1>
         <p>You will receive an email containing a special code for a password-free sign-in.</p>
-        {% url 'account_request_login_code' as login_url %}
-        {% element form form=form method="post" action=login_url tags="entrance,login" %}
-        {% slot body %}
-        {% csrf_token %}
-        {% element fields form=form unlabeled=True %}
-    {% endelement %}
-    {{ redirect_field }}
-{% endslot %}
-{% slot actions %}
-{% element button type="submit" tags="prominent,login" %}
-Request Code
-{% endelement %}
-{% endslot %}
-{% endelement %}
-<h2>
-    {% url 'account_login' as login_url %}
-    {% element button href=login_url tags="link" %}
-    Other sign-in options
-{% endelement %}
-</h2>
-{% include "../shared/footer.html" %}
+        
+        <form method="post" action="{% url 'account_request_login_code' %}">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-field {% if field.errors %}has-error{% endif %}">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {{ redirect_field }}
+            <button type="submit" class="button prominent">Request Code</button>
+        </form>
+
+        
+
+        <h2>
+            <a href="{% url 'account_login' %}" class="button link">Other sign-in options</a>
+        </h2>
+        
+        {% include "../shared/footer.html" %}
+    </div>
 </body>
 </html>

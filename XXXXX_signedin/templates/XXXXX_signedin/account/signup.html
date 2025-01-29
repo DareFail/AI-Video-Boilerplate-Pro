@@ -3,38 +3,45 @@
 {% load form_tags %}
 {% load allauth account %}
 {% load socialaccount %}
-<div class="container">
-    <div>
-        <h3>Sign Up</h3>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-            {% render_text_input form.email %}
-            {% render_text_input form.password1 %}
-            {% if project_settings.ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE %}
-                {% render_text_input form.password2 %}
-            {% endif %}
-            {% if request.GET.invitation_id %}
-                <input type="hidden"
-                       name="invitation_id"
-                       value="{{ request.GET.invitation_id }}">
-                {{ form.invitation_id.errors }}
-            {% endif %}
-            <input type="submit" value="Sign Up">
-            {% comment %}
-                <hr />
-                <div>
-                    <a href="{% provider_login_url 'google' method='oauth2' %}">Sign up with Google</a>
-                </div>
-                <div>
-                    <a href="{% provider_login_url 'microsoft' method='oauth2' %}">Sign up with Microsoft</a>
-                </div>
-            {% endcomment %}
-            <hr />
+<!DOCTYPE html>
+<html lang="en">
+    <head>{% include "../shared/head.html" %}</head>
+    <body>
+        {% include "../shared/notifications.html" %}
+        <div class="container marginTop">
+            {% include "../shared/top_nav.html" %}
             <div>
-                Already have account?
-                <a href="{% url 'account_login' %}">Go to sign in.</a>
+                <h3>Sign Up</h3>
+                <form method="post">
+                    {% comment %}
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {% render_text_input form.email %}
+                    {% render_text_input form.password1 %}
+                    {% if project_settings.ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE %}
+                        {% render_text_input form.password2 %}
+                    {% endif %}
+                    {% if request.GET.invitation_id %}
+                        <input type="hidden"
+                               name="invitation_id"
+                               value="{{ request.GET.invitation_id }}">
+                        {{ form.invitation_id.errors }}
+                    {% endif %}
+                    <input type="submit" value="Sign Up">
+                    {% endcomment %}
+                    {% comment %}
+                    <hr />
+                    <div>
+                        <a href="{% provider_login_url 'google' method='oauth2' %}">Sign up with Google</a>
+                    </div>
+                    {% endcomment %}
+                    <hr />
+                    <div>
+                        Already have account?
+                        <a href="{% url 'account_login' %}">Go to sign in.</a>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </body>
+</html>

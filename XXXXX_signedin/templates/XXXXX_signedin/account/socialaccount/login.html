@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include "../../shared/head.html" %}
+        <title>Sign In</title>
+    </head>
+    <body>
+        {% include "../../shared/notifications.html" %}
+        <div class="container marginTop">
+            {% include "../../shared/top_nav.html" %}
+            {% if process == "connect" %}
+                <h1>Connect {{ provider.name }}</h1>
+                <p>You are about to connect a new third-party account from {{ provider.name }}.</p>
+            {% else %}
+                <h1>Sign In Via {{ provider.name }}</h1>
+                <p>You are about to sign in using a third-party account from {{ provider.name }}.</p>
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit">Continue</button>
+            </form>
+            {% include "../../shared/footer.html" %}
+        </div>
+    </body>
+</html>

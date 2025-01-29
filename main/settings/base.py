@@ -51,6 +51,7 @@ LIBRARIES = [
     "django_celery_beat",
     "corsheaders",
     "redisboard",
+    "anymail",
 ]
 
 COMMON = [
@@ -166,13 +167,31 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_EMAIL_SUBJECT_PREFIX = None
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 # SOCIALACCOUNT_ADAPTER = "common.customGroups.adapter.SocialAccountAdapter"
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
-SOCIALACCOUNT_PROVIDERS = {}
+# Mail_Admin
+EMAIL_SUBJECT_PREFIX = ""
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        'EMAIL_AUTHENTICATION': True,
+    },
+    "microsoft": {
+        "VERIFIED_EMAIL": True,
+        'EMAIL_AUTHENTICATION': True,
+    },
+}
 
 ACCOUNT_FORMS = {
     "signup": "common.customGroups.forms.GroupSignupForm",

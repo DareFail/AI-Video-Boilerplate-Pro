@@ -290,6 +290,193 @@ Static files not found
 docker compose exec web python manage.py collectstatic
 ```
 
+##### AWS S3 Permissions
+
+Bucket Policy
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicRead",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::PUT_BUCKETNAME_HERE/*"
+        }
+    ]
+}
+```
+
+Cross-origin resource sharing (CORS)
+```
+[
+    {
+        "AllowedHeaders": [
+            "PUT_DOMAIN_HERE.com",
+            "PUT_SUBDOMAIN_HERE.DOMAIN.com"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "HEAD",
+            "POST",
+            "PUT"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }
+]
+```
+
+
+## Optimization
+
+Query Optimization
+```
+# Bad: N+1 queries
+for user in Users.objects.all():
+    print(user.profile.bio)  # One query per user
+
+# Good: Single query with select_related
+users = User.objects.select_related('profile').all()
+for user in users:
+    print(user.profile.bio)  # No additional queries
+```
+
+Database Indexing
+```
+class Order(models.Model):
+    user = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['created_at', 'status']),
+            models.Index(fields=['user', 'status']),
+        ]
+```
+
+Queryset Optimization
+```
+# Bad: Loading entire objects
+users = User.objects.all()
+
+# Good: Only loading needed fields
+users = User.objects.values('id', 'email')
+
+# Better: Using iterator() for large querysets
+for user in User.objects.iterator():
+    process_user(user)
+```
+
+View-Level Caching
+```
+from django.views.decorators.cache import cache_page
+
+@cache_page(60 * 15)  # Cache for 15 minutes
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'products/list.html', {'products': products})
+```
+
+Template Fragment Caching
+```
+{% load cache %}
+
+{% cache 500 sidebar request.user.id %}
+    {% for item in expensive_query %}
+        {{ item }}
+    {% endfor %}
+{% endcache %}
+```
+
+Low-Level Cache API
+```
+from django.core.cache import cache
+
+def get_expensive_result(user_id):
+    cache_key = f'expensive_result_{user_id}'
+    result = cache.get(cache_key)
+    
+    if result is None:
+        result = expensive_computation(user_id)
+        cache.set(cache_key, result, timeout=3600)
+    
+    return result
+```
+
+Async: When You Need Concurrent Connections
+```
+# views.py
+async def async_view(request):
+    async with aiohttp.ClientSession() as session:
+        async with session.get('http://api.example.com/data') as response:
+            data = await response.json()
+    return JsonResponse(data)
+
+# urls.py
+path('async-data/', async_view)
+```
+
+Background Tasks: Don’t Block the Request-Response Cycle
+```
+from django.core.mail import send_mail
+from celery import shared_task
+
+@shared_task
+def send_welcome_email(user_id):
+    user = User.objects.get(id=user_id)
+    send_mail(
+        'Welcome!',
+        'Thanks for joining.',
+        'from@example.com',
+        [user.email],
+    )
+
+# In your view
+def signup(request):
+    user = User.objects.create_user(...)
+    send_welcome_email.delay(user.id)
+    return redirect('home')
+```
+
+Load Balancing: When Single Server Isn’t Enough
+```
+# settings.py for multiple servers
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydb',
+        'HOST': 'primary.database.host',
+        'CONN_MAX_AGE': 60,
+    },
+    'read_replica': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydb',
+        'HOST': 'replica.database.host',
+        'CONN_MAX_AGE': 60,
+    }
+}
+```
+
+Media Files: Move to CDN Early
+```
+# settings.py
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+
+AWS_ACCESS_KEY_ID = 'your-access-key'
+AWS_SECRET_ACCESS_KEY = 'your-secret-key'
+AWS_STORAGE_BUCKET_NAME = 'your-bucket-name'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+```
+
 
 ## Acknowledgements
 

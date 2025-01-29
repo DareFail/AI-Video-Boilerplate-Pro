@@ -67,7 +67,7 @@ def change_email(request):
 def send_magic_link(request):
     if request.method == "POST":
         email = request.POST.get("email", "")
-        user = CustomUser.objects.filter(email=email).first()
+        user = CustomUser.objects.filter(email=email.lower()).first()
         if user:
             magic_token = get_token(user)
             magic_link = request.build_absolute_uri(
@@ -101,7 +101,7 @@ def auth_magic_link(request, sesame):
     user = get_user(sesame)
     if user is None:
         return HttpResponseRedirect(reverse("home"))
-    login(request, user)
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     user.save()
     return HttpResponseRedirect(reverse("home"))
 
@@ -216,7 +216,7 @@ def remove_group_membership(request, group_unique, membership_id):
     can_edit_group_members = request.group_membership.is_admin()
     if not can_edit_group_members:
         if not removing_self:
-            return HttpResponseRedirect(reverse("signedin_home"))
+            return HttpResponseRedirect(reverse("signedin_home", args=[group_unique]))
     if membership.role == ROLE_ADMIN:
         admin_count = Membership.objects.filter(
             group=request.group, role=ROLE_ADMIN

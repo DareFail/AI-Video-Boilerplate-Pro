@@ -6,8 +6,12 @@
 <html lang="en">
     <head>{% include "../shared/head.html" %}</head>
     <body>
-        <h1>Account Inactive</h1>
-        <p>This account is inactive.</p>
-        {% include "../shared/footer.html" %}
+        {% include "../shared/notifications.html" %}
+        <div class="container marginTop">
+            {% include "../shared/top_nav.html" %}
+            <h1>Account Inactive</h1>
+            <p>This account is inactive.</p>
+            {% include "../shared/footer.html" %}
+        </div>
     </body>
 </html>

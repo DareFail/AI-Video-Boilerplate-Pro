@@ -6,8 +6,12 @@
 <html lang="en">
     <head>{% include "../shared/head.html" %}</head>
     <body>
-        <h1>Sign Up Closed</h1>
-        <p>We are sorry, but the sign up is currently closed.</p>
-        {% include "../shared/footer.html" %}
+        {% include "../shared/notifications.html" %}
+        <div class="container marginTop">
+            {% include "../shared/top_nav.html" %}
+            <h1>Sign Up Closed</h1>
+            <p>We are sorry, but the sign up is currently closed.</p>
+            {% include "../shared/footer.html" %}
+        </div>
     </body>
 </html>
