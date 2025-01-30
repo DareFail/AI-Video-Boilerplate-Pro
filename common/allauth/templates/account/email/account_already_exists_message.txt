@@ -1,4 +1,4 @@
-{% with APP_DIRECTORY|add:"/account/email/account_already_exists_message.txt" as template_path %}
+{% with APP_DIRECTORY|add:"/account/email/allauth/account_already_exists_message.txt" as template_path %}
     {% include template_path %}
 {% endwith %}
 

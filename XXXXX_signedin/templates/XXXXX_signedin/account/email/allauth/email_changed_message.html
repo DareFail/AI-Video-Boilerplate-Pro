@@ -1,0 +1,9 @@
+{% load account %}
+<p>You are receiving this mail because the following change was made to your account:</p>
+<p>Your email has been changed from {{ from_email }} to {{ to_email }}.</p>
+<p>
+    If you do not recognize this change then please take proper security precautions immediately. The change to your account originates from:
+</p>
+<p>- IP address: {{ ip }}</p>
+<p>- Browser: {{ user_agent }}</p>
+<p>- Date: {{ timestamp }}</p>

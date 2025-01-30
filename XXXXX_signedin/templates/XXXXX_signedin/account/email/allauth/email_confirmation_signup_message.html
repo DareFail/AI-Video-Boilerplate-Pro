@@ -1,0 +1,16 @@
+{% load account %}
+<p>Hello,</p>
+<p>
+    {% user_display user as user_display %}You're receiving this email because user {{ user_display }} has given your email address to register an account.
+</p>
+<p>
+    {% if code %}
+        Your email verification code is listed below. Please enter it in your open browser window.
+    </p>
+    <p>
+        {{ code }}
+    {% else %}
+        To confirm this is correct, go to {{ activate_url }}
+    {% endif %}
+</p>
+<p>Thanks!</p>

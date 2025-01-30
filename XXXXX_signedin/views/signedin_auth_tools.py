@@ -79,14 +79,14 @@ def send_magic_link(request):
             send_mail(
                 subject="Login",
                 message=render_to_string_with_appname(
-                    "account/email/magic_link.txt",
+                    "account/email/other/magic_link.txt",
                     context=email_context,
                 ),
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user.email],
                 fail_silently=False,
                 html_message=render_to_string_with_appname(
-                    "account/email/magic_link.html",
+                    "account/email/other/magic_link.html",
                     context=email_context,
                 ),
             )
@@ -135,13 +135,13 @@ def send_invitation(invitation):
     send_mail(
         subject="You're invited",
         message=render_to_string_with_appname(
-            "account/email/invitation.txt", context=email_context
+            "account/email/other/invitation.txt", context=email_context
         ),
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[invitation.email],
         fail_silently=False,
         html_message=render_to_string_with_appname(
-            "account/email/invitation.html", context=email_context
+            "account/email/other/invitation.html", context=email_context
         ),
     )
 

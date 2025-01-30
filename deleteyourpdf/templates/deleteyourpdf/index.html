@@ -1,0 +1,473 @@
+{% load static %}
+{% load static_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>{% include "./shared/head.html" %}</head>
+    <body>
+        {% include "./shared/notifications.html" %}
+        <div class="container">
+            {% include "./shared/top_nav.html" %}
+            <div>
+                <h1>Delete Your PDF</h1>
+                <div>Interactive Demo for using the Delete Your PDF library.</div>
+                <div class="marginTop"><a href="{% url 'example' %}"><button>See Example PDF</button></a></div>
+                <div class="marginTop">Crop by dragging directly on the preview of your PDF. OCR your PDF and add it to the table below. Real code will be added to the left side as you make steps.</div>
+                <div role="group" class="marginTop" id="container">
+                    <div id="leftNav">
+                        <div class="scroll-container">
+                            <div id="codeBlock" class="scrollable-content">
+                                <h3>Code (Python)</h3>
+                                <div>Step 1 Install:</div>
+                                <div>
+                                    <code>pip install delete-your-pdf</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="marginTop" id="mainContent">
+                        <div id="step1Container">
+                            <h3>Step 1</h3>
+                            <div>
+                                <input type="file"
+                                       id="step1"
+                                       accept="application/pdf"
+                                       onchange="showImage(event)">
+                            </div>
+                            <div>
+                                <button id="step1Button" onclick="runStep('1', '2', 'pdfToImagePages', '1')">Convert PDF Page 1 to Image</button>
+                            </div>
+                        </div>
+                        <div id="runImageAll">
+                            <button>Run all pages</button>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div>
+                  <h3>Output Table</h3>
+                  <table id="outputTable">
+                  </table>
+                </div>
+            </div>
+            {% include "./shared/footer.html" %}
+        </div>
+        <script>
+          var latestStep = 2;
+          var buttonCount = 1;
+          var fileName = "file.pdf";
+
+          function showImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                fileName = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById("step1");
+                    img.src = e.target.result;
+                    img.style.maxWidth = "100%";
+                    img.style.height = "auto";
+                    document.getElementById("step1Button").style.display = "block";
+                    //document.getElementById("runImageAll").style.display = "block";
+                }
+                reader.readAsDataURL(file);
+            }
+          }
+
+          function handleOption(outputStep) {
+            var select = document.getElementById("step" + outputStep + "Select");
+
+            buttonCount = buttonCount + 1;
+
+            if (select.value == "cropRotate" || select.value == "ocr") {
+              latestStep = latestStep + 1;
+            }
+
+            if (select.value == "cropRotate") {
+              const newListItem = document.createElement('li');
+              var innerHTML = '<button class="runButtonCrop" id="step' + buttonCount + 'Button" onclick="runStep(\'' + outputStep + '\', \'' + latestStep + '\', \'cropRotate\', \'' + buttonCount + '\')">Run Crop & Rotate</button> ';
+              innerHTML = innerHTML + '<input id="step' + buttonCount + 'X" type="number" min="0" step="1" placeholder="x" />';
+              innerHTML = innerHTML + '<input id="step' + buttonCount + 'Y" type="number" min="0" step="1" placeholder="y" />';
+              innerHTML = innerHTML + '<input id="step' + buttonCount + 'Width" type="number" min="1" step="1" placeholder="width" />';
+              innerHTML = innerHTML + '<input id="step' + buttonCount + 'Height" type="number" min="1" step="1" placeholder="height" />';
+              innerHTML = innerHTML + '<input id="step' + buttonCount + 'Rotation" type="number" min="0" step="1" placeholder="rotation" />';
+              newListItem.innerHTML = innerHTML;
+              document.getElementById("step" + outputStep + "Final").appendChild(newListItem);
+            } else if (select.value == "ocr") {
+              const newListItem = document.createElement('li');
+              var innerHTML = '<button id="step' + buttonCount + 'Button" onclick="runStep(\'' + outputStep + '\', \'' + latestStep + '\', \'ocr\', \'' + buttonCount + '\')">Run OCR</button> ';
+              newListItem.innerHTML = innerHTML;
+              document.getElementById("step" + outputStep + "Final").appendChild(newListItem);
+            } else if (select.value == "next") {
+              const newListItem = document.createElement('li');
+              var innerHTML = '<select id="step' + buttonCount + 'Next" onchange="">';
+              innerHTML = innerHTML + getOtherSteps();
+              innerHTML = innerHTML + '</select>';
+              newListItem.innerHTML = innerHTML;
+              document.getElementById("step" + outputStep + "Final").appendChild(newListItem);
+            }
+
+            document.getElementById('step' + outputStep + 'FinalContainer').style.display = "block";
+
+            select.selectedIndex = 0;
+          }
+
+          function getOtherSteps() {
+            let mainDiv = document.getElementById('mainContent');
+            let divs = mainDiv.getElementsByTagName('div');
+            let result = "";
+            for(let i=0; i<divs.length; i++){
+              let idNum = parseInt(divs[i].id.replace(/[^0-9]/g, ''));
+              if(!isNaN(idNum) && idNum > 2) {
+                result = result + '<option value="' + idNum + '>Next Step ' + idNum + '</option>'; } } if (result == "") { result = "<option>N/A (Add more steps)</option>";
+            }
+            return result;
+          }
+
+
+          function runStep(inputStep, outputStep, command, buttonCount) {
+            document.getElementById("step" + buttonCount + "Button").disabled = true;
+            document.getElementById("step" + buttonCount + "Button").setAttribute('aria-busy', true);
+
+            if (document.getElementById("step" + outputStep + "Container") != null) {
+              document.getElementById("step" + outputStep + "Container").innerHTML = "";
+              document.getElementById("step" + outputStep + "Code").innerHTML = "";
+            }
+
+            var x = 0;
+            var y = 0;
+            var width = 1;
+            var height = 1;
+            var rotation = 0;
+
+            const formData = new FormData();
+            formData.append("command", command);
+
+              if(command == "pdfToImagePages") {
+                const fileInput = document.getElementById("step" + inputStep);
+                const file = fileInput.files[0];
+                formData.append('file', file);
+              } else if(command == "ocr") {
+                const imageInput = document.getElementById("step" + inputStep).src;
+                formData.append('image', imageInput);
+              } else if(command == "cropRotate") {
+                const imageInput = document.getElementById("step" + inputStep).src;
+                formData.append('image', imageInput);
+                
+                x = document.getElementById("step" + buttonCount + "X").value;
+                if (x == '') {
+                  document.getElementById("step" + buttonCount + "X").value = 0;
+                  x = 0;
+                }
+                y = document.getElementById("step" + buttonCount + "Y").value;
+                if (y == '') {
+                  document.getElementById("step" + buttonCount + "Y").value = 0;
+                  y = 0;
+                }
+                width = document.getElementById("step" + buttonCount + "Width").value;
+                if (width == '') {
+                  document.getElementById("step" + buttonCount + "Width").value = 1;
+                  width = 1;
+                }
+                height = document.getElementById("step" + buttonCount + "Height").value;
+                if (height == '') {
+                  document.getElementById("step" + buttonCount + "Height").value = 1;
+                  height = 1;
+                }
+                rotation = document.getElementById("step" + buttonCount + "Rotation").value;
+                if (rotation == '') {
+                  document.getElementById("step" + buttonCount + "Rotation").value = 0;
+                  rotation = 0;
+                }
+
+                formData.append('x', x);
+                formData.append('y', y);
+                formData.append('width', width);
+                formData.append('height', height);
+                formData.append('rotation', rotation);
+              }
+              
+              fetch("{% url 'runStep' %}", {
+                  method: 'POST',
+                  body: formData,
+              }).then((response) => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json(); // return promise from here
+              }).then((data) => {
+                if (document.getElementById("step" + outputStep + "Container") != null) {
+                  // Replace Step Section
+                  var innerHTML = '';
+                  if (command == "pdfToImagePages" || command == "cropRotate" ) {
+                    innerHTML = innerHTML + '<div>';
+                      innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                      innerHTML = innerHTML + '<div>PDF Page Image</div>';
+                      innerHTML = innerHTML + '<div class="canvasContainer"><img id="step' + outputStep + '" src="" />';
+                    innerHTML = innerHTML + '</div></div>';
+                    innerHTML = innerHTML + 'Add:';
+                    innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                      innerHTML = innerHTML + '<option value="selectOption">(Select Option)</option>';
+                      innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
+                      innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
+                      //innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
+                    innerHTML = innerHTML + '</select>';
+                  } else if (command == "ocr") {
+                    innerHTML = innerHTML + '<div>';
+                      innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                      innerHTML = innerHTML + '<div>PDF Text</div>';
+                      innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
+                    innerHTML = innerHTML + '</div>';
+                  }
+                  innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
+                  document.getElementById("step" + outputStep + "Container").innerHTML = innerHTML;
+
+                } else {
+                  // Add Step Section
+                  const container = document.getElementById('mainContent');
+                  const newDivContainer = document.createElement('div');
+                  newDivContainer.id = "step" + outputStep + "Container";
+                  newDivContainer.className = 'marginTop';
+                  var innerHTML = '';
+                  if (command == "pdfToImagePages" || command == "cropRotate") {
+                    innerHTML = innerHTML + '<div>';
+                      innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                      innerHTML = innerHTML + '<div>PDF Page Image</div>';
+                      innerHTML = innerHTML + '<div class="canvasContainer"><img id="step' + outputStep + '" src="" />';
+                    innerHTML = innerHTML + '</div></div>';
+                    innerHTML = innerHTML + 'Add:';
+                    innerHTML = innerHTML + '<select id="step' + outputStep + 'Select" onchange="handleOption(\'' + outputStep + '\')">';
+                      innerHTML = innerHTML + '<option value="selectOption">(Select Option)</option>';
+                      innerHTML = innerHTML + '<option value="cropRotate">Crop & Rotate</option>';
+                      innerHTML = innerHTML + '<option value="ocr">Get Text</option>';
+                      //innerHTML = innerHTML + '<option value="next">Send to existing Step</option>';
+                    innerHTML = innerHTML + '</select>';
+                  } else if (command == "ocr") {
+                    innerHTML = innerHTML + '<div>';
+                      innerHTML = innerHTML + '<h3>Step ' + outputStep + '</h3>';
+                      innerHTML = innerHTML + '<div>PDF Text</div>';
+                      innerHTML = innerHTML + '<textarea id="step' + outputStep + '" /></textarea>';
+                    innerHTML = innerHTML + '</div>';
+                  }
+                  innerHTML = innerHTML + '<div id="step' + outputStep + 'FinalContainer" class="finalContainer" class="marginTop"><ol id="step' + outputStep + 'Final"></ol></div>';
+                  newDivContainer.innerHTML = innerHTML;
+                  container.appendChild(newDivContainer);
+                }
+
+
+                if (document.getElementById("step" + outputStep + "Code") != null) {
+                  var innerHTML = "Step " + outputStep + ":<div><code>";
+                  if(command == "pdfToImagePages") {
+                    innerHTML = innerHTML + "result" + outputStep + " = pdfToImagePages(file='" + fileName + "', page_number=1)";
+                  } else if (command == "ocr") {
+                    innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
+                  } else if (command == "cropRotate") {
+                    innerHTML = innerHTML + "result" + outputStep + " = cropRotateImage(file=result" + inputStep + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", rotation_degrees=" + rotation + ", expand_for_rotation=True)";
+                  }
+                  innerHTML = innerHTML + "</code></div>";
+                  document.getElementById("step" + outputStep + "Code").innerHTML = innerHTML;
+                } else {
+                  // Add Code Block
+                  const codeBlock = document.getElementById('codeBlock');
+                  const newDivCodeblock = document.createElement('div');
+                  newDivCodeblock.id = "step" + outputStep + 'Code';
+                  newDivCodeblock.className = 'marginTop';
+                  var innerHTML = "Step " + outputStep + ":<div><code>";
+                  if(command == "pdfToImagePages") {
+                    innerHTML = innerHTML + "result" + outputStep + " = pdfToImagePages(file='" + fileName + "', page_number=1)";
+                  } else if (command == "ocr") {
+                    innerHTML = innerHTML + "result" + outputStep + " = imageToText_Roboflow(file=result" + inputStep + ", api_key=ROBOFLOW_API_KEY_HERE)";
+                  } else if (command == "cropRotate") {
+                    innerHTML = innerHTML + "result" + outputStep + " = cropRotateImage(file=result" + inputStep + ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + ", rotation_degrees=" + rotation + ", expand_for_rotation=True)";
+                  }
+                  innerHTML = innerHTML + "</code></div>";
+                  newDivCodeblock.innerHTML = innerHTML;
+                  codeBlock.appendChild(newDivCodeblock);
+                }
+
+
+                // Add Result
+                if(command == "pdfToImagePages" || command == "cropRotate") {
+                  const img = document.getElementById("step" + outputStep);
+                  img.src = data.result;
+                  img.onload = function() {
+                    drawCrop(outputStep);
+                  }
+
+                } else if(command == "ocr") {
+                  const textarea = document.getElementById("step" + outputStep);
+                  textarea.value = data.result;
+
+                  addCell("Step " + outputStep, data.result);
+                }
+
+                document.getElementById("step" + buttonCount + "Button").setAttribute('aria-busy', false);
+                document.getElementById("step" + buttonCount + "Button").disabled = false;
+
+              
+              }).catch((error) => console.error('Error:', error));
+          }
+        </script>
+        <script>
+            var container = document.getElementById('container');
+            var leftNav = document.getElementById('leftNav');
+            var mainContent = document.getElementById('mainContent');
+            
+            var dragging = false;
+            var containerWidth, leftNavWidth, dragHandleOffset;
+            
+            leftNav.addEventListener('mousedown', function (e) {
+              dragging = true;
+              
+              containerWidth = container.offsetWidth;
+              leftNavWidth = leftNav.offsetWidth;
+              dragHandleOffset = e.clientX;
+              
+              document.addEventListener('mousemove', onMouseMove);
+              document.addEventListener('mouseup', onMouseUp);
+            });
+            
+            function onMouseMove(e) {
+              if (!dragging) return;
+              
+              var dx = e.clientX - dragHandleOffset;
+              var newLeftNavWidth = ((leftNavWidth + dx) * 100) / containerWidth;
+              var newMainContentWidth = 100 - newLeftNavWidth;
+              
+              leftNav.style.width = newLeftNavWidth + '%';
+              mainContent.style.width = newMainContentWidth + '%';
+            }
+            
+            function onMouseUp() {
+              dragging = false;
+              
+              document.removeEventListener('mousemove', onMouseMove);
+              document.removeEventListener('mouseup', onMouseUp);
+            }
+
+            function drawCrop(imageStep) {
+
+              const img = document.getElementById("step" + imageStep);
+              const imgRect = img.getBoundingClientRect();
+
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              canvas.width = img.width;
+              canvas.height = img.height;
+              canvas.style.position = 'absolute';
+              canvas.style.left = '0px';
+              canvas.style.top = '0px';
+
+              img.parentNode.insertBefore(canvas, img);
+
+              let rect = {startX: 0, startY: 0, w: 0, h: 0};
+
+              let isMouseDown = false;
+
+              let startX, startY;
+
+              canvas.addEventListener('mousedown', function(e) {
+                isMouseDown = true;
+
+                let scaleFactorX = img.naturalWidth / img.width;
+                let scaleFactorY = img.naturalHeight / img.height;
+
+                startX = e.offsetX * scaleFactorX;
+                startY = e.offsetY * scaleFactorY;
+
+              }, false);
+
+              canvas.addEventListener('mouseup', function() {
+                  isMouseDown = false;
+
+                  document.getElementById("step" + imageStep + "Select").selectedIndex = 1;
+
+                  handleOption(imageStep);
+
+                  const buttonId = buttonCount;
+                  
+                  document.getElementById("step" + buttonId + "X").value = Math.round(rect.startX);
+                  document.getElementById("step" + buttonId + "Y").value = Math.round(rect.startY);
+                  document.getElementById("step" + buttonId + "Width").value = Math.round(rect.w);
+                  document.getElementById("step" + buttonId + "Height").value = Math.round(rect.h);
+                  document.getElementById("step" + buttonId + "Rotation").value = 0;
+
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+              }, false);
+
+              
+
+              canvas.addEventListener('mousemove', function(e) {
+                if (isMouseDown) {
+                  let scaleFactorX = img.naturalWidth / img.width;
+                  let scaleFactorY = img.naturalHeight / img.height;
+
+                  const mouseX = e.offsetX * scaleFactorX;
+                  const mouseY = e.offsetY * scaleFactorY;
+
+                  const width = Math.abs(mouseX - startX) || 1;
+                  const height = Math.abs(mouseY - startY) || 1;
+
+                  rect.startX = mouseX < startX ? mouseX : startX;
+                  rect.startY = mouseY < startY ? mouseY : startY;
+
+                  rect.w = width;
+                  rect.h = height;
+
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+                  ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+                  ctx.fillRect(rect.startX / scaleFactorX, rect.startY / scaleFactorY, rect.w / scaleFactorX, rect.h / scaleFactorY);
+                }
+              }, false);
+          }
+
+          function addCell(title, cellText) {
+            var outputTable = document.getElementById('outputTable');
+            var ths = outputTable.querySelectorAll('th');
+            var found = false;
+            var columnIndex;
+
+            for(var i=0; i<ths.length; i++){
+                if(ths[i].innerHTML === title){
+                    found = true;
+                    columnIndex = i;
+                    break;
+                }
+            }
+
+            if(!found){
+                var header = outputTable;
+                var row = header.rows[0] || header.insertRow(0);
+                var cell = document.createElement('th');
+                cell.innerHTML = title;
+                row.append(cell);
+                columnIndex = row.cells.length - 1;
+            }
+
+            var rowIndex;
+            for (rowIndex = 1; rowIndex < outputTable.rows.length; rowIndex++) {
+                if (!(outputTable.rows[rowIndex].cells[columnIndex] &&
+                    outputTable.rows[rowIndex].cells[columnIndex].innerHTML.trim() !== '')) {
+                    break;
+                }
+            }
+
+            if (rowIndex === outputTable.rows.length) {
+                var newRow = outputTable.insertRow(-1);
+                for (var i = 0; i <= columnIndex; i++) {
+                    var newCell = newRow.insertCell(i);
+                    if (i === columnIndex) {
+                        newCell.innerHTML = cellText;
+                    }
+                }
+            } else {
+                if(!outputTable.rows[rowIndex].cells[columnIndex]){
+                  var newCell = outputTable.rows[rowIndex].insertCell(columnIndex);
+                }
+                outputTable.rows[rowIndex].cells[columnIndex].innerHTML = cellText;
+            }
+          }
+
+          
+        </script>
+    </body>
+</html>
+

@@ -1,0 +1,143 @@
+.marginTop {
+  margin-top: 15px;
+}
+
+.centerAlign {
+  text-align: center;
+}
+
+.centerMargins {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.notificationBackground {
+  color: white;
+  margin-bottom: 2px;
+}
+
+.notificationBackground li {
+  color: white;
+}
+
+.notificationMessage {
+  margin-left: 25px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.notificationExit {
+  margin-right: 10px;
+}
+
+.notificationExitButton {
+  width: 40px;
+}
+
+
+.notificationBackground-debug {
+  background-color: #00895A;
+}
+
+.notificationBackground-info {
+  background-color: #6F7887;
+}
+
+.notificationBackground-success {
+  background-color: #3C71F7;
+}
+
+.notificationBackground-warning {
+  background-color: #D9C800;
+}
+
+.notificationBackground-error {
+  background-color: #D93526;
+}
+
+.topNavRight {
+  margin-right: 0px !important;
+}
+
+.topNavRight:hover {
+  cursor: pointer;
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+.fadeOut {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.youtubeIcon {
+  width: 35px;
+  height: 30px;
+}
+
+.twitterIcon {
+  width: 35px;
+  height: 30px;
+}
+
+.noLinkDecoration {
+  color: #373c44;
+  text-decoration: none;
+}
+
+.navButtonLink {
+  margin-left: -5px;
+}
+
+#step1Button {
+  display: none;
+}
+
+#runImageAll {
+  display: none;
+}
+
+#leftNav { 
+  width: 150px;
+  border-right: 1px solid black;
+}
+
+#mainContent {
+  margin-left: 20px;
+}
+
+.scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  border: 1px solid #cccccc;
+  padding: 10px;
+}
+
+.scrollable-content {
+  display: inline-block;
+}
+
+.resizer {
+  width: 10px;
+  cursor: col-resize;
+}
+
+.finalContainer {
+  display: none;
+}
+
+img {
+  border: 1px solid black;
+}
+
+.canvasContainer {
+  position: relative;
+}
