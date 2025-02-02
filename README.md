@@ -1,9 +1,9 @@
-# AI-Video-Boilerplate-Pro
+# Django-Multisite-Boilerplate
 
-Welcome to AI Video Boilerplate Pro! A free template to run scalable, cheap AI websites.
+Welcome to Django Multisite Boilerplate! A free template to run scalable, cheap django websites on a single instance.
 
-Hosted on Heroku for a live demo here: [https://proAI.darefail.com
-](https://proAI.darefail.com)
+Hosted on Heroku for a live demo here: [https://django.darefail.com
+](https://django.darefail.com)
 
 ## Live Demos
 **A single VPS running this codebase has so far proven to handle over 10,000 concurrent users, 1,000,000 views and 50 websites without issue.**
@@ -23,9 +23,7 @@ Interactive Demo for using the Delete Your PDF library.
 
 ## Other Repos
 
-**AI Video Boilerplate Simple** (quick frontend apps): [https://github.com/DareFail/AI-Video-Boilerplate-Simple/](https://github.com/DareFail/AI-Video-Boilerplate-Simple)
-
-**AI Video Boilerplate for Chrome Extensions**: [https://github.com/DareFail/AI-Video-Boilerplate-Chrome/](https://github.com/DareFail/AI-Video-Boilerplate-Chrome)
+**Chrome Extension Examples**: [https://github.com/DareFail/Chrome-Extension-Examples/](https://github.com/DareFail/Chrome-Extension-Examples)
 
 ## Django models setup out of the box
 
@@ -56,8 +54,8 @@ This is a template for putting multiple django websites into a single codebase t
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/darefail/AI-Video-Boilerplate-Pro.git
-   cd AI-Video-Boilerplate-Pro
+   git clone https://github.com/darefail/Django-Multisite-Boilerplate.git
+   cd Django-Multisite-Boilerplate
    ```
 2. Install Docker
     The easiest way to get up and running is with [Docker](https://www.docker.com/).
@@ -492,7 +490,7 @@ Twitter: [@darefailed](https://twitter.com/darefailed)
 
 Youtube: [How to Video coming soon](https://www.youtube.com/@darefail)
 
-Project Link: [https://github.com/darefail/AI-Video-Boilerplate-Pro](https://github.com/darefail/AI-Video-Boilerplate-Pro)
+Project Link: [https://github.com/darefail/Django-Multisite-Boilerplate](https://github.com/darefail/Django-Multisite-Boilerplate)
 
 
 
