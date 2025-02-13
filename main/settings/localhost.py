@@ -10,7 +10,7 @@ CELERY_RESULT_BACKEND = REDIS_URL
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "main",
+        "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "postgres",
         "HOST": "db",
